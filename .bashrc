@@ -137,44 +137,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias dcup='docker-compose up'
-alias dcdn='docker-compose down'
-alias dcb='docker-compose build'
-alias dcr='docker-compose run --rm'
-alias dce='docker-compose exec'
-alias dcrs='docker-compose restart'
-alias dcl='docker-compose logs -f'
-alias dcchown='sudo chown -R $USER'
-
-# alias livebook-up='docker run -d --rm --name livebook -p 127.0.0.1:8080:8080 -u $(id -u):$(id -g) -v ~/projects/elixir/.livebook:/data livebook/livebook'
-alias livebook-up='docker run -d --rm --name livebook -p 8080:8080 -e LIVEBOOK_PASSWORD=f6fbd3f19ec020b64a62967c84c1c8e4 -u $(id -u):$(id -g) -v ~/projects/elixir/.livebook:/data livebook/livebook'
-alias livebook-pass='echo f6fbd3f19ec020b64a62967c84c1c8e4'
-alias livebook-down='docker stop livebook'
-
-alias config="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# function docker-ruby () {
-#     local volume_path="$( realpath "$1" )"
-#     local user="$( id -u "$USER" )"
-#     docker run --rm -u $user -t -i --mount src="$volume_path",target=/ruby,type=bind ruby:2.6.5-alpine /bin/sh -c "cd /ruby && /bin/sh"
-# }
-
-# function dvm () {
-#     local workdir="$(basename $(pwd))"
-#     local user="$( id -u "$USER" )"
-#     local command="${2:-sh}"
-
-#     docker run --rm -v $(pwd):/"$workdir" -w /"$workdir" -u $user --name "$workdir"_dvm -t -i $1 $command
-# }
-
-export ANDROID_HOME=$HOME/.android
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:~/.local/bin
-. "$HOME/.cargo/env"
+if [ -f ~/.bash_env ]; then
+    . ~/.bash_env
+fi
