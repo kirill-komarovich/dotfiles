@@ -12,4 +12,4 @@ alias livebook-up='docker run -d --rm --name livebook -p 8080:8080 -e LIVEBOOK_P
 alias livebook-pass='echo f6fbd3f19ec020b64a62967c84c1c8e4'
 alias livebook-down='docker stop livebook'
 
-alias config="git --git-dir=HOME/.dotfiles --work-tree=HOME"
+alias config="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"

@@ -16,12 +16,26 @@ export NVM_DIR="$HOME/.nvm"
 #     docker run --rm -v $(pwd):/"$workdir" -w /"$workdir" -u $user --name "$workdir"_dvm -t -i $1 $command
 # }
 
+# android setup
 export ANDROID_HOME=$HOME/.android
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 export PATH=$PATH:~/.local/bin
+
+# rust setup
 if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
+fi
+
+
+# asdf setup
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+    . "$HOME/.asdf/asdf.sh"
+fi
+
+if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
+    . "$HOME/.asdf/completions/asdf.bash"
 fi
