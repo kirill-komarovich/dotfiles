@@ -1,10 +1,7 @@
 # Setup
 
 1. Install git, bash, fish
-2. Clone this repo:
+2. Run setup script
 ```bash
-git clone --bare git@github.com:kirill-komarovich/dotfiles.git $HOME/.dotfiles
+curl https://github.com/kirill-komarovich/dotfiles/blob/master/.dotfiles_env/setup.sh | bash
 ```
-3. Run setup script
-```bash
-./$HOME/.dotfiles/setup.sh
