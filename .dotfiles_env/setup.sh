@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# install asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
 
 git clone --bare git@github.com:kirill-komarovich/dotfiles.git $HOME/.dotfiles
