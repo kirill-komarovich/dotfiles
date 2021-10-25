@@ -17,3 +17,13 @@ function rake
     command rake $argv
   end
 end
+
+function sidekiq
+  if test -e Gemfile
+    # run in bundle context
+    command bundle exec sidekiq $argv
+  else
+    # use global bin
+    command sidekiq $argv
+  end
+end
