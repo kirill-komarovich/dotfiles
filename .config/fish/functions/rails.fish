@@ -27,3 +27,33 @@ function sidekiq
     command sidekiq $argv
   end
 end
+
+function rspec
+  if test -e Gemfile
+    # run in bundle context
+    command bundle exec rspec $argv
+  else
+    # use global bin
+    command rspec $argv
+  end
+end
+
+function pronto
+  if test -e Gemfile
+    # run in bundle context
+    command bundle exec pronto $argv
+  else
+    # use global bin
+    command pronto $argv
+  end
+end
+
+function rubocop
+  if test -e Gemfile
+    # run in bundle context
+    command bundle exec rubocop $argv
+  else
+    # use global bin
+    command rubocop $argv
+  end
+end
