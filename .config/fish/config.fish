@@ -1,6 +1,5 @@
 # load config files
-set -l custom_config_files ~/.config/fish/config/aliases.fish # \
-                        #    ~/.config/fish/functions
+set -l custom_config_files ~/.config/fish/config/aliases.fish
 
 for file in $custom_config_files; . $file; end
 
