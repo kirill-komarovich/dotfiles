@@ -1,0 +1,20 @@
+-- local nvim_tree_events = require('nvim-tree.events')
+-- local nvim_tree_view = require("nvim-tree.view")
+-- local bufferline_state = require('bufferline.state')
+--
+-- local function get_tree_size()
+--   return nvim_tree_view.View.width
+-- end
+--
+-- nvim_tree_events.on_tree_open(function()
+--   bufferline_state.set_offset(get_tree_size())
+-- end)
+--
+-- nvim_tree_events.on_tree_resize(function(size)
+--   bufferline_state.set_offset(size)
+-- end)
+--
+-- nvim_tree_events.on_tree_close(function()
+--   bufferline_state.set_offset(0)
+-- end)
+--
