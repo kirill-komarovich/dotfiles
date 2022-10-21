@@ -1,14 +1,12 @@
-local colorscheme = "vscode"
-
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
-if not status_ok then
-  vim.notify("colorscheme " .. colorscheme .. " not found!")
-  return
-end
-
 vim.opt.background = "dark"
 
 local colors = require('vscode.colors')
+
+require('vscode').setup({
+  italic_comments = true,
+});
+
+vim.cmd[[colorscheme vscode]]
 
 local pink = "#f075aa"
 local nvim_tree_file_icon_color = "#C5C5C5"
@@ -18,7 +16,6 @@ local docker_color = colors.vscLightBlue
 local docker_compose_color = pink
 
 local hl = vim.api.nvim_set_hl
-
 hl(0, 'GitSignsChange', { fg = colors.vscBlue, bg = 'NONE' })
 hl(0, 'NvimTreeFolderIcon', { fg = nvim_tree_file_icon_color, bg = 'NONE' })
 
@@ -83,10 +80,4 @@ require('nvim-web-devicons').setup({
     },
   },
   default = true,
-})
-
-require('lualine').setup({
-  options = {
-    theme = 'vscode',
-  },
 })

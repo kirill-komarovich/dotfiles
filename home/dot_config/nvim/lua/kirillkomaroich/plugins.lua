@@ -44,12 +44,13 @@ return packer.startup(function(use)
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "kyazdani42/nvim-web-devicons" -- Icons with NERD fonts
   use "Mofiqul/vscode.nvim" -- vscode like colorscheme
-  use { "nvim-lualine/lualine.nvim", requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- status line
-  -- use {'romgrk/barbar.nvim', requires = { 'kyazdani42/nvim-web-devicons' } } -- better tabs
+  use {"nvim-lualine/lualine.nvim", requires = {"kyazdani42/nvim-web-devicons", opt = true}} -- status line
   use {"akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons"} -- better tabs
-  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
-  use "numToStr/Comment.nvim" -- Easily comment stuff
+
+  use "terrortylor/nvim-comment" -- comments
+  use "JoosepAlviste/nvim-ts-context-commentstring"
+
   use "kyazdani42/nvim-tree.lua" -- Explorer
   use "lukas-reineke/indent-blankline.nvim"
 
@@ -72,16 +73,14 @@ return packer.startup(function(use)
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
-  use 'nvim-telescope/telescope-media-files.nvim'
+  use "nvim-telescope/telescope-media-files.nvim"
 
   -- Treesitter
-  use {
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-  }
-  use "JoosepAlviste/nvim-ts-context-commentstring"
+  use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+  use "romgrk/nvim-treesitter-context"
 
   -- Git
+  use "akinsho/toggleterm.nvim"
   use "lewis6991/gitsigns.nvim"
 
   -- Utils
@@ -91,10 +90,10 @@ return packer.startup(function(use)
       require('textcase').setup {}
     end
   }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
     require("packer").sync()
   end
-
 end)
