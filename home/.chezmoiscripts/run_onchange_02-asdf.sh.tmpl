@@ -21,6 +21,24 @@ asdf={{ $asdf_dir }}/bin/asdf
   plugins=""
 }
 
+if [[ ! $plugins =~ "ripgrep" ]]; then
+  $asdf plugin add ripgrep https://gitlab.com/wt0f/asdf-ripgrep
+  $asdf install ripgrep latest
+  $asdf global ripgrep latest
+fi
+
+if [[ ! $plugins =~ "gitui" ]]; then
+  $asdf plugin add gitui https://github.com/looztra/asdf-gitui
+  $asdf install gitui latest
+  $asdf global gitui latest
+fi
+
+if [[ ! $plugins =~ "neovim" ]]; then
+  $asdf plugin add neovim
+  $asdf install neovim latest
+  $asdf global neovim latest
+fi
+
 if [[ ! $plugins =~ "ruby" ]]; then
   {{ $ruby_packages := list
     "autoconf"
