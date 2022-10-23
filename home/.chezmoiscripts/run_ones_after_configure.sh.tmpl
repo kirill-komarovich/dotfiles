@@ -5,4 +5,6 @@ set -eufo pipefail
 source ${HOME}/.bashrc
 
 # Install neovim plugins
-sh -c "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
+asdf="${HOME}/.asdf/bin/asdf"
+nvim="$($asdf where neovim)/bin/nvim"
+exec $nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
