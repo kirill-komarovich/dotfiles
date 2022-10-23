@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $asdf_version := "0.10.2 " -}}
+{{ $asdf_dir := "~/.asdf" -}}
+
+if [[ ! -d {{ $asdf_dir }} ]]; then
+  git clone https://github.com/asdf-vm/asdf.git {{ $asdf_dir }} --branch v{{ $asdf_version }}
+fi
