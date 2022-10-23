@@ -3,7 +3,7 @@
 set -eufo pipefail
 
 {{ $asdf_version := "0.10.2 " -}}
-{{ $asdf_dir := "~/.asdf" -}}
+{{ $asdf_dir := "${HOME}/.asdf" -}}
 
 if [[ ! -d {{ $asdf_dir }} ]]; then
   git clone https://github.com/asdf-vm/asdf.git {{ $asdf_dir }} --branch v{{ $asdf_version }}
@@ -15,8 +15,6 @@ fi
 {{ end -}}
 
 asdf={{ $asdf_dir }}/bin/asdf
-
-alias asdf=$asdf
 
 {
   plugins=$($asdf plugin list)
@@ -45,8 +43,23 @@ fi
 if [[ ! $plugins =~ "nodejs" ]]; then
   $asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
   $asdf nodejs update-nodebuild # update node definitions
-  $asdf install nodejs lts
-  $asdf global nodejs lts
+
+  resolve_lts_version() {
+    source "{{ $asdf_dir }}/plugins/nodejs/lib/utils.sh"
+
+    local canon_version="$(
+      # Find the first candidate which the alias match, then print it version
+      print_index_tab \
+        | awk -F'\t' -v "alias=lts" '$1 == alias { print $2; exit }'
+    )"
+
+    echo "$canon_version"
+  }
+
+  node_version=$(resolve_lts_version)
+
+  $asdf install nodejs "$node_version"
+  $asdf global nodejs "$node_version"
 fi
 
 if [[ ! $plugins =~ "ruby" ]]; then
