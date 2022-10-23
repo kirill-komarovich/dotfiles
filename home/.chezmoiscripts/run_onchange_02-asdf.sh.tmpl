@@ -15,7 +15,7 @@ fi
 {{ end -}}
 
 asdf={{ $asdf_dir }}/bin/asdf
-plugins=$(asdf plugin list)
+plugins=$($asdf plugin list)
 
 if [[ ! $plugins =~ "ruby" ]]; then
   {{ $ruby_packages := list
