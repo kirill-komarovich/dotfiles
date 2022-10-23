@@ -1,0 +1,20 @@
+{{ if (eq .chezmoi.os "linux") -}}
+
+{{ $packages := list
+  "git"
+  "curl"
+-}}
+
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $sudo := "sudo " -}}
+{{ if eq .chezmoi.username "root" -}}
+{{   $sudo = "" -}}
+{{ end -}}
+
+{{ $sudo }}apt-get update
+{{ $sudo }}apt-get install -y {{ $packages | join " " }}
+
+{{ end -}}
