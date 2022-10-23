@@ -15,6 +15,9 @@ fi
 {{ end -}}
 
 asdf={{ $asdf_dir }}/bin/asdf
+
+alias asdf=$asdf
+
 {
   plugins=$($asdf plugin list)
 } || {
