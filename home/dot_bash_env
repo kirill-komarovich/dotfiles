@@ -1,0 +1,24 @@
+# android setup
+export ANDROID_HOME=$HOME/.android
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export ERL_AFLAGS='-kernel shell_history enabled'
+
+export PATH=$PATH:~/.local/bin
+
+# rust setup
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
+
+# asdf setup
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+    . "$HOME/.asdf/asdf.sh"
+fi
+
+if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then
+    . "$HOME/.asdf/completions/asdf.bash"
+fi
