@@ -90,3 +90,35 @@ if [[ ! $plugins =~ "ruby" ]]; then
   $asdf install ruby latest
   $asdf global ruby latest
 fi
+
+if [[ ! $plugins =~ "erlang" ]]; then
+  $asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
+
+  {{ $erlang_packages := list
+    "m4"
+    "libncurses5-dev"
+    "libwxgtk3.0-gtk3-dev"
+    "libwxgtk-webview3.0-gtk3-dev"
+    "libgl1-mesa-dev"
+    "libglu1-mesa-dev"
+    "libpng-dev"
+    "libssh-dev"
+    "unixodbc-dev"
+    "xsltproc"
+    "fop"
+    "libxml2-utils"
+    "libncurses-dev"
+  -}}
+
+  {{ $sudo }}apt-get install -y {{ $erlang_packages | join " " }}
+
+  KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac" $asdf install erlang latest
+  $asdf global erlang latest
+fi
+
+if [[ ! $plugins =~ "elixir" ]]; then
+  $asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
+
+  $asdf install elixir latest
+  $asdf global elixir latest
+fi
