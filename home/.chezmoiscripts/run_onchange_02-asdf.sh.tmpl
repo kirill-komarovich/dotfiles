@@ -97,11 +97,6 @@ if [[ ! $plugins =~ "erlang" ]]; then
   {{ $erlang_packages := list
     "m4"
     "libncurses5-dev"
-    "libwxgtk3.0-gtk3-dev"
-    "libwxgtk-webview3.0-gtk3-dev"
-    "libgl1-mesa-dev"
-    "libglu1-mesa-dev"
-    "libpng-dev"
     "libssh-dev"
     "unixodbc-dev"
     "xsltproc"
@@ -112,7 +107,8 @@ if [[ ! $plugins =~ "erlang" ]]; then
 
   {{ $sudo }}apt-get install -y {{ $erlang_packages | join " " }}
 
-  KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac" $asdf install erlang latest
+  KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac" KERL_INSTALL_HTMLDOCS=no KERL_INSTALL_MANPAGES=no \
+    $asdf install erlang latest
   $asdf global erlang latest
 fi
 
