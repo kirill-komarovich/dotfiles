@@ -5,6 +5,11 @@ local inoremap = Keymaps.inoremap
 local vnoremap = Keymaps.vnoremap
 local xnoremap = Keymaps.xnoremap
 
+nnoremap('<ESC>', ':noh<CR>', { silent = true })
+
+-- Buffers
+nnoremap('<leader><TAB>', '<CMD>b#<CR>')
+
 -- Move text up and down
 nnoremap("<A-j>", "<ESC>:m .+1<CR>==")
 nnoremap("<A-DOWN>", "<ESC>:m .+1<CR>==")
