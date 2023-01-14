@@ -7,6 +7,8 @@
   ph = push
   rb = rebase
   ui = !gitui
+  wip = !git add . && git commit -m "wip"
+  undo=reset --soft HEAD^
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   type = cat-file -t
   dump = cat-file -p
