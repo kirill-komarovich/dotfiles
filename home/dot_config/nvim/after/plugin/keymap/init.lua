@@ -24,6 +24,15 @@ vnoremap("<A-DOWN>", ":m '>+1<CR>gv=gv")
 vnoremap("<A-k>", ":m '<-2<CR>gv=gv")
 vnoremap("<A-UP>", ":m '<-2<CR>gv=gv")
 
+-- Navigation
+-- Scroll and center in the view
+nnoremap("<C-d>", "<C-d>zz")
+nnoremap("<C-u>", "<C-u>zz")
+
+-- Search
+nnoremap("n", "nzzzv")
+nnoremap("N", "Nzzzv")
+
 -- Paste without adding to register inside visual block
 xnoremap("p", "\"_dP")
 

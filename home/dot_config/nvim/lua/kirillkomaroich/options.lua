@@ -23,7 +23,7 @@ vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 vim.opt.colorcolumn = "81,120" -- rulers
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 1 -- Give more space for displaying messages.
-
+vim.opt.spelllang = "en"
 -- disable netrw
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
