@@ -69,7 +69,8 @@ return packer.startup(function(use)
 
   -- LSP
   use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+  use "williamboman/mason.nvim" -- Language server installer
+  use "williamboman/mason-lspconfig.nvim" -- Language server config
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
@@ -87,7 +88,7 @@ return packer.startup(function(use)
   use {
     "johmsalas/text-case.nvim",
     config = function()
-      require('textcase').setup {}
+      require('textcase').setup({})
     end
   }
 
