@@ -50,6 +50,13 @@ local schemas = {
     },
     url = "https://json.schemastore.org/package.json",
   },
+  {
+    description = "Chrome Extension Manifest",
+    fileMatch = {
+      "manifest.json",
+    },
+    url = "https://json.schemastore.org/chrome-manifest.json",
+  },
 }
 
 return {
