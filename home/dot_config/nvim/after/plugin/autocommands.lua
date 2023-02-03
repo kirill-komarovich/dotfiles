@@ -2,7 +2,7 @@ local nvim_create_augroup = vim.api.nvim_create_augroup
 local nvim_create_autocmd = vim.api.nvim_create_autocmd
 local nvim_command = vim.api.nvim_command
 
-GeneralGroup = nvim_create_augroup('General', {})
+GeneralGroup = nvim_create_augroup('General', { clear = true })
 
 -- Trim Whitespaces at the end of line
 nvim_create_autocmd("BufWritePre", { pattern = "*", group = GeneralGroup, callback = function ()
@@ -23,24 +23,30 @@ nvim_create_autocmd("ModeChanged", { pattern = "*", group = GeneralGroup, callba
   end
 end})
 
--- Close window if no buffers left
--- local modifiedBufs = function(bufs)
---     local t = 0
---     for k,v in pairs(bufs) do
---         if v.name:match("NvimTree_") == nil then
---             t = t + 1
---         end
---     end
---     return t
--- end
---
--- nvim_create_autocmd("BufEnter", {
---   nested = true,
---   callback = function()
---     if #vim.api.nvim_list_wins() == 1 and
---       vim.api.nvim_buf_get_name(0):match("NvimTree_") ~= nil and
---       modifiedBufs(vim.fn.getbufinfo({bufmodified = 1})) == 0 then
---       vim.cmd "quit"
---     end
---   end
--- })
+-- Open NvimTree on neovim startup
+nvim_create_autocmd("VimEnter", {
+  callback = function (data)
+    -- buffer is a real file on the disk
+    local real_file = vim.fn.filereadable(data.file) == 1
+    -- buffer is a [No Name]
+    local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+    -- buffer is directory
+    local directory = vim.fn.isdirectory(data.file) == 1
+
+    if no_name then
+      return
+    end
+
+    if not real_file and not directory then
+      return
+    end
+
+    -- change to the directory
+    if directory then
+      vim.cmd.cd(data.file)
+    end
+
+    require("nvim-tree.api").tree.toggle({ focus = false, find_file = not directory, update_root = true })
+  end,
+  group = GeneralGroup,
+})
