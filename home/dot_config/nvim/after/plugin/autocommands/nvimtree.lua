@@ -5,6 +5,7 @@ NvimTreeGroup = nvim_create_augroup('NvimTreeGroup', { clear = true })
 
 -- Open NvimTree on neovim startup
 nvim_create_autocmd("VimEnter", {
+  group = NvimTreeGroup,
   callback = function (data)
     -- buffer is a real file on the disk
     local real_file = vim.fn.filereadable(data.file) == 1
@@ -28,5 +29,4 @@ nvim_create_autocmd("VimEnter", {
 
     require("nvim-tree.api").tree.toggle({ focus = false, find_file = not directory, update_root = true })
   end,
-  group = NvimTreeGroup,
 })
