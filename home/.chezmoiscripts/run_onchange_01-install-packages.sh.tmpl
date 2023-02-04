@@ -1,5 +1,9 @@
 {{ if (eq .chezmoi.os "linux") -}}
 
+{{ $repos := list
+  "ppa:git-core/ppa"
+-}}
+
 {{ $packages := list
   "git"
   "curl"
@@ -14,7 +18,8 @@ set -eufo pipefail
 {{   $sudo = "" -}}
 {{ end -}}
 
-{{ $sudo }}apt-get update
-{{ $sudo }}apt-get install -y {{ $packages | join " " }}
+{{ $sudo }}add-apt-repository {{ $repos | join " " }}
+{{ $sudo }}apt update
+{{ $sudo }}apt install -y {{ $packages | join " " }}
 
 {{ end -}}
