@@ -6,7 +6,7 @@ telescope.setup({
   defaults = {
     prompt_prefix = " ",
     selection_caret = " ",
-    path_display = { "smart" },
+    path_display = { "absolute" },
   },
   pickers = {
     find_files = {
@@ -24,6 +24,8 @@ telescope.setup({
     },
     buffers = {
       sort_mru = true,
+      theme = "dropdown",
+      previewer = false,
     },
   },
   extensions = {
