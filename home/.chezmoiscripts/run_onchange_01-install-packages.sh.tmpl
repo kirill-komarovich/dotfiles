@@ -18,7 +18,7 @@ set -eufo pipefail
 {{   $sudo = "" -}}
 {{ end -}}
 
-{{ $sudo }}add-apt-repository {{ $repos | join " " }}
+{{ $sudo }}add-apt-repository -y {{ $repos | join " " }}
 {{ $sudo }}apt update
 {{ $sudo }}apt install -y {{ $packages | join " " }}
 
