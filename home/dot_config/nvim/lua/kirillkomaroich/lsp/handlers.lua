@@ -1,5 +1,5 @@
 local M = {}
--- Accessing client.resolved_capabilities is deprecated, update your plugins or configuration to access client.server_capabilities instead
+
 M.setup = function()
   local signs = {
     { name = "DiagnosticSignError", text = "" },

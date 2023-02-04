@@ -22,6 +22,9 @@ telescope.setup({
     current_buffer_fuzzy_find = {
       theme = "ivy",
     },
+    buffers = {
+      sort_mru = true,
+    },
   },
   extensions = {
     media_files = {
