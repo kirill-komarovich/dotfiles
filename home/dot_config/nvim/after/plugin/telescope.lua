@@ -37,7 +37,7 @@ end, { desc = "Find files by grep content with telescope.live_grep" })
 vnoremap("<C-f>g", function()
   vim.cmd('noau normal! "vy"')
   builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
-end, { desc = "Find files by grep content with telescope.grep_string using current selected text" })
+end, { silent = true, desc = "Find files by grep content with telescope.grep_string using current selected text" })
 
 nnoremap("<leader>b", function()
   builtin.buffers(themes.get_dropdown({ previewer = false, sort_mru = true }))

@@ -1,17 +1,5 @@
 require("nvim-treesitter.configs").setup {
-  ensure_installed = {
-    "ruby",
-    "elixir",
-    "eex",
-    "heex",
-    "javascript",
-    "typescript",
-    "tsx",
-    "yaml",
-    "json",
-    "markdown",
-    "lua",
-  },
+  ensure_installed = "all",
   autopairs = {
     enable = true,
   },
@@ -24,4 +12,7 @@ require("nvim-treesitter.configs").setup {
     enable = true,
     enable_autocmd = false,
   },
+  playground = {
+    enable = true,
+  }
 }
