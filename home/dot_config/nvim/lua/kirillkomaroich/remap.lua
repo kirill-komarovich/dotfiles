@@ -16,7 +16,7 @@ local function bind(mode, outer_opts)
       outer_opts,
       opts or {}
     )
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
   end
 end
 
