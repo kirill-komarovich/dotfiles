@@ -48,7 +48,8 @@ return packer.startup(function(use)
   use {"akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons"} -- better tabs
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
 
-  use "terrortylor/nvim-comment" -- comments
+  use "numToStr/Comment.nvim" -- comments
+
   use "JoosepAlviste/nvim-ts-context-commentstring"
 
   use "kyazdani42/nvim-tree.lua" -- Explorer
