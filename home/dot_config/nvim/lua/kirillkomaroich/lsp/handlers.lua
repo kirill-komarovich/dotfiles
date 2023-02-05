@@ -85,7 +85,7 @@ local function lsp_keymaps(bufnr)
   nnoremap('<space>D', vim.lsp.buf.type_definition, bufopts)
   nnoremap('<space>r', vim.lsp.buf.rename, bufopts)
   nnoremap('<space>a', vim.lsp.buf.code_action, bufopts)
-  nnoremap('gr', vim.lsp.buf.references, bufopts)
+  nnoremap('gr', require('telescope.builtin').lsp_references, bufopts)
   nnoremap('<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
