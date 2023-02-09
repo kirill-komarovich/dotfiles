@@ -1,4 +1,9 @@
-require("gitsigns").setup {
+local gitsigns = require("gitsigns")
+local Keymaps = require("kirillkomaroich.remap")
+local nnoremap = Keymaps.nnoremap
+local vnoremap = Keymaps.vnoremap
+
+gitsigns.setup {
   signs = {
     add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
     change = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
@@ -40,4 +45,25 @@ require("gitsigns").setup {
   yadm = {
     enable = false,
   },
+  on_attach = function(bufnr)
+    local bufopts = { silent = true, buffer = bufnr }
+    -- Actions
+    nnoremap("<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", bufopts)
+    vnoremap("<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", bufopts)
+    nnoremap("<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", bufopts)
+    vnoremap("<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", bufopts)
+    nnoremap("<leader>hS", "<cmd>Gitsigns stage_buffer<CR>", bufopts)
+    nnoremap("<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>", bufopts)
+    nnoremap("<leader>hR", "<cmd>Gitsigns reset_buffer<CR>", bufopts)
+    nnoremap("<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", bufopts)
+    nnoremap("<leader>hb", "<cmd>Gitsigns blame_line<CR>", bufopts)
+    nnoremap("<leader>hB", function () gitsigns.blame_line({ full = true }) end, bufopts)
+    nnoremap("<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>", bufopts)
+    nnoremap("<leader>hd", "<cmd>Gitsigns diffthis<CR>", bufopts)
+    nnoremap("<leader>hD", function() gitsigns.diffthis("~") end, bufopts)
+    nnoremap("<leader>td", "<cmd>Gitsigns toggle_deleted<CR>", bufopts)
+
+    -- Text object
+    -- map({'o', 'x'}, 'ih', '<cmd><C-U>Gitsigns select_hunk<CR>')
+  end,
 }
