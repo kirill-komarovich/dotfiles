@@ -1,6 +1,7 @@
 local mason_config = require("mason-lspconfig")
 local handlers = require("kirillkomaroich.lsp.handlers")
 
+handlers.setup()
 require("mason").setup()
 
 mason_config.setup {
