@@ -70,7 +70,8 @@ cmp.setup {
         fallback()
       end
     end, { "i", "c" }),
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+
+    ["<C-c>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
     -- ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ["<ESC>"] = cmp.mapping {
       i = cmp.mapping.abort(),

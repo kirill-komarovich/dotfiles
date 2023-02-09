@@ -1,7 +1,5 @@
 require("bufferline").setup({
   options = {
-    mode = "buffers",
-    left_mouse_command = "buffer %d",
     right_mouse_command = nil,
     middle_mouse_command = "bdelete! %d",
     diagnostics = "nvim_lsp",

@@ -8,7 +8,7 @@ GeneralGroup = nvim_create_augroup('General', { clear = true })
 nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   group = GeneralGroup,
-  callback = function ()
+  callback = function()
     nvim_command("%s/\\s\\+$//e")
   end,
 })
@@ -17,7 +17,7 @@ nvim_create_autocmd("BufWritePre", {
 nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   group = GeneralGroup,
-  callback = function ()
+  callback = function()
     nvim_command("%s/\\($\\n\\s*\\)\\+\\%$//e")
   end,
 })

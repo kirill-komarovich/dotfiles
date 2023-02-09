@@ -6,6 +6,7 @@ require("nvim-tree").setup({
     enable = true,
     auto_open = true,
   },
+  hijack_unnamed_buffer_when_opening = true,
   respect_buf_cwd = true,
   update_focused_file = {
     enable = true,
