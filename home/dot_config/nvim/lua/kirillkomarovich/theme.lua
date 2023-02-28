@@ -1,9 +1,11 @@
 vim.opt.background = "dark"
 
-local colors = require('vscode.colors')
+local colors = require('vscode.colors').get_colors()
 
 require('vscode').setup({
+  transparent = true,
   italic_comments = true,
+  disable_nvimtree_bg = true,
 });
 
 vim.cmd[[colorscheme vscode]]
@@ -25,6 +27,12 @@ local docker_icon = ""
 require('nvim-web-devicons').setup({
   override = {
     ["rb"] = {
+      icon = ruby_icon,
+      color = ruby_color,
+      cterm_color = "52",
+      name = "Rb",
+    },
+    ["rake"] = {
       icon = ruby_icon,
       color = ruby_color,
       cterm_color = "52",

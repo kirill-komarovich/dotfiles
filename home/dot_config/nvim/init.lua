@@ -1,1 +1,1 @@
-require("kirillkomaroich")
+require("kirillkomarovich")

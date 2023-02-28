@@ -1,4 +1,4 @@
-local nnoremap = require("kirillkomaroich.remap").nnoremap
+local nnoremap = require("kirillkomarovich.remap").nnoremap
 
 local M = {}
 
@@ -90,9 +90,6 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-  if client.name == "tsserver" or client.name == "tailwindcss" then
-    client.server_capabilities.documentFormattingProvider = false
-  end
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
 end

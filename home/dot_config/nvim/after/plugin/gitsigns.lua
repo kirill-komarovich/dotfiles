@@ -1,5 +1,5 @@
 local gitsigns = require("gitsigns")
-local Keymaps = require("kirillkomaroich.remap")
+local Keymaps = require("kirillkomarovich.remap")
 local nnoremap = Keymaps.nnoremap
 local vnoremap = Keymaps.vnoremap
 

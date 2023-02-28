@@ -1,5 +1,5 @@
 local mason_config = require("mason-lspconfig")
-local handlers = require("kirillkomaroich.lsp.handlers")
+local handlers = require("kirillkomarovich.lsp.handlers")
 
 handlers.setup()
 require("mason").setup()
@@ -13,7 +13,7 @@ mason_config.setup {
     "elixirls",
     "tailwindcss",
     "tsserver",
-    "sumneko_lua",
+    "lua_ls",
   },
 }
 
@@ -26,7 +26,7 @@ mason_config.setup_handlers({
   function (server_name)
     local local_opts = {}
 
-    local settings_path = string.format("kirillkomaroich.lsp.settings.%s", server_name)
+    local settings_path = string.format("kirillkomarovich.lsp.settings.%s", server_name)
     local status_ok, server_opts = pcall(require, settings_path)
 
     if status_ok then
@@ -38,3 +38,12 @@ mason_config.setup_handlers({
     require("lspconfig")[server_name].setup(local_opts)
   end,
 })
+
+require("mason-null-ls").setup({
+  ensure_installed = {
+    "cspell",
+  },
+  automatic_setup = true,
+})
+require("null-ls").setup()
+require('mason-null-ls').setup_handlers()

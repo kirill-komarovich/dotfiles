@@ -20,7 +20,7 @@ telescope.setup({
 
 local builtin = require("telescope.builtin")
 local themes = require("telescope.themes")
-local Keymaps = require("kirillkomaroich.remap")
+local Keymaps = require("kirillkomarovich.remap")
 local nnoremap = Keymaps.nnoremap
 local vnoremap = Keymaps.vnoremap
 

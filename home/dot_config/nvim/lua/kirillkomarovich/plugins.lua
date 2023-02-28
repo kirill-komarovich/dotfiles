@@ -72,6 +72,8 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/mason.nvim" -- Language server installer
   use "williamboman/mason-lspconfig.nvim" -- Language server config
+  use "jose-elias-alvarez/null-ls.nvim" -- Linters & formatter
+  use "jay-babu/mason-null-ls.nvim" -- Linters & formatters configs
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
