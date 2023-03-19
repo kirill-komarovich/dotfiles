@@ -45,6 +45,7 @@ fi
 if [[ ! $plugins =~ "tmux" ]]; then
   {{ $tmux_packages := list
     "make"
+    "gcc"
     "pkg-config"
   -}}
 
