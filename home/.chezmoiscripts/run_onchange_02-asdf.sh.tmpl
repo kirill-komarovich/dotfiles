@@ -42,6 +42,14 @@ if [[ ! $plugins =~ "neovim" ]]; then
   $asdf global neovim latest
 fi
 
+if [[ ! $plugins =~ "tmux" ]]; then
+  $asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
+  $asdf install tmux latest
+  $asdf global tmux latest
+
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 if [[ ! $plugins =~ "nodejs" ]]; then
   $asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
   $asdf nodejs update-nodebuild # update node definitions
