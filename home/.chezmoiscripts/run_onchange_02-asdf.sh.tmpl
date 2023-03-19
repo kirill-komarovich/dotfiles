@@ -2,7 +2,7 @@
 
 set -eufo pipefail
 
-{{ $asdf_version := "0.10.2 " -}}
+{{ $asdf_version := "0.11.3 " -}}
 {{ $asdf_dir := "${HOME}/.asdf" -}}
 
 if [[ ! -d {{ $asdf_dir }} ]]; then
@@ -43,6 +43,13 @@ if [[ ! $plugins =~ "neovim" ]]; then
 fi
 
 if [[ ! $plugins =~ "tmux" ]]; then
+  {{ $tmux_packages := list
+    "make"
+    "pkg-config"
+  -}}
+
+  {{ $sudo }}apt-get install -y {{ $tmux_packages | join " " }}
+
   $asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
   $asdf install tmux latest
   $asdf global tmux latest
