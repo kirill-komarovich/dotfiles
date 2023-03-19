@@ -1,14 +1,14 @@
 vim.opt.background = "dark"
 
-local colors = require('vscode.colors').get_colors()
-
-require('vscode').setup({
+require("vscode").setup({
   transparent = true,
   italic_comments = true,
   disable_nvimtree_bg = true,
 });
 
 vim.cmd[[colorscheme vscode]]
+
+local colors = require("vscode.colors").get_colors()
 
 local pink = "#f075aa"
 local nvim_tree_file_icon_color = "#C5C5C5"
@@ -18,13 +18,14 @@ local docker_color = colors.vscLightBlue
 local docker_compose_color = pink
 
 local hl = vim.api.nvim_set_hl
-hl(0, 'GitSignsChange', { fg = colors.vscBlue, bg = 'NONE' })
-hl(0, 'NvimTreeFolderIcon', { fg = nvim_tree_file_icon_color, bg = 'NONE' })
+hl(0, "GitSignsChange", { fg = colors.vscBlue, bg = "NONE" })
+hl(0, "NvimTreeFolderIcon", { fg = nvim_tree_file_icon_color, bg = "NONE" })
+hl(0, "@symbol", { fg = colors.vscBlue, bg = "NONE" })
 
 local ruby_icon = ""
 local docker_icon = ""
 
-require('nvim-web-devicons').setup({
+require("nvim-web-devicons").setup({
   override = {
     ["rb"] = {
       icon = ruby_icon,
