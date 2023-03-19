@@ -45,7 +45,11 @@ fi
 if [[ ! $plugins =~ "tmux" ]]; then
   {{ $tmux_packages := list
     "make"
-    "build-essential"
+    "gcc"
+    "zip"
+    "unzip"
+    "autoconf"
+    "bison"
     "pkg-config"
   -}}
 
