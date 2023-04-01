@@ -24,6 +24,12 @@ asdf={{ $asdf_dir }}/bin/asdf
   plugins=""
 }
 
+if [[ ! $plugins =~ "direnv" ]]; then
+  $asdf plugin add direnv https://github.com/asdf-community/asdf-direnv
+  $asdf direnv setup --shell bash --version latest
+  $asdf direnv setup --shell fish --version latest
+fi
+
 if [[ ! $plugins =~ "ripgrep" ]]; then
   $asdf plugin add ripgrep https://gitlab.com/wt0f/asdf-ripgrep
   $asdf install ripgrep latest
