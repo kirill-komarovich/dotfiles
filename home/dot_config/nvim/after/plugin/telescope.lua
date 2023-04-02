@@ -39,6 +39,10 @@ vnoremap("<C-f>g", function()
   builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
 end, { silent = true, desc = "Find files by grep content with telescope.grep_string using current selected text" })
 
+nnoremap("<C-f>br", function()
+  builtin.git_branches(themes.get_dropdown({ previewer = false }))
+end, { desc = "Find files by grep content with telescope.live_grep" })
+
 nnoremap("<leader>b", function()
   builtin.buffers(themes.get_dropdown({ previewer = false, sort_mru = true }))
 end, { desc = "Find opened buffers by path with telescope.buffers" })
