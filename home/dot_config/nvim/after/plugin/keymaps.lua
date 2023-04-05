@@ -5,7 +5,7 @@ local inoremap = Keymaps.inoremap
 local vnoremap = Keymaps.vnoremap
 local xnoremap = Keymaps.xnoremap
 
-nnoremap('<ESC>', ':noh<CR>', { silent = true })
+nnoremap("<ESC>", ":noh<CR>", { silent = true })
 
 -- Buffers
 nnoremap('<leader><TAB>', '<CMD>b#<CR>')
@@ -40,4 +40,4 @@ xnoremap("p", "\"_dP")
 nnoremap("<C-b>", ":NvimTreeToggle<CR>")
 
 -- Toggleterm
-nnoremap("<leader>g", ":GitUIToggle<CR>")
+nnoremap("<leader>g", ":GitUIToggle<CR>", { silent = true })
