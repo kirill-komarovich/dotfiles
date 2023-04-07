@@ -30,7 +30,7 @@ colors:
     yellow: '#D7BA7D'
     blue: '#569CD6'
     magenta: '#C586C0'
-    cyan: '#9CDCFE'
+    cyan: '#06989A'
     white: '#D4D4D4'
 
 key_bindings:
