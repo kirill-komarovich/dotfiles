@@ -50,3 +50,8 @@ end, { desc = "Find opened buffers by path with telescope.buffers" })
 nnoremap("<C-_>", function()
   builtin.current_buffer_fuzzy_find(themes.get_ivy())
 end, { desc = "Find content in current buffer with telescope.current_buffer_fuzzy_find" })
+
+vnoremap("<C-_>", function()
+  vim.cmd('noau normal! "vy"')
+  builtin.current_buffer_fuzzy_find(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
+end, { desc = "Find content in current buffer with telescope.current_buffer_fuzzy_find using current selected text" })
