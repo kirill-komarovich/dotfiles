@@ -39,11 +39,9 @@ mason_config.setup_handlers({
   end,
 })
 
+require("null-ls").setup()
 require("mason-null-ls").setup({
   ensure_installed = {
     "cspell",
   },
-  automatic_setup = true,
 })
-require("null-ls").setup()
-require('mason-null-ls').setup_handlers()
