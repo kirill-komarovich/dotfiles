@@ -18,20 +18,33 @@ font:
     family: DroidSansMono Nerd Font
     style: Book
 
-colors:
-  primary:
-    background: '#1E1E1E'
-    foreground: '#D4D4D4'
+schemes:
+  codedark: &dark
+    primary:
+      background: '#1e1e1e'
+      foreground: '#d4d4d4'
 
-  normal:
-    black: '#1E1E1E'
-    red: '#F44747'
-    green: '#608B4E'
-    yellow: '#D7BA7D'
-    blue: '#569CD6'
-    magenta: '#C586C0'
-    cyan: '#06989A'
-    white: '#D4D4D4'
+    normal:
+      black: '#1e1e1e'
+      red: '#f44747'
+      green: '#608b4e'
+      yellow: '#d7ba7d'
+      blue: '#569cd6'
+      magenta: '#c678dd'
+      cyan: '#06989a'
+      white: '#d4d4d4'
+
+    bright:
+      black: '#545454'
+      red: '#f44747'
+      green: '#608b4e'
+      yellow: '#dcdcaa'
+      blue: '#569cd6'
+      magenta: '#c678dd'
+      cyan: '#56b6c2'
+      white: '#d4d4d4'
+
+colors: *dark
 
 key_bindings:
   - { key: F11, action: ToggleFullscreen }
