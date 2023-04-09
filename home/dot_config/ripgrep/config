@@ -1,4 +1,8 @@
 --glob=!.git
+--glob=!vendor
 --glob=!node_modules
---line-number
+--glob=!.git
 --hidden
+--line-number
+--no-heading
+--sort=path
