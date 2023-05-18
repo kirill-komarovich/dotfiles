@@ -10,12 +10,12 @@ name=$(basename "$selected")
 tmux_running=$(pgrep tmux)
 
 if [ -z $TMUX ] && [ -z $tmux_running ]; then
-    tmux new-session -s $selected_name -c $selected
+    tmux new-session -s $selected_name -c ~/projects/$selected
     exit 0
 fi
 
 if ! tmux has-session -t=$name 2> /dev/null; then
-    tmux new-session -ds $name -c $selected
+    tmux new-session -ds $name -c ~/projects/$selected
 fi
 
 tmux switch-client -t $name
