@@ -36,6 +36,12 @@ if [[ ! $plugins =~ "ripgrep" ]]; then
   $asdf global ripgrep latest
 fi
 
+if [[ ! $plugins =~ "fzf" ]]; then
+  $asdf plugin add fzf https://github.com/kompiro/asdf-fzf
+  $asdf install fzf latest
+  $asdf global fzf latest
+fi
+
 if [[ ! $plugins =~ "gitui" ]]; then
   $asdf plugin add gitui https://github.com/looztra/asdf-gitui
   $asdf install gitui latest
