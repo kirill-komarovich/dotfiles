@@ -10,7 +10,7 @@ name=$(basename "$selected")
 window_index=$(tmux list-windows  -F '#I #W' | awk "\$2 ~ /$name\$/ { print \$1 }")
 
 if [ -z $window_index ]; then
-    tmux new-window -n $name -c $selected
+    tmux new-window -n $name -c ~/projects/$selected
 else
     tmux select-window -t $window_index
 fi
