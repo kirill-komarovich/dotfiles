@@ -30,9 +30,13 @@ require("bufferline").setup({
   highlights = {
     fill = {
       fg = { attribute = "fg", highlight = "Normal" },
-      bg = { attribute = "bg", highlight = "StatusLineNC" },
+      bg = { attribute = "bg", highlight = "Normal" },
     },
     background = {
+      fg = { attribute = "fg", highlight = "Normal" },
+      bg = { attribute = "bg", highlight = "StatusLine" },
+    },
+    diagnostic_visible = {
       fg = { attribute = "fg", highlight = "Normal" },
       bg = { attribute = "bg", highlight = "StatusLine" },
     },
@@ -54,7 +58,7 @@ require("bufferline").setup({
     },
     separator_visible = {
       fg = { attribute = "fg", highlight = "Normal" },
-      bg = { attribute = "bg", highlight = "StatusLineNC" },
+      bg = { attribute = "bg", highlight = "StatusLine" },
     },
     close_button = {
       fg = { attribute = "fg", highlight = "Normal" },
