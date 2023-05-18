@@ -39,48 +39,56 @@ packer.init {
 }
 
 return packer.startup(function(use)
-  use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
-  use "kyazdani42/nvim-web-devicons" -- Icons with NERD fonts
-  use "Mofiqul/vscode.nvim" -- vscode like colorscheme
-  use {"nvim-lualine/lualine.nvim", requires = {"kyazdani42/nvim-web-devicons", opt = true}} -- status line
-  use {"akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons"} -- better tabs
-  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+  use "wbthomason/packer.nvim"
+  use "nvim-lua/popup.nvim"
+  use "nvim-lua/plenary.nvim"
+  use "kyazdani42/nvim-web-devicons"
+  use "Mofiqul/vscode.nvim"
+  use { "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } }
+  use { "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" }
+  use "windwp/nvim-autopairs"
+  use({
+    "kylechui/nvim-surround",
+    tag = "*",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  })
 
-  use "numToStr/Comment.nvim" -- comments
-
+  use "numToStr/Comment.nvim"
   use "JoosepAlviste/nvim-ts-context-commentstring"
 
-  use "kyazdani42/nvim-tree.lua" -- Explorer
+  use "kyazdani42/nvim-tree.lua"
   use "lukas-reineke/indent-blankline.nvim"
 
   -- cmp plugins
-  use "hrsh7th/nvim-cmp" -- The completion plugin
-  use "hrsh7th/cmp-buffer" -- buffer completions
-  use "hrsh7th/cmp-path" -- path completions
-  use "hrsh7th/cmp-cmdline" -- cmdline completions
+  use "hrsh7th/nvim-cmp"         -- The completion plugin
+  use "hrsh7th/cmp-buffer"       -- buffer completions
+  use "hrsh7th/cmp-path"         -- path completions
+  use "hrsh7th/cmp-cmdline"      -- cmdline completions
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
-  use "hrsh7th/cmp-nvim-lsp" -- lsp completions
-  use "hrsh7th/cmp-nvim-lua" -- nvim config completions
+  use "hrsh7th/cmp-nvim-lsp"     -- lsp completions
+  use "hrsh7th/cmp-nvim-lua"     -- nvim config completions
 
   -- snippets
-  use "L3MON4D3/LuaSnip" --snippet engine
-  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+  use "L3MON4D3/LuaSnip"
+  use "rafamadriz/friendly-snippets"
 
   -- LSP
-  use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/mason.nvim" -- Language server installer
-  use "williamboman/mason-lspconfig.nvim" -- Language server config
-  use "jose-elias-alvarez/null-ls.nvim" -- Linters & formatter
-  use "jay-babu/mason-null-ls.nvim" -- Linters & formatters configs
+  use "neovim/nvim-lspconfig"
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
+  use "jose-elias-alvarez/null-ls.nvim"
+  use "jay-babu/mason-null-ls.nvim"
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
   use "nvim-telescope/telescope-media-files.nvim"
 
   -- Treesitter
-  use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+  use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
   use "nvim-treesitter/playground"
   use "romgrk/nvim-treesitter-context"
 
