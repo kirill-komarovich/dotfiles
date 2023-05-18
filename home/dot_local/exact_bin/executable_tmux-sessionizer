@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+selected=$(fd --base-directory ~/projects/ --glob -p '**/.git/config' -u -H -L -E deps -E node_modules --strip-cwd-prefix -x dirname {//} | fzf --prompt "New session: ")
+
+if [ -z $selected ]; then
+    exit 1
+fi
+
+name=$(basename "$selected")
+tmux_running=$(pgrep tmux)
+
+if [ -z $TMUX ] && [ -z $tmux_running ]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$name 2> /dev/null; then
+    tmux new-session -ds $name -c $selected
+fi
+
+tmux switch-client -t $name

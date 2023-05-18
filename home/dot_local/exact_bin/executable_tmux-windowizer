@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+selected=$(fd --base-directory ~/projects/ --glob -p '**/.git/config' -u -H -L -E deps -E node_modules --strip-cwd-prefix -x dirname {//} | fzf --prompt "New window: ")
+
+if [ -z $selected ]; then
+    exit 1
+fi
+
+name=$(basename "$selected")
+window_index=$(tmux list-windows  -F '#I #W' | awk "\$2 ~ /$name\$/ { print \$1 }")
+
+if [ -z $window_index ]; then
+    tmux new-window -n $name -c $selected
+else
+    tmux select-window -t $window_index
+fi
