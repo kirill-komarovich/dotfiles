@@ -42,6 +42,12 @@ if [[ ! $plugins =~ "fzf" ]]; then
   $asdf global fzf latest
 fi
 
+if [[ ! $plugins =~ "fd" ]]; then
+  $asdf plugin add fd https://gitlab.com/wt0f/asdf-fd
+  $asdf install fd latest
+  $asdf global fd latest
+fi
+
 if [[ ! $plugins =~ "gitui" ]]; then
   $asdf plugin add gitui https://github.com/looztra/asdf-gitui
   $asdf install gitui latest
