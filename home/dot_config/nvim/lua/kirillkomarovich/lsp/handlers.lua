@@ -43,10 +43,10 @@ M.setup = function()
 
   local opts = { silent = true }
 
-  nnoremap('<space>e', vim.diagnostic.open_float, opts)
+  nnoremap('<leader>e', vim.diagnostic.open_float, opts)
   nnoremap('[d', vim.diagnostic.goto_prev, opts)
   nnoremap(']d', vim.diagnostic.goto_next, opts)
-  nnoremap('<space>q', vim.diagnostic.setloclist, opts)
+  nnoremap('<leader>q', vim.diagnostic.setloclist, opts)
 end
 
 local function lsp_highlight_document(client)
@@ -77,16 +77,16 @@ local function lsp_keymaps(bufnr)
   nnoremap('K', vim.lsp.buf.hover, bufopts)
   nnoremap('gi', vim.lsp.buf.implementation, bufopts)
   nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
-  nnoremap('<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  nnoremap('<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  nnoremap('<space>wl', function()
+  nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  nnoremap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
-  nnoremap('<space>D', vim.lsp.buf.type_definition, bufopts)
-  nnoremap('<space>r', vim.lsp.buf.rename, bufopts)
-  nnoremap('<space>a', vim.lsp.buf.code_action, bufopts)
+  nnoremap('<leader>D', vim.lsp.buf.type_definition, bufopts)
+  nnoremap('<leader>r', vim.lsp.buf.rename, bufopts)
+  nnoremap('<leader>a', vim.lsp.buf.code_action, bufopts)
   nnoremap('gr', require('telescope.builtin').lsp_references, bufopts)
-  nnoremap('<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  nnoremap('<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
 M.on_attach = function(client, bufnr)
