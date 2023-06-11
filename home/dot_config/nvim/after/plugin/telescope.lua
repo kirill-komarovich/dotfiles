@@ -1,4 +1,5 @@
 local telescope = require("telescope")
+local actions = require("telescope.actions")
 
 telescope.load_extension("media_files")
 
@@ -7,6 +8,15 @@ telescope.setup({
     prompt_prefix = " ",
     selection_caret = "ﰲ ",
     path_display = { "absolute" },
+    mappings = {
+      i = {
+        ['<CR>'] = function(args)
+          actions.select_default(args)
+          actions.center(args)
+        end,
+        ["<ESC>"] = actions.close,
+      },
+    },
   },
   extensions = {
     media_files = {
@@ -24,24 +34,28 @@ local Keymaps = require("kirillkomarovich.remap")
 local nnoremap = Keymaps.nnoremap
 local vnoremap = Keymaps.vnoremap
 
-nnoremap("<C-f>r", builtin.resume, { desc = "Resume last telescope picker result" })
+nnoremap("<leader>fr", builtin.resume, { desc = "Resume last telescope picker result" })
 
-nnoremap("<C-f>f", function()
+nnoremap("<C-p>", function()
   builtin.find_files(themes.get_dropdown({ previewer = false }))
 end, { desc = "Find files by path with telescope.find_files" })
 
-nnoremap("<C-f>g", function()
+nnoremap("<leader>fg", function()
   builtin.live_grep(themes.get_ivy())
 end, { desc = "Find files by grep content with telescope.live_grep" })
 
-vnoremap("<C-f>g", function()
+vnoremap("<leader>fg", function()
   vim.cmd('noau normal! "vy"')
   builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
 end, { silent = true, desc = "Find files by grep content with telescope.grep_string using current selected text" })
 
-nnoremap("<C-f>br", function()
+nnoremap("<leader>fbr", function()
   builtin.git_branches(themes.get_dropdown({ previewer = false }))
-end, { desc = "Find files by grep content with telescope.live_grep" })
+end, { desc = "Find git branges with telescope.git_branches" })
+
+nnoremap("<leader>fh", builtin.help_tags, { desc = "Find content in help tags with telescope.help_tags" })
+
+nnoremap("<leader>fk", builtin.keymaps, { desc = "Find content in keymaps with with telescope.keymaps" })
 
 nnoremap("<leader>b", function()
   builtin.buffers(themes.get_dropdown({ previewer = false, sort_mru = true }))
