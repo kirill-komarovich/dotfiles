@@ -2,3 +2,4 @@
 .ruby-gemset
 .tool-versions
 .vscode
+.project_layout.sh

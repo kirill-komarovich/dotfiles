@@ -6,16 +6,24 @@ if [ -z $selected ]; then
     exit 1
 fi
 
+projects_root=~/projects
+layout_file=.project_layout.sh
 name=$(basename "$selected")
 tmux_running=$(pgrep tmux)
 
 if [ -z $TMUX ] && [ -z $tmux_running ]; then
-    tmux new-session -s $selected_name -c ~/projects/$selected
+    tmux new-session -s $selected_name -c $projects_root/$selected
     exit 0
 fi
 
 if ! tmux has-session -t=$name 2> /dev/null; then
-    tmux new-session -ds $name -c ~/projects/$selected
+    tmux new-session -ds $name -c $projects_root/$selected
+
+    layout_file_path=$projects_root/$selected/$layout_file
+
+    if test -x $layout_file_path; then
+        tmux send-keys -t "$name.1" ./$layout_file C-m
+    fi
 fi
 
 tmux switch-client -t $name
