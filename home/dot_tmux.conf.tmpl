@@ -81,3 +81,11 @@ set -g @tmux_power_show_web_reachable true
 run '~/.tmux/plugins/tpm/tpm'
 
 set-option -g status-justify left
+
+{{ $fish_path := "/bin/fish" -}}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
+set -g default-command {{ $fish_path }}
+set -g default-shell {{ $fish_path }}
