@@ -1,25 +1,29 @@
-{{ if (eq .chezmoi.os "linux") -}}
+#!/bin/bash
 
-{{ $repos := list
-  "ppa:git-core/ppa"
--}}
+set -eufo pipefail
 
 {{ $packages := list
   "git"
   "curl"
 -}}
 
-#!/bin/bash
-
-set -eufo pipefail
-
 {{ $sudo := "sudo " -}}
 {{ if eq .chezmoi.username "root" -}}
 {{   $sudo = "" -}}
 {{ end -}}
 
+{{ if eq .chezmoi.os "linux" -}}
+
+{{ $repos := list
+  "ppa:git-core/ppa"
+-}}
+
 {{ $sudo }}add-apt-repository -y {{ $repos | join " " }}
 {{ $sudo }}apt update
 {{ $sudo }}apt install -y {{ $packages | join " " }}
+
+{{ else if eq .chezmoi.os "darwin" -}}
+
+brew install {{ $packages | join " " }}
 
 {{ end -}}
