@@ -1,5 +1,10 @@
+{{ $fish_path := "/bin/fish" -}}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
 shell:
-  program: /bin/fish
+  program: {{ $fish_path }}
   args:
     - -l
     - -c
