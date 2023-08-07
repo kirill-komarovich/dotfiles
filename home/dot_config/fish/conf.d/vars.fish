@@ -4,3 +4,4 @@ set PATH $PATH ~/.local/bin
 set PATH $PATH ~/.cargo/bin
 set PATH $PATH ~/.tmux/plugins/tmuxifier/bin/
 set PATH $PATH /opt/homebrew/bin
+set PATH $PATH /opt/homebrew/opt/mysql-client/bin/
