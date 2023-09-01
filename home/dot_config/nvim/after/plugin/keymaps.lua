@@ -9,6 +9,7 @@ nnoremap("<ESC>", ":noh<CR>", { silent = true })
 
 -- Buffers
 nnoremap('<leader><TAB>', '<CMD>b#<CR>')
+nnoremap('<leader>t', '<CMD>enew<CR>')
 
 -- Move text up and down
 nnoremap("<A-j>", "<ESC>:m .+1<CR>==")
