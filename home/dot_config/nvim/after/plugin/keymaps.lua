@@ -39,6 +39,3 @@ xnoremap("p", "\"_dP")
 
 -- NvimTree
 nnoremap("<C-b>", ":NvimTreeToggle<CR>")
-
--- Toggleterm
-nnoremap("<leader>g", ":GitUIToggle<CR>", { silent = true })

@@ -1,5 +1,8 @@
 require("toggleterm").setup({})
 
+local Keymaps = require("kirillkomarovich.remap")
+local nnoremap = Keymaps.nnoremap
+
 local Terminal = require("toggleterm.terminal").Terminal
 
 local client = Terminal:new({
@@ -14,3 +17,6 @@ local client = Terminal:new({
 vim.api.nvim_create_user_command("GitUIToggle", function()
   client:toggle()
 end, {})
+
+-- Toggleterm
+nnoremap("<leader>gu", ":GitUIToggle<CR>", { silent = true })

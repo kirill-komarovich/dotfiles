@@ -14,7 +14,6 @@ telescope.setup({
           actions.select_default(args)
           actions.center(args)
         end,
-        ["<ESC>"] = actions.close,
       },
     },
   },
@@ -36,9 +35,16 @@ local vnoremap = Keymaps.vnoremap
 
 nnoremap("<leader>fr", builtin.resume, { desc = "Resume last telescope picker result" })
 
+-- Files
+
 nnoremap("<C-p>", function()
   builtin.find_files(themes.get_dropdown({ previewer = false }))
 end, { desc = "Find files by path with telescope.find_files" })
+
+vnoremap("<C-p>", function()
+  vim.cmd('noau normal! "vy"')
+  builtin.find_files(themes.get_dropdown({ previewer = false, default_text = vim.fn.getreg('v') }))
+end, { desc = "Find files by path with telescope.find_files using current selected text" })
 
 nnoremap("<leader>fg", function()
   builtin.live_grep(themes.get_ivy())
@@ -49,16 +55,12 @@ vnoremap("<leader>fg", function()
   builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
 end, { silent = true, desc = "Find files by grep content with telescope.grep_string using current selected text" })
 
-nnoremap("<leader>fbr", function()
-  builtin.git_branches(themes.get_dropdown({ previewer = false }))
-end, { desc = "Find git branges with telescope.git_branches" })
-
 nnoremap("<leader>fh", builtin.help_tags, { desc = "Find content in help tags with telescope.help_tags" })
 
 nnoremap("<leader>fk", builtin.keymaps, { desc = "Find content in keymaps with with telescope.keymaps" })
 
 nnoremap("<leader>b", function()
-  builtin.buffers(themes.get_dropdown({ previewer = false, sort_mru = true }))
+  builtin.buffers(themes.get_dropdown({ previewer = false, sort_mru = true, initial_mode = "normal" }))
 end, { desc = "Find opened buffers by path with telescope.buffers" })
 
 nnoremap("<leader>/", function()
@@ -69,3 +71,21 @@ vnoremap("<leader>/", function()
   vim.cmd('noau normal! "vy"')
   builtin.current_buffer_fuzzy_find(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
 end, { desc = "Find content in current buffer with telescope.current_buffer_fuzzy_find using current selected text" })
+
+-- Git
+
+nnoremap("<leader>gb", function()
+  builtin.git_branches(themes.get_dropdown({ previewer = false }))
+end, { desc = "Find git branges with telescope.git_branches" })
+
+nnoremap("<leader>ga", function()
+  builtin.git_status({ initial_mode = "normal", results_title = "", preview_title = "" })
+end, { desc = "Find files in current git status" })
+
+nnoremap("<leader>gc", function()
+  builtin.git_commits({ initial_mode = "normal", results_title = "", preview_title = "" })
+end, { desc = "Find git commits" })
+
+nnoremap("<leader>gh", function()
+  builtin.git_bcommits({ initial_mode = "normal", results_title = "", preview_title = "" })
+end, { desc = "Find current file git history" })
