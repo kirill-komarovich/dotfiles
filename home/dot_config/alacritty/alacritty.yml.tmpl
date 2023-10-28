@@ -19,6 +19,9 @@ window:
   decorations_theme_variant: none
 
 font:
+  {{ if eq .chezmoi.os "darwin" -}}
+    size: 12
+  {{ end -}}
   normal:
     family: DroidSansMono Nerd Font
     style: Book
