@@ -37,7 +37,7 @@ local kind_icons = {
 
 local cmp = require("cmp")
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -128,4 +128,22 @@ cmp.setup {
     ghost_text = false,
     native_menu = false,
   },
-}
+})
+
+cmp.setup.cmdline("/", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = "buffer" },
+    { name = "cmdline_history" },
+  }
+})
+
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" }
+  }, {
+    { name = "cmdline" },
+    { name = "cmdline_history" },
+  })
+})

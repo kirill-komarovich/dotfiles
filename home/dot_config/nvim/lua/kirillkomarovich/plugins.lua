@@ -71,6 +71,7 @@ return packer.startup(function(use)
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
   use "hrsh7th/cmp-nvim-lsp"     -- lsp completions
   use "hrsh7th/cmp-nvim-lua"     -- nvim config completions
+  use "hrsh7th/cmp-nvim-lsp-signature-help"
 
   -- snippets
   use "L3MON4D3/LuaSnip"
@@ -95,6 +96,7 @@ return packer.startup(function(use)
   -- Git
   use "akinsho/toggleterm.nvim"
   use "lewis6991/gitsigns.nvim"
+  use "sindrets/diffview.nvim"
 
   -- Utils
   use {
