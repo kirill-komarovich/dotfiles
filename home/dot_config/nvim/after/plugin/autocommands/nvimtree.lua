@@ -27,6 +27,8 @@ nvim_create_autocmd("VimEnter", {
       vim.cmd.cd(data.file)
     end
 
-    require("nvim-tree.api").tree.toggle({ focus = false, find_file = not directory, update_root = true })
+    if vim.fn.isdirectory(".git") == 1 then
+      require("nvim-tree.api").tree.toggle({ focus = false, find_file = not directory, update_root = true })
+    end
   end,
 })
