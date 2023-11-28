@@ -5,7 +5,7 @@ handlers.setup()
 require("mason").setup()
 
 mason_config.setup {
-    ensure_installed = {
+  ensure_installed = {
     "solargraph",
     "jsonls",
     "yamlls",
@@ -23,7 +23,7 @@ local opts = {
 }
 
 mason_config.setup_handlers({
-  function (server_name)
+  function(server_name)
     local local_opts = {}
 
     local settings_path = string.format("kirillkomarovich.lsp.settings.%s", server_name)

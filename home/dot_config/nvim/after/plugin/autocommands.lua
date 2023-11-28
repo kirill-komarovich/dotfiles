@@ -21,3 +21,13 @@ nvim_create_autocmd("BufWritePre", {
     nvim_command("%s/\\($\\n\\s*\\)\\+\\%$//e")
   end,
 })
+
+PackagesGroup = nvim_create_augroup('Packages', { clear = true })
+
+nvim_create_autocmd("BufWritePost", {
+  pattern = "plugins.lua",
+  group = PackagesGroup,
+  callback = function()
+    require("lazy").sync()
+  end,
+})

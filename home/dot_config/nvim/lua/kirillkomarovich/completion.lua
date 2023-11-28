@@ -54,7 +54,7 @@ cmp.setup({
     ["<C-UP>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
     -- ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
     -- TODO: fix this
-    ["<C-y>"] = cmp.mapping(function(fallback)
+    ["<C-d>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.scroll_docs(-1)
       else
@@ -63,7 +63,7 @@ cmp.setup({
     end, { "i", "c" }),
     ["<C-DOWN>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
     -- ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-    ["<C-e>"] = cmp.mapping(function(fallback)
+    ["<C-u>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.scroll_docs(1)
       else
@@ -77,7 +77,7 @@ cmp.setup({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    ["<CR>"] = cmp.mapping.confirm { select = true },
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm { select = true } -- auto select first item
@@ -147,3 +147,6 @@ cmp.setup.cmdline(":", {
     { name = "cmdline_history" },
   })
 })
+
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
