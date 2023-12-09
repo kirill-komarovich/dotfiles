@@ -104,7 +104,6 @@ require("lazy").setup({
   -- cmp plugins
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
     dependencies = {
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",

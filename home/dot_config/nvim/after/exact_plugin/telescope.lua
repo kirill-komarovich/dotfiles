@@ -10,11 +10,14 @@ telescope.setup({
     path_display = { "absolute" },
     mappings = {
       i = {
-        ['<CR>'] = function(args)
+        ["<CR>"] = function(args)
           actions.select_default(args)
           actions.center(args)
         end,
       },
+      n = {
+        ["<C-d>"] = actions.delete_buffer,
+      }
     },
   },
   extensions = {
@@ -43,7 +46,7 @@ end, { desc = "Find files by path with telescope.find_files" })
 
 vnoremap("<C-p>", function()
   vim.cmd('noau normal! "vy"')
-  builtin.find_files(themes.get_dropdown({ previewer = false, default_text = vim.fn.getreg('v') }))
+  builtin.find_files(themes.get_dropdown({ previewer = false, default_text = vim.fn.getreg("v") }))
 end, { desc = "Find files by path with telescope.find_files using current selected text" })
 
 nnoremap("<leader>fg", function()
@@ -52,7 +55,7 @@ end, { desc = "Find files by grep content with telescope.live_grep" })
 
 vnoremap("<leader>fg", function()
   vim.cmd('noau normal! "vy"')
-  builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
+  builtin.grep_string(themes.get_ivy({ default_text = vim.fn.getreg("v") }))
 end, { silent = true, desc = "Find files by grep content with telescope.grep_string using current selected text" })
 
 nnoremap("<leader>fh", builtin.help_tags, { desc = "Find content in help tags with telescope.help_tags" })
@@ -69,7 +72,7 @@ end, { desc = "Find content in current buffer with telescope.current_buffer_fuzz
 
 vnoremap("<leader>/", function()
   vim.cmd('noau normal! "vy"')
-  builtin.current_buffer_fuzzy_find(themes.get_ivy({ default_text = vim.fn.getreg('v') }))
+  builtin.current_buffer_fuzzy_find(themes.get_ivy({ default_text = vim.fn.getreg("v") }))
 end, { desc = "Find content in current buffer with telescope.current_buffer_fuzzy_find using current selected text" })
 
 -- Git
