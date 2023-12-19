@@ -36,7 +36,6 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
-    event = "InsertEnter",
     opts = {
       check_ts = true,
       enable_check_bracket_line = false,
@@ -58,10 +57,7 @@ require("lazy").setup({
     },
   },
 
-  {
-    "kylechui/nvim-surround",
-    event = "BufEnter",
-  },
+  { "kylechui/nvim-surround" },
 
   {
     "numToStr/Comment.nvim",
@@ -88,7 +84,6 @@ require("lazy").setup({
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufEnter",
     config = function()
       vim.opt.list = true
       vim.opt.listchars:append "space:⋅"
@@ -135,7 +130,6 @@ require("lazy").setup({
 
   {
     "rgroli/other.nvim",
-    event = "BufEnter",
     main = "other-nvim",
     opts = {
       mappings = {
@@ -169,6 +163,12 @@ require("lazy").setup({
 
   {
     "johmsalas/text-case.nvim",
-    event = "BufEnter",
+    config = function()
+      require("textcase").setup({})
+      require("telescope").load_extension("textcase")
+    end,
+    keys = {
+      { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
+    },
   },
 })

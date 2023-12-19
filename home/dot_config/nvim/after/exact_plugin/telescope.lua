@@ -16,7 +16,7 @@ telescope.setup({
         end,
       },
       n = {
-        ["<C-d>"] = actions.delete_buffer,
+        ["<C-b>d"] = actions.delete_buffer,
       }
     },
   },
