@@ -1,5 +1,6 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
+local layout_actions = require("telescope.actions.layout")
 
 telescope.load_extension("media_files")
 
@@ -16,7 +17,8 @@ telescope.setup({
         end,
       },
       n = {
-        ["<C-b>d"] = actions.delete_buffer,
+        ["D"] = actions.delete_buffer,
+        ["tb"] = layout_actions.toggle_preview,
       }
     },
   },
