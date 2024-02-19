@@ -5,6 +5,7 @@
   br = branch
   pl = pull
   ph = push
+  fph = push --force-with-lease
   rb = rebase
   ui = !gitui
   wip = !git add . && git commit -m "wip"
@@ -18,6 +19,12 @@
 
 [push]
   default = current
+
+[branch]
+  sort = committerdate
+
+[column]
+  ui = auto
 
 [core]
   excludesFile = ~/.gitignore_global
