@@ -39,6 +39,8 @@ mason_config.setup_handlers({
   end,
 })
 
+require("lspconfig").gdscript.setup(opts)
+
 require("null-ls").setup()
 require("mason-null-ls").setup({
   ensure_installed = {
