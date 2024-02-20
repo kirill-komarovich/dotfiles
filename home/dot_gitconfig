@@ -7,7 +7,7 @@
   ph = push
   fph = push --force-with-lease
   rb = rebase
-  ui = !gitui
+  ui = !EDITOR="gitui-editor" gitui
   wip = !git add . && git commit -m "wip"
   undo=reset --soft HEAD^
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short

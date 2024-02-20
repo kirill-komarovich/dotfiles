@@ -1,0 +1,10 @@
+#!/bin/sh
+
+pipe_name=$(basename $(pwd))
+pipe_path=$HOME/.cache/nvim/$pipe_name.pipe
+
+if test -x $pipe_path; then
+  nvim --server $pipe_path --remote "$@"
+else
+  vi "$@"
+fi
