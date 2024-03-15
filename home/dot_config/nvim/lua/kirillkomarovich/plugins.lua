@@ -65,12 +65,7 @@ require("lazy").setup({
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
-      require('ts_context_commentstring').setup({})
-      vim.g.skip_ts_context_commentstring_module = true
-
-      require("Comment").setup({
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      })
+      require("kirillkomarovich.plugin.comment")
     end,
   },
 
@@ -112,10 +107,9 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp-signature-help",
     },
     config = function()
-      require("kirillkomarovich.completion")
+      require("kirillkomarovich.plugin.cmp")
     end
   },
-
 
   -- LSP
   {
