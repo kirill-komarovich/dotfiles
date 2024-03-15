@@ -43,10 +43,17 @@ M.setup = function()
 
   local opts = { silent = true }
 
-  nnoremap('<leader>e', vim.diagnostic.open_float, opts)
-  nnoremap('[d', vim.diagnostic.goto_prev, opts)
-  nnoremap(']d', vim.diagnostic.goto_next, opts)
-  nnoremap('<leader>q', vim.diagnostic.setloclist, opts)
+  nnoremap("<leader>e", vim.diagnostic.open_float, opts)
+  nnoremap("<leader>ld", function()
+    require("telescope.builtin").diagnostics()
+  end, opts)
+  nnoremap("<leader>d", function()
+    require("telescope.builtin").diagnostics({ bufnr = 0 })
+  end, opts)
+
+  nnoremap("[d", vim.diagnostic.goto_prev, opts)
+  nnoremap("]d", vim.diagnostic.goto_next, opts)
+  nnoremap("<leader>q", vim.diagnostic.setloclist, opts)
 end
 
 local function lsp_highlight_document(client)
@@ -67,28 +74,28 @@ end
 
 local function lsp_keymaps(bufnr)
   -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { silent = true, buffer = bufnr }
-  nnoremap('gD', vim.lsp.buf.declaration, bufopts)
-  nnoremap('gd', vim.lsp.buf.definition, bufopts)
-  nnoremap('K', vim.lsp.buf.hover, bufopts)
-  nnoremap('gi', vim.lsp.buf.implementation, bufopts)
-  nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
-  nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  nnoremap('<leader>wl', function()
+  nnoremap("gD", vim.lsp.buf.declaration, bufopts)
+  nnoremap("gd", vim.lsp.buf.definition, bufopts)
+  nnoremap("K", vim.lsp.buf.hover, bufopts)
+  nnoremap("gi", vim.lsp.buf.implementation, bufopts)
+  nnoremap("<C-k>", vim.lsp.buf.signature_help, bufopts)
+  nnoremap("<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+  nnoremap("<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+  nnoremap("<leader>wl", function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
-  nnoremap('<leader>D', vim.lsp.buf.type_definition, bufopts)
-  nnoremap('<leader>r', vim.lsp.buf.rename, bufopts)
-  nnoremap('<leader>a', vim.lsp.buf.code_action, bufopts)
-  nnoremap('gr', function()
-    require('telescope.builtin').lsp_references()
+  nnoremap("<leader>D", vim.lsp.buf.type_definition, bufopts)
+  nnoremap("<leader>r", vim.lsp.buf.rename, bufopts)
+  nnoremap("<leader>a", vim.lsp.buf.code_action, bufopts)
+  nnoremap("gr", function()
+    require("telescope.builtin").lsp_references()
   end, bufopts)
-  nnoremap('<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  nnoremap("<leader>f", function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
 M.on_attach = function(client, bufnr)
