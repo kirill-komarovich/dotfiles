@@ -141,8 +141,17 @@ require("lazy").setup({
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
+    config = function()
+      require("kirillkomarovich.plugin.telescope")
+    end,
+    keys = require("kirillkomarovich.plugin.telescope.keys"),
     dependencies = {
       "nvim-telescope/telescope-media-files.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = 'make',
+      },
+      "fdschmidt93/telescope-egrepify.nvim",
     },
   },
 

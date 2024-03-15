@@ -85,7 +85,9 @@ local function lsp_keymaps(bufnr)
   nnoremap('<leader>D', vim.lsp.buf.type_definition, bufopts)
   nnoremap('<leader>r', vim.lsp.buf.rename, bufopts)
   nnoremap('<leader>a', vim.lsp.buf.code_action, bufopts)
-  nnoremap('gr', require('telescope.builtin').lsp_references, bufopts)
+  nnoremap('gr', function()
+    require('telescope.builtin').lsp_references()
+  end, bufopts)
   nnoremap('<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
