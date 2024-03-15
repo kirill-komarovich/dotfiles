@@ -110,7 +110,12 @@ table.insert(M, {
 table.insert(M, {
   "<leader>ga",
   load(function(telescope)
-    telescope.builtin.git_status({ initial_mode = "normal", results_title = "", preview_title = "" })
+    telescope.builtin.git_status({
+      initial_mode = "normal",
+      results_title = "",
+      preview_title = "",
+      path_display = { "truncate" },
+    })
   end),
   desc = "Find files in current git status",
 })
