@@ -153,6 +153,9 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    config = function()
+      require("kirillkomarovich.plugin.treesitter")
+    end,
     dependencies = {
       "nvim-treesitter/playground",
       "romgrk/nvim-treesitter-context",
