@@ -22,7 +22,8 @@ require("lazy").setup({
     lazy = false,
     config = function()
       require("kirillkomarovich.theme")
-    end
+    end,
+    dependencies = { "kyazdani42/nvim-web-devicons" },
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -72,6 +73,9 @@ require("lazy").setup({
   {
     "nvim-tree/nvim-tree.lua",
     lazy = false,
+    config = function()
+      require("kirillkomarovich.plugin.nvimtree")
+    end,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
