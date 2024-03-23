@@ -150,6 +150,7 @@ require("lazy").setup({
         build = 'make',
       },
       "fdschmidt93/telescope-egrepify.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
     },
   },
 

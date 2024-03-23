@@ -36,3 +36,4 @@ telescope.setup({
 telescope.load_extension("media_files")
 telescope.load_extension("fzf")
 telescope.load_extension("egrepify")
+telescope.load_extension("ui-select")
