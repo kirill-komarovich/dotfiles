@@ -196,7 +196,7 @@ require("lazy").setup({
   -- Git
   {
     "lewis6991/gitsigns.nvim",
-    event = "BufRead",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("kirillkomarovich.plugin.gitsigns")
     end,
