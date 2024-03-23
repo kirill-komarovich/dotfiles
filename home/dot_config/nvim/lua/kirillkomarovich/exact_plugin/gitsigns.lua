@@ -3,7 +3,7 @@ local Keymaps = require("kirillkomarovich.remap")
 local nnoremap = Keymaps.nnoremap
 local vnoremap = Keymaps.vnoremap
 
-gitsigns.setup {
+gitsigns.setup({
   signs = {
     add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
     change = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
@@ -67,4 +67,4 @@ gitsigns.setup {
     -- Text object
     -- map({'o', 'x'}, 'ih', '<cmd><C-U>Gitsigns select_hunk<CR>')
   end,
-}
+})

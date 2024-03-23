@@ -15,19 +15,31 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("lazy").setup({
-  { "nvim-lua/plenary.nvim",        lazy = true },
-  { "kyazdani42/nvim-web-devicons", lazy = true },
+  { "nvim-lua/plenary.nvim", lazy = true },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
+    config = function()
+      require("kirillkomarovich.plugin.devicons")
+    end,
+  },
   {
     "Mofiqul/vscode.nvim",
     lazy = false,
+    priority = -1000,
     config = function()
-      require("kirillkomarovich.theme")
+      require("kirillkomarovich.plugin.vscode")
+
+      vim.cmd [[colorscheme vscode]]
     end,
-    dependencies = { "kyazdani42/nvim-web-devicons" },
   },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    event = { "BufReadPre", "BufNewFile" },
+    lazy = true,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
     opts = {
       options = {
         theme = 'vscode',
@@ -37,6 +49,7 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
+    event = "InsertEnter",
     opts = {
       check_ts = true,
       enable_check_bracket_line = false,
@@ -58,8 +71,13 @@ require("lazy").setup({
     },
   },
 
-  { "kylechui/nvim-surround" },
-
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end,
+  },
   {
     "numToStr/Comment.nvim",
     dependencies = {
@@ -95,7 +113,6 @@ require("lazy").setup({
     end
   },
 
-  -- cmp plugins
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -169,8 +186,16 @@ require("lazy").setup({
   },
 
   -- Git
-  "lewis6991/gitsigns.nvim",
-  "sindrets/diffview.nvim",
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufRead",
+    config = function()
+      require("kirillkomarovich.plugin.gitsigns")
+    end,
+    dependencies = {
+      "sindrets/diffview.nvim",
+    },
+  },
 
   {
     "johmsalas/text-case.nvim",
