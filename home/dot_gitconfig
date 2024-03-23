@@ -26,5 +26,8 @@
 [column]
   ui = auto
 
+[rebase]
+  updateRefs = true
+
 [core]
   excludesFile = ~/.gitignore_global
