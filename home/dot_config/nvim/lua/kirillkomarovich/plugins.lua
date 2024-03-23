@@ -135,6 +135,12 @@ require("lazy").setup({
   -- LSP
   {
     "neovim/nvim-lspconfig",
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
+    cmd = "Mason",
+    config = function()
+      require("kirillkomarovich.plugin.lsp")
+    end,
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -156,10 +162,12 @@ require("lazy").setup({
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
+    lazy = true,
     config = function()
       require("kirillkomarovich.plugin.telescope")
     end,
     keys = require("kirillkomarovich.plugin.telescope.keys"),
+    cmd = "Telescope",
     dependencies = {
       "nvim-telescope/telescope-media-files.nvim",
       {
