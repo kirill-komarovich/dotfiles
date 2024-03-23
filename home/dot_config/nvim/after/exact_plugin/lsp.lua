@@ -6,7 +6,7 @@ require("mason").setup()
 
 mason_config.setup {
   ensure_installed = {
-    "solargraph",
+    "ruby_ls",
     "jsonls",
     "yamlls",
     "dockerls",
