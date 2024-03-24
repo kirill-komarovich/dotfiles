@@ -12,7 +12,5 @@ require("nvim-treesitter.configs").setup {
     end,
   },
   indent = { enable = true, disable = { "" } },
-  playground = {
-    enable = true,
-  }
+  endwise = { enable = true },
 }

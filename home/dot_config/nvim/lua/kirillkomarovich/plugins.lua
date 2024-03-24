@@ -170,6 +170,7 @@ require("lazy").setup({
       require("kirillkomarovich.plugin.treesitter")
     end,
     dependencies = {
+      "RRethy/nvim-treesitter-endwise",
       "romgrk/nvim-treesitter-context",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
