@@ -13,5 +13,5 @@ require("vscode").setup({
     GitSignsChange = { fg = colors.vscBlue, bg = "NONE" },
     ["@string.special.symbol"] = { fg = colors.vscBlue, bg = "NONE" },
     ["@tag.javascript"] = { fg = colors.vscBlueGreen, bg = 'NONE' },
-  }
+  },
 });

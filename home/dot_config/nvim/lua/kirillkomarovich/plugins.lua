@@ -187,7 +187,6 @@ require("lazy").setup({
       require("kirillkomarovich.plugin.treesitter")
     end,
     dependencies = {
-      "nvim-treesitter/playground",
       "romgrk/nvim-treesitter-context",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
