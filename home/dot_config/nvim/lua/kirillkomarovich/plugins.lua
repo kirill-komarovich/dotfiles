@@ -49,26 +49,11 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
+    lazy = true,
     event = "InsertEnter",
-    opts = {
-      check_ts = true,
-      enable_check_bracket_line = false,
-      ts_config = {
-        lua = { "string", "source" },
-        javascript = { "string", "template_string" },
-      },
-      fast_wrap = {
-        map = "<M-e>",
-        chars = { "{", "[", "(", '"', "'" },
-        pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
-        offset = 0, -- Offset from pattern match
-        end_key = "$",
-        keys = "qwertyuiopzxcvbnmasdfghjkl",
-        check_comma = true,
-        highlight = "PmenuSel",
-        highlight_grey = "LineNr",
-      },
-    },
+    config = function()
+      require("kirillkomarovich.plugin.autopairs")
+    end,
   },
 
   {
