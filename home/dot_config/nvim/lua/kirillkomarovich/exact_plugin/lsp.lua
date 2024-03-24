@@ -40,10 +40,3 @@ mason_config.setup_handlers({
 })
 
 require("lspconfig").gdscript.setup(opts)
-
-require("null-ls").setup()
-require("mason-null-ls").setup({
-  ensure_installed = {
-    "cspell",
-  },
-})
