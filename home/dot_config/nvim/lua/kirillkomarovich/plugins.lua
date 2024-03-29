@@ -134,7 +134,7 @@ require("lazy").setup({
 
   {
     "rgroli/other.nvim",
-    main = "other-nvim",
+    cmd = "Other",
     opts = {
       mappings = {
         "rails",
