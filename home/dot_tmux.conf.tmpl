@@ -71,10 +71,15 @@ bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "EDITOR=\"gitui-
 set-option -g status-justify left
 
 set -g @tmux_power_theme 'moon'
+set -g @resurrect-processes 'chezmoi'
+set -g @continuum-boot 'on'
+set -g @continuum-boot-options 'alacritty'
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'wfxr/tmux-power'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'

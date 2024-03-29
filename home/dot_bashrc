@@ -66,16 +66,6 @@ else
     PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$"
 fi
 
-# parse_ruby_version() {
-#     ls -1 | grep "Gemfile\|*.rb" > /dev/null && rvm current 2> /dev/null | sed -e 's/^/ /'
-# }
-
-# if [ "$color_prompt" = yes ]; then
-#     PS1="$PS1(parse_ruby_version)\$"
-# else
-#     PS1="$PS1(parse_ruby_version)\$"
-# fi
-
 if [ "$color_prompt" = yes ]; then
     PS1="$PS1(parse_git_branch)\[\033[00m\]\$ "
 else
