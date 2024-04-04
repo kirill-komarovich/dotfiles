@@ -31,3 +31,13 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.completeopt = "menu,menuone,noselect"
 
 vim.g.mapleader = " "
+
+
+vim.filetype.add({
+  extension = {
+    jbuilder = "ruby",
+  },
+  filename = {
+    Dangerfile = "ruby",
+  },
+})

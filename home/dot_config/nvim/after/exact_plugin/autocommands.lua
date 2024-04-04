@@ -31,14 +31,6 @@ nvim_create_autocmd("FileType", {
   end
 })
 
-nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.jbuilder,Dangerfile",
-  group = RubyGroup,
-  callback = function()
-    vim.cmd.set("ft=ruby")
-  end
-})
-
 PackagesGroup = nvim_create_augroup('Packages', { clear = true })
 
 nvim_create_autocmd("BufWritePost", {
