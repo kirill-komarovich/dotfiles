@@ -3,3 +3,4 @@
 .tool-versions
 .vscode
 .project_layout.sh
+.mise.toml

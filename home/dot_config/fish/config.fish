@@ -1,19 +1,17 @@
-if test $HOME/.asdf/asdf.fish
-  source $HOME/.asdf/asdf.fish
+if test $HOME/.local/bin/mise
+  set --local mise $HOME/.local/bin/mise
 
-  if not test -d ~/.config/fish/completions
-    mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+  if status is-interactive
+    $mise activate fish | source
+
+    if not test -d $HOME/.config/fish/completions
+      mkdir -p $HOME/.config/fish/completions;
+    end
+
+    if not test -e $HOME/.config/fish/completions/mise.fish
+      $mise completion fish > $HOME/.config/fish/completions/mise.fish
+    end
+  else
+    $mise activate fish --shims | source
   end
-
-  if test -d $HOME/.asdf/plugins/java
-    source $HOME/.asdf/plugins/java/set-java-home.fish
-  end
-end
-
-# function fish_greeting
-#   neofetch
-# end
-
-if type -q direnv
-  direnv hook fish | source
 end

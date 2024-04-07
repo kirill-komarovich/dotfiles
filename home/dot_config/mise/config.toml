@@ -1,0 +1,23 @@
+[plugins]
+gitui = "https://github.com/looztra/asdf-gitui"
+neovim = "https://github.com/richin13/asdf-neovim"
+ripgrep = "https://gitlab.com/wt0f/asdf-ripgrep"
+fzf = "https://github.com/kompiro/asdf-fzf"
+fd = "https://gitlab.com/wt0f/asdf-fd"
+tmux = "https://github.com/aphecetche/asdf-tmux.git"
+
+erlang = "https://github.com/asdf-vm/asdf-erlang.git"
+elixir = "https://github.com/asdf-vm/asdf-elixir.git"
+
+[tools]
+gitui = "latest"
+neovim = "latest"
+ripgrep = "latest"
+fzf = "latest"
+fd = "latest"
+usage = "latest"
+tmux = "latest"
+node = "lts"
+ruby = "3.3.0"
+erlang = "26.2.1"
+elixir = "1.16.0-otp-26"

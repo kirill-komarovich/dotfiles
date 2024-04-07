@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $sudo := "sudo " -}}
+{{ if eq .chezmoi.username "root" -}}
+{{   $sudo = "" -}}
+{{ end -}}
+
+curl https://mise.run | sh
+
+mise=$HOME/.local/bin/mise
+
+{{ $tmux_packages := list
+  "make"
+  "gcc"
+  "zip"
+  "unzip"
+  "autoconf"
+  "bison"
+  "pkg-config"
+-}}
+
+# {{ $sudo }}apt-get install -y {{ $tmux_packages | join " " }}
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+{{ $ruby_packages := list
+  "autoconf"
+  "bison"
+  "patch"
+  "build-essential"
+  "libssl-dev"
+  "libyaml-dev"
+  "libreadline6-dev"
+  "zlib1g-dev"
+  "libgmp-dev"
+  "libncurses5-dev"
+  "libffi-dev"
+  "libgdbm6"
+  "libgdbm-dev"
+  "libdb-dev"
+  "uuid-dev"
+-}}
+# {{ $sudo }}apt-get install -y {{ $ruby_packages | join " " }}
+
+{{ $erlang_packages := list
+  "m4"
+  "libncurses5-dev"
+  "libssh-dev"
+  "unixodbc-dev"
+  "xsltproc"
+  "fop"
+  "libxml2-utils"
+  "libncurses-dev"
+-}}
+
+# {{ $sudo }}apt-get install -y {{ $erlang_packages | join " " }}
+#
+# KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac" KERL_INSTALL_HTMLDOCS=no KERL_INSTALL_MANPAGES=no
+
+$mise install -y

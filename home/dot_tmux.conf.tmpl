@@ -23,6 +23,14 @@ set-option escape-time 40
 unbind C-Space
 set-option -g prefix C-Space
 
+{{ $fish_path := "/bin/fish" -}}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
+set -g default-command {{ $fish_path }}
+set -g default-shell {{ $fish_path }}
+
 # Keep current path on new-window
 bind c new-window -a -c "#{pane_current_path}"
 
@@ -64,9 +72,9 @@ bind a choose-window 'join-pane -h -s "%%"'
 bind A choose-window 'join-pane -s "%%"'
 
 bind S command-prompt -p "New Session:" "new-session -A -s '%%'"
-bind o display-popup -E "tmux-windowizer"
-bind O display-popup -E "tmux-sessionizer"
-bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "EDITOR=\"gitui-editor\" gitui"
+bind o display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -E "tmux-windowizer"
+bind O display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -E "tmux-sessionizer"
+bind g display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -d "#{pane_current_path}" -h 90% -w 90% -E "EDITOR=\"gitui-editor\" gitui"
 
 set-option -g status-justify left
 
@@ -84,11 +92,3 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
-
-{{ $fish_path := "/bin/fish" -}}
-{{ if eq .chezmoi.os "darwin" -}}
-{{   $fish_path = "/opt/homebrew/bin/fish" -}}
-{{ end -}}
-
-set -g default-command {{ $fish_path }}
-set -g default-shell {{ $fish_path }}
