@@ -7,4 +7,3 @@ function nvim --wraps nvim
     command nvim $argv
   end
 end
-
