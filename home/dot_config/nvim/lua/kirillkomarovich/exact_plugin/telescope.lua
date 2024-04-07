@@ -5,7 +5,7 @@ local layout_actions = require("telescope.actions.layout")
 telescope.setup({
   defaults = {
     prompt_prefix = " ",
-    selection_caret = "ﰲ ",
+    selection_caret = "",
     path_display = { "absolute" },
     mappings = {
       i = {
