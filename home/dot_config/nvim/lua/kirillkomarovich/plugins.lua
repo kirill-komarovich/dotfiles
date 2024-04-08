@@ -48,14 +48,10 @@ require("lazy").setup({
     }
   },
   {
-    "windwp/nvim-autopairs",
-    lazy = true,
-    event = "InsertEnter",
-    config = function()
-      require("kirillkomarovich.plugin.autopairs")
-    end,
+    'echasnovski/mini.pairs',
+    event = 'VeryLazy',
+    opts = {},
   },
-
   {
     "kylechui/nvim-surround",
     event = "VeryLazy",

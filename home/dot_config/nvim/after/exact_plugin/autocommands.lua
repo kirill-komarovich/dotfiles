@@ -18,6 +18,9 @@ autocmd({ "FileType" }, {
   pattern = "ruby",
   callback = function ()
     vim.cmd.setlocal("indentkeys-=.")
+
+    local pairs = require("mini.pairs")
+    pairs.map_buf(0, "i", "|", { action = "closeopen", pair = "||" })
   end
 })
 
