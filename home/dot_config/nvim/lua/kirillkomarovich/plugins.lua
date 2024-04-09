@@ -11,9 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Example using a list of specs with the default options
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
-
 require("lazy").setup({
   { "nvim-lua/plenary.nvim", lazy = true },
   {
@@ -53,11 +50,19 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "kylechui/nvim-surround",
+    "echasnovski/mini.surround",
     event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup({})
-    end,
+    opts = {
+      mappings = {
+        add = 'sa', -- Add surrounding in Normal and Visual modes
+        delete = 'sd', -- Delete surrounding
+        find = 'sn', -- Find surrounding (to the right)
+        find_left = 'sF', -- Find surrounding (to the left)
+        highlight = 'sh', -- Highlight surrounding
+        replace = 'sr', -- Replace surrounding
+        update_n_lines = 'sn', -- Update `n_lines`
+      },
+    },
   },
   {
     "numToStr/Comment.nvim",
