@@ -39,7 +39,7 @@ require("lazy").setup({
     },
     opts = {
       options = {
-        theme = 'vscode',
+        theme = "vscode",
       },
       extensions = { "nvim-tree" }
     }
@@ -54,13 +54,13 @@ require("lazy").setup({
     event = "VeryLazy",
     opts = {
       mappings = {
-        add = 'sa', -- Add surrounding in Normal and Visual modes
-        delete = 'sd', -- Delete surrounding
-        find = 'sn', -- Find surrounding (to the right)
-        find_left = 'sF', -- Find surrounding (to the left)
-        highlight = 'sh', -- Highlight surrounding
-        replace = 'sr', -- Replace surrounding
-        update_n_lines = 'sn', -- Update `n_lines`
+        add = "sa",            -- Add surrounding in Normal and Visual modes
+        delete = "sd",         -- Delete surrounding
+        find = "sn",           -- Find surrounding (to the right)
+        find_left = "sF",      -- Find surrounding (to the left)
+        highlight = "sh",      -- Highlight surrounding
+        replace = "sr",        -- Replace surrounding
+        update_n_lines = "sn", -- Update `n_lines`
       },
     },
   },
@@ -156,7 +156,7 @@ require("lazy").setup({
           return fn({
             builtin = require("telescope.builtin"),
             themes = require("telescope.themes"),
-            egrepify = require('telescope').extensions.egrepify.egrepify,
+            egrepify = require("telescope").extensions.egrepify.egrepify,
           })
         end
       end
@@ -289,7 +289,7 @@ require("lazy").setup({
       "nvim-telescope/telescope-media-files.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = 'make',
+        build = "make",
       },
       "fdschmidt93/telescope-egrepify.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
@@ -300,13 +300,33 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      require("kirillkomarovich.plugin.treesitter")
+    opts = {
+      {
+        ensure_installed = "all",
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+          disable = function(_, buf)
+            local max_filesize = 200 * 1024 -- 200 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+              return true
+            end
+          end,
+        },
+        indent = { enable = true, disable = { "" } },
+        endwise = { enable = true },
+        autotag = { enable = true },
+      },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts[1])
     end,
     dependencies = {
       "RRethy/nvim-treesitter-endwise",
       "romgrk/nvim-treesitter-context",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "windwp/nvim-ts-autotag",
     },
   },
 
