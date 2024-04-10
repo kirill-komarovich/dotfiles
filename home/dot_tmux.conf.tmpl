@@ -10,11 +10,11 @@ set -g base-index 1
 setw -g pane-base-index 1
 set -g renumber-windows on
 
-# set -g default-terminal "xterm-256color"
-# undercurl support
-set -as terminal-overrides 'xterm-256color:Tc,*:Smulx=\E[4::%p1%dm'
-# underscore colours - needs tmux-3.0
-set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+# Proper colors
+set-option -sa terminal-features ',alacritty:RGB' # Makes sure that colors in tmux are the same as without tmux
+
+# Undercurl
+set -g default-terminal "tmux-256color" # If you don't add this, then neovim :checkhealth will complain. But "alacritty" also works
 set-option -ga terminal-features ",alacritty:usstyle"
 
 # Reduce time to wait for Escape key (for neovim)

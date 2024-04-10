@@ -1,0 +1,62 @@
+[colors.bright]
+black = "#545454"
+blue = "#569cd6"
+cyan = "#56b6c2"
+green = "#608b4e"
+magenta = "#c678dd"
+red = "#f44747"
+white = "#d4d4d4"
+yellow = "#dcdcaa"
+
+[colors.normal]
+black = "#1e1e1e"
+blue = "#569cd6"
+cyan = "#06989a"
+green = "#608b4e"
+magenta = "#c678dd"
+red = "#f44747"
+white = "#d4d4d4"
+yellow = "#d7ba7d"
+
+[colors.primary]
+background = "#1e1e1e"
+foreground = "#d4d4d4"
+
+## [env]
+## TERM = "xterm-256color"
+
+{{ if eq .chezmoi.os "darwin" -}}
+[font]
+size = 12
+{{ end -}}
+
+[font.normal]
+# https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DroidSansMono
+family = "DroidSansM Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "DroidSansM Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "DroidSansM Nerd Font Mono"
+style = "Italic"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+
+{{ $fish_path := "/bin/fish" -}}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
+[shell]
+args = ["-l", "-c", "tmux new -A -s default"]
+program = "{{ $fish_path }}"
+
+[window]
+decorations_theme_variant = "none"
+dynamic_title = true
+opacity = 1
