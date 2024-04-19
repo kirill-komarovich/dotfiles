@@ -6,7 +6,6 @@ require("mason").setup()
 
 mason_config.setup {
   ensure_installed = {
-    "ruby_ls",
     "jsonls",
     "yamlls",
     "dockerls",
