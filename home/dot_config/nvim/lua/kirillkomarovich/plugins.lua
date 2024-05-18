@@ -75,13 +75,22 @@ require("lazy").setup({
   },
 
   {
-    "nvim-tree/nvim-tree.lua",
+    'stevearc/oil.nvim',
     lazy = false,
-    config = function()
-      require("kirillkomarovich.plugin.nvimtree")
-    end,
+    opts = {
+      view_options = {
+        show_hidden = true,
+      },
+      keymaps = {
+        ["<C-p>"] = false,
+        ["+"] = "actions.preview",
+      }
+    },
+    keys = {
+      { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+    },
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons"
     },
   },
 
@@ -167,7 +176,7 @@ require("lazy").setup({
           load(function(telescope)
             telescope.builtin.find_files(telescope.themes.get_dropdown({
               hidden = true,
-              file_ignore_patterns = { "^.git/", "^node_modules/" },
+              file_ignore_patterns = { "^.git/", "^node_modules/", "^tmp/" },
               previewer = false,
             }))
           end),

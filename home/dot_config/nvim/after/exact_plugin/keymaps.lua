@@ -36,6 +36,3 @@ nnoremap("N", "Nzzzv")
 
 -- Paste without adding to register inside visual block
 xnoremap("p", "\"_dP")
-
--- NvimTree
-nnoremap("<C-b>", ":NvimTreeToggle<CR>")
