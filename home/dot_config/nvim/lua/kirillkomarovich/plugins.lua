@@ -14,21 +14,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { "nvim-lua/plenary.nvim", lazy = true },
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = true,
-    config = function()
-      require("kirillkomarovich.plugin.devicons")
-    end,
-  },
-  {
     "Mofiqul/vscode.nvim",
     lazy = false,
     priority = -1000,
     config = function()
       require("kirillkomarovich.plugin.vscode")
-
-      vim.cmd [[colorscheme vscode]]
     end,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    }
   },
   {
     "nvim-lualine/lualine.nvim",
