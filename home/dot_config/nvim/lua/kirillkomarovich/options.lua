@@ -3,7 +3,6 @@ vim.opt.mouse = "a" -- allow the mouse to be used in neovim
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.number = true -- set numbered lines
 vim.opt.relativenumber = true -- set relative numbers
 vim.opt.swapfile = false -- creates a swapfile
@@ -28,10 +27,7 @@ vim.opt.spelllang = "en"
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.g.completeopt = "menu,menuone,noselect"
-
 vim.g.mapleader = " "
-
 
 vim.filetype.add({
   extension = {

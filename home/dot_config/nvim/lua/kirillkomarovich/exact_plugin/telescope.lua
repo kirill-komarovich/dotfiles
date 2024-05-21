@@ -15,7 +15,7 @@ telescope.setup({
         end,
       },
       n = {
-        ["D"] = actions.delete_buffer,
+        ["D"] = "delete_buffer",
         ["tp"] = layout_actions.toggle_preview,
       }
     },

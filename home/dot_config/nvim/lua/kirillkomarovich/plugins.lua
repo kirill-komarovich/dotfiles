@@ -45,23 +45,23 @@ require("lazy").setup({
     }
   },
   {
-    "echasnovski/mini.pairs",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
-    "echasnovski/mini.surround",
-    event = "VeryLazy",
-    opts = {
-      mappings = {
-        add = "sa",            -- Add surrounding in Normal and Visual modes
-        delete = "sd",         -- Delete surrounding
-        find = "sn",           -- Find surrounding (to the right)
-        find_left = "sF",      -- Find surrounding (to the left)
-        highlight = "sh",      -- Highlight surrounding
-        replace = "sr",        -- Replace surrounding
-        update_n_lines = "sn", -- Update `n_lines`
-      },
+    {
+      "echasnovski/mini.nvim",
+      event = "VeryLazy",
+      config = function()
+        require("mini.pairs").setup()
+        require("mini.surround").setup({
+          mappings = {
+            add = "sa",        -- Add surrounding in Normal and Visual modes
+            delete = "sd",     -- Delete surrounding
+            find = "sn",       -- Find surrounding (to the right)
+            find_left = "sF",  -- Find surrounding (to the left)
+            highlight = "sh",  -- Highlight surrounding
+            replace = "sr",    -- Replace surrounding
+            update_n_lines = "sn", -- Update `n_lines`
+          },
+        })
+      end,
     },
   },
   {
@@ -110,17 +110,21 @@ require("lazy").setup({
 
   {
     "hrsh7th/nvim-cmp",
+    priority = 100,
     dependencies = {
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
+
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
       "saadparwaiz1/cmp_luasnip",
+
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-nvim-lsp-signature-help",
+
+      "onsails/lspkind.nvim",
     },
     config = function()
       require("kirillkomarovich.plugin.cmp")

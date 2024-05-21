@@ -1,17 +1,18 @@
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.shortmess:append("c")
+
 local luasnip = require("luasnip")
 
 require("luasnip/loaders/from_vscode").lazy_load()
-
 local nvim_create_augroup = vim.api.nvim_create_augroup
 local nvim_create_autocmd = vim.api.nvim_create_autocmd
 
 LuasnipGroup = nvim_create_augroup('LuasnipGroup', { clear = true })
-
 -- Stop snippets when you leave to normal mode
 nvim_create_autocmd("ModeChanged", {
   pattern = "*",
   group = LuasnipGroup,
-  callback = function ()
+  callback = function()
     if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
         and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
         and not luasnip.session.jump_active then
@@ -24,34 +25,6 @@ local check_backspace = function()
   local col = vim.fn.col "." - 1
   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
-
-local kind_icons = {
-  Text = "󰊄",
-  Method = "m",
-  Function = "󰊕",
-  Constructor = "",
-  Field = "",
-  Variable = "󰫧",
-  Class = "",
-  Interface = "",
-  Module = "",
-  Property = "",
-  Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "󰌆",
-  Snippet = "",
-  Color = "󰉦",
-  File = "󰈔",
-  Reference = "",
-  Folder = "󰉋",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = "",
-}
 
 local cmp = require("cmp")
 
@@ -125,26 +98,22 @@ cmp.setup({
     { name = "path" },
   },
   formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item)
-      vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-      vim_item.menu = ({
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[Lua]",
-        luasnip = "[Snippet]",
-        buffer = "[Buffer]",
-        path = "[Path]",
-      })[entry.source.name]
-      return vim_item
-    end,
+    format = require("lspkind").cmp_format({
+      mode = "symbol_text",
+      show_labelDetails = true,
+      maxwidth = 50,
+      before = function (entry, vim_item)
+        if entry.source.name == "nvim_lsp" then
+          vim_item.menu = "[" .. entry.source.source.client.name .. "]"
+        end
+
+        return vim_item
+      end
+    }),
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
-  },
-  experimental = {
-    ghost_text = false,
-    native_menu = false,
   },
 })
 
@@ -159,9 +128,10 @@ cmp.setup.cmdline("/", {
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
-    { name = "path" }
+    { name = "path" },
   }, {
     { name = "cmdline" },
     { name = "cmdline_history" },
+    { name = "buffer" },
   })
 })
