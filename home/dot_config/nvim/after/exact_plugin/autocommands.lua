@@ -36,12 +36,7 @@ autocmd({ "FileType" }, {
 
     oil_inited = true
 
-    local buffer_name = vim.api.nvim_buf_get_name(0)
-    local ending = ".local/share/chezmoi/"
-
-    if buffer_name:sub(-#ending) == ending then
-      require("oil.actions").tcd.callback()
-    end
+    require("oil.actions").tcd.callback()
   end
 })
 
