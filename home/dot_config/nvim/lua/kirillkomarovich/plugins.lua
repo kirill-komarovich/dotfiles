@@ -137,6 +137,10 @@ require("lazy").setup({
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "nvimtools/none-ls.nvim",
+      "nvimtools/none-ls-extras.nvim",
+      "davidmh/cspell.nvim",
+      "jay-babu/mason-null-ls.nvim",
     },
   },
 

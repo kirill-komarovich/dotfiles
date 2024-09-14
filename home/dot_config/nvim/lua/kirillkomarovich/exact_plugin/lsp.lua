@@ -9,7 +9,7 @@ mason_config.setup {
     "jsonls",
     "yamlls",
     "dockerls",
-    "elixirls",
+    -- "elixirls",
     "tailwindcss",
     "tsserver",
     "lua_ls",
@@ -161,4 +161,28 @@ mason_config.setup_handlers({
 require("lspconfig").gdscript.setup({
   on_attach = handlers.on_attach,
   capabilities = handlers.capabilities,
+})
+
+local null_ls = require("null-ls")
+
+null_ls.setup()
+
+require("mason-null-ls").setup({
+  ensure_installed = {
+    "cspell",
+  },
+  handlers = {
+    require("mason-null-ls").default_setup,
+    cspell = function(source_name, methods)
+      print(source_name)
+      print(vim.inspect(methods))
+
+      null_ls.register(require("cspell").diagnostics)
+      null_ls.register(require("cspell").code_actions)
+    end,
+    gdtoolkit = function()
+      null_ls.register(null_ls.builtins.diagnostics.gdlint)
+      null_ls.register(null_ls.builtins.formatting.gdformat.with({ extra_args = { "--use-spaces=2" } }))
+    end,
+  },
 })
