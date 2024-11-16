@@ -35,7 +35,6 @@ require("lazy").setup({
       options = {
         theme = "vscode",
       },
-      extensions = { "nvim-tree" }
     }
   },
   {
