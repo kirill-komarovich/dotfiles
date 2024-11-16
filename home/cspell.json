@@ -1,0 +1,5 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "dictionaries": ["en_US", "softwareTerms", "typescript", "ruby", "html", "css", "filetypes"]
+}
