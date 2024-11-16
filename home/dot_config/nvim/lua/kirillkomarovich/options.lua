@@ -20,7 +20,6 @@ vim.opt.cursorline = true -- highlight the current line
 vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 vim.opt.colorcolumn = "81,120" -- rulers
-vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 1 -- Give more space for displaying messages.
 vim.opt.spelllang = "en"
 -- disable netrw
