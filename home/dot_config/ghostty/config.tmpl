@@ -1,0 +1,14 @@
+theme = Seti
+
+# https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DroidSansMono
+font-family = "DroidSansM Nerd Font Mono"
+font-size = 16
+
+shell-integration = fish
+
+{{ $fish_path := "/bin/fish" -}}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
+initial-command = {{ $fish_path }} -l -c "tmux new -A -s default"
