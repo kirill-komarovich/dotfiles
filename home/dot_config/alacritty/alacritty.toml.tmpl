@@ -52,7 +52,9 @@ key = "F11"
 {{   $fish_path = "/opt/homebrew/bin/fish" -}}
 {{ end -}}
 
-[shell]
+[terminal]
+
+[terminal.shell]
 args = ["-l", "-c", "tmux new -A -s default"]
 program = "{{ $fish_path }}"
 
