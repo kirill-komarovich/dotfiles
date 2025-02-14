@@ -9,7 +9,6 @@ mason_config.setup {
     "jsonls",
     "yamlls",
     "dockerls",
-    "lexical",
     "tailwindcss",
     "ts_ls",
     "lua_ls",
