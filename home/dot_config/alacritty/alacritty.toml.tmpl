@@ -51,8 +51,9 @@ key = "F11"
 {{   $fish_path = "/opt/homebrew/bin/fish" -}}
 {{ end -}}
 
-[terminal]
-shell = "{{ $fish_path }} -l -c tmux new -A -s default"
+[terminal.shell]
+program = "{{ $fish_path }}"
+args = ["-l", "-c tmux new -A -s default"]
 
 [window]
 decorations_theme_variant = "none"
