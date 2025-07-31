@@ -1,3 +1,18 @@
+P = function(value)
+  print(vim.inspect(value))
+  return value
+end
+
+RELOAD = function(name)
+  return require("plenary.reload").reload_module(name)
+end
+
+R = function(name)
+  RELOAD(name)
+  return require(name)
+end
+
+
 -- :help options
 vim.opt.mouse = "a" -- allow the mouse to be used in neovim
 vim.opt.encoding = "utf-8"
@@ -34,5 +49,13 @@ vim.filetype.add({
   },
   filename = {
     Dangerfile = "ruby",
+    Fastfile = "ruby",
+    Appfile = "ruby",
+    Pluginfile = "ruby",
   },
+  pattern = {
+    ["Dockerfile%..*"] = "dockerfile",
+  }
 })
+
+require("kirillkomarovich.plugins")
