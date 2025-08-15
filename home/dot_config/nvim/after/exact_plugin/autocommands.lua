@@ -1,7 +1,7 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local nvim_command = vim.api.nvim_command
-local nnoremap = require("kirillkomarovich.remap").nnoremap
+local noremap = require("kirillkomarovich.remap").noremap
 
 -- Trim Whitespaces at the end of line
 -- Trim blank lines at the end of file
@@ -49,7 +49,7 @@ autocmd({ "FileType" }, {
       print("Copied path: " .. relative_path)
     end
 
-    nnoremap("Y", copy_file_path, { buffer = true })
+    noremap("n", "Y", copy_file_path, { buffer = true })
 
     if not oil_inited then
       oil_inited = true

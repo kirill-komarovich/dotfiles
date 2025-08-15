@@ -20,10 +20,16 @@ local function bind(mode, outer_opts)
   end
 end
 
+M.map = vim.keymap.set
+M.noremap = function(mode, lhs, rhs, opts)
+  opts = vim.tbl_extend("force",
+    { noremap = true },
+    opts or {}
+  )
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 M.nmap = bind("n", { noremap = false })
 M.nnoremap = bind("n")
 M.vnoremap = bind("v")
-M.xnoremap = bind("x")
-M.inoremap = bind("i")
 
 return M
