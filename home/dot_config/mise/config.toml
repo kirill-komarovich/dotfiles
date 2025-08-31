@@ -1,12 +1,5 @@
-[plugins]
-gitui = "https://github.com/looztra/asdf-gitui"
-neovim = "https://github.com/richin13/asdf-neovim"
-ripgrep = "https://gitlab.com/wt0f/asdf-ripgrep"
-fzf = "https://github.com/kompiro/asdf-fzf"
-fd = "https://gitlab.com/wt0f/asdf-fd"
-tmux = "https://github.com/aphecetche/asdf-tmux.git"
-
-erlang = "https://github.com/asdf-vm/asdf-erlang.git"
+[alias]
+gitui = "github:gitui-org/gitui"
 
 [tools]
 gitui = "0.27.0"
@@ -28,4 +21,11 @@ bat = "latest"
 k9s = "latest"
 zig = "0.14.0"
 rust = "1.88.0"
-python = "3"
+[tools."github:bitwarden/clients"]
+version = "cli-v2025.8.0"
+version_prefix = "cli-v"
+asset_pattern = "bw-macos-arm64-*.zip"
+bin = "bw"
+
+[settings]
+experimental = true
