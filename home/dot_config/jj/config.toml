@@ -1,0 +1,7 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[ui]
+editor = "nvim"
+
+[git]
+push-new-bookmarks = true
