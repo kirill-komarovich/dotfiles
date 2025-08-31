@@ -14,29 +14,29 @@ end
 
 
 -- :help options
-vim.opt.mouse = "a" -- allow the mouse to be used in neovim
-vim.opt.encoding = "utf-8"
-vim.opt.fileencoding = "utf-8" -- the encoding written to a file
-vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.number = true -- set numbered lines
-vim.opt.relativenumber = true -- set relative numbers
-vim.opt.swapfile = false -- creates a swapfile
-vim.opt.smartcase = true -- smart case
-vim.opt.smartindent = true -- make indenting smarter again
-vim.opt.splitbelow = true -- force all horizontal splits to go below current window
-vim.opt.splitright = true -- force all vertical splits to go to the right of current window
-vim.opt.showtabline = 2 -- always show tabs
-vim.opt.tabstop = 2 -- insert 2 spaces for a tab
-vim.opt.softtabstop = 2
-vim.opt.expandtab = true -- convert tabs to spaces
-vim.opt.fileformat = "unix" -- This gives the <EOL> of the current buffer
-vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
-vim.opt.cursorline = true -- highlight the current line
-vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
-vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
-vim.opt.colorcolumn = "81,120" -- rulers
-vim.opt.cmdheight = 1 -- Give more space for displaying messages.
-vim.opt.spelllang = "en"
+vim.o.mouse = "a" -- allow the mouse to be used in neovim
+vim.o.encoding = "utf-8"
+vim.o.fileencoding = "utf-8" -- the encoding written to a file
+vim.o.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+vim.o.number = true -- set numbered lines
+vim.o.relativenumber = true -- set relative numbers
+vim.o.swapfile = false -- creates a swapfile
+vim.o.smartcase = true -- smart case
+vim.o.smartindent = true -- make indenting smarter again
+vim.o.splitbelow = true -- force all horizontal splits to go below current window
+vim.o.splitright = true -- force all vertical splits to go to the right of current window
+vim.o.showtabline = 2 -- always show tabs
+vim.o.tabstop = 2 -- insert 2 spaces for a tab
+vim.o.softtabstop = 2
+vim.o.expandtab = true -- convert tabs to spaces
+vim.o.fileformat = "unix" -- This gives the <EOL> of the current buffer
+vim.o.shiftwidth = 2 -- the number of spaces inserted for each indentation
+vim.o.cursorline = true -- highlight the current line
+vim.o.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
+vim.o.conceallevel = 0 -- so that `` is visible in markdown files
+vim.o.colorcolumn = "81,120" -- rulers
+vim.o.cmdheight = 1 -- Give more space for displaying messages.
+vim.o.spelllang = "en"
 -- disable netrw
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
