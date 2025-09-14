@@ -75,6 +75,26 @@ config.keys = {
     action = term.action.CloseCurrentTab({ confirm = false })
   },
   {
+    key = "LeftArrow",
+    mods = "ALT",
+    action = term.action.ActivateTabRelative(-1),
+  },
+  {
+    key = "h",
+    mods = "ALT",
+    action = term.action.ActivateTabRelative(-1),
+  },
+  {
+    key = "RightArrow",
+    mods = "ALT",
+    action = term.action.ActivateTabRelative(1),
+  },
+  {
+    key = "l",
+    mods = "ALT",
+    action = term.action.ActivateTabRelative(1),
+  },
+  {
     key = "-",
     mods = "SUPER",
     action = term.action.SplitPane({
