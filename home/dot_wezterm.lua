@@ -114,6 +114,26 @@ config.keys = {
     mods = "SUPER",
     action = term.action.CloseCurrentPane({ confirm = false }),
   },
+  {
+    key = "H",
+    mods = "SUPER",
+    action = term.action.AdjustPaneSize({ "Left", 2 }),
+  },
+  {
+    key = "J",
+    mods = "SUPER",
+    action = term.action.AdjustPaneSize({ "Down", 2 }),
+  },
+  {
+    key = "K",
+    mods = "SUPER",
+    action = term.action.AdjustPaneSize({ "Up", 2 })
+  },
+  {
+    key = "L",
+    mods = "SUPER",
+    action = term.action.AdjustPaneSize({ "Right", 2 }),
+  },
 }
 
 term.on("gui-startup", function()
