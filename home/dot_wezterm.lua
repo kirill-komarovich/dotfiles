@@ -109,8 +109,12 @@ config.keys = {
     mods = "SUPER",
     action = term.action.ActivatePaneDirection("Down"),
   },
+  {
+    key = "x",
+    mods = "SUPER",
+    action = term.action.CloseCurrentPane({ confirm = false }),
+  },
 }
-
 
 term.on("gui-startup", function()
   local _tab, _pane, window = term.mux.spawn_window({})
