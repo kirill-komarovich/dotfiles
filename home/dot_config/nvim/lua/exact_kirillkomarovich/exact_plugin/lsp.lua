@@ -16,11 +16,6 @@ mason_config.setup {
 }
 
 local lang_settings = {
-  elixirls = {
-    cmd = {
-      vim.fn.resolve(require("mason-core.package").get_install_path({}) .. "/" .. "elixir-ls/language_server.sh")
-    }
-  },
   lua_ls = {
     settings = {
       Lua = {
