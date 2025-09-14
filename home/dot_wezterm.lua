@@ -33,6 +33,21 @@ config.debug_key_events = true
 config.leader = { key = 'SUPER' }
 config.keys = {
   {
+    key = "=",
+    mods = "SUPER",
+    action = term.action.IncreaseFontSize
+  },
+  {
+    key = "+",
+    mods = "SUPER",
+    action = term.action.DecreaseFontSize
+  },
+  {
+    key = "0",
+    mods = "SUPER",
+    action = term.action.ResetFontSize
+  },
+  {
     key = "p",
     mods = "SUPER",
     action = term.action.ShowLauncherArgs({
