@@ -69,6 +69,52 @@ config.keys = {
       top_level = true,
     }),
   },
+  {
+    key = "LeftArrow",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Left"),
+  },
+  {
+    key = "h",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Left"),
+  },
+  {
+    key = "RightArrow",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Right"),
+  },
+  {
+    key = "l",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Right"),
+  },
+  {
+    key = "UpArrow",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Up"),
+  },
+  {
+    key = "k",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Up"),
+  },
+  {
+    key = "DownArrow",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Down"),
+  },
+  {
+    key = "j",
+    mods = "SUPER",
+    action = term.action.ActivatePaneDirection("Down"),
+  },
 }
+
+
+term.on("gui-startup", function()
+  local _tab, _pane, window = term.mux.spawn_window({})
+  window:gui_window():maximize()
+end)
 
 return config
