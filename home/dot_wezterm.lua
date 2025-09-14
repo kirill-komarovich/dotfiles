@@ -33,6 +33,11 @@ config.debug_key_events = true
 config.leader = { key = 'SUPER' }
 config.keys = {
   {
+    key = "R",
+    mods = "SUPER|SHIFT",
+    action = term.action.ReloadConfiguration
+  },
+  {
     key = "=",
     mods = "SUPER",
     action = term.action.IncreaseFontSize
