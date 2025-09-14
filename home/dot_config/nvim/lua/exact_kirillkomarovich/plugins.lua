@@ -45,12 +45,12 @@ require("lazy").setup({
         require("mini.pairs").setup()
         require("mini.surround").setup({
           mappings = {
-            add = "sa",        -- Add surrounding in Normal and Visual modes
-            delete = "sd",     -- Delete surrounding
-            find = "sn",       -- Find surrounding (to the right)
-            find_left = "sF",  -- Find surrounding (to the left)
-            highlight = "sh",  -- Highlight surrounding
-            replace = "sr",    -- Replace surrounding
+            add = "sa",            -- Add surrounding in Normal and Visual modes
+            delete = "sd",         -- Delete surrounding
+            find = "sn",           -- Find surrounding (to the right)
+            find_left = "sF",      -- Find surrounding (to the left)
+            highlight = "sh",      -- Highlight surrounding
+            replace = "sr",        -- Replace surrounding
             update_n_lines = "sn", -- Update `n_lines`
           },
         })
@@ -134,8 +134,8 @@ require("lazy").setup({
       require("kirillkomarovich.plugin.lsp")
     end,
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      { "mason-org/mason.nvim", version = "^1.0.0" },
+      { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
       "nvimtools/none-ls.nvim",
       "nvimtools/none-ls-extras.nvim",
       "davidmh/cspell.nvim",
