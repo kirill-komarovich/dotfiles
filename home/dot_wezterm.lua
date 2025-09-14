@@ -32,163 +32,35 @@ config.command_palette_font_size = FONT_SIZE + 6
 config.debug_key_events = true
 config.leader = { key = 'SUPER' }
 config.keys = {
-  {
-    key = "R",
-    mods = "SUPER|SHIFT",
-    action = term.action.ReloadConfiguration
-  },
-  {
-    key = "=",
-    mods = "SUPER",
-    action = term.action.IncreaseFontSize
-  },
-  {
-    key = "+",
-    mods = "SUPER",
-    action = term.action.DecreaseFontSize
-  },
-  {
-    key = "0",
-    mods = "SUPER",
-    action = term.action.ResetFontSize
-  },
-  {
-    key = "p",
-    mods = "SUPER",
-    action = term.action.ShowLauncherArgs({
-      flags = "WORKSPACES",
-    }),
-  },
-  {
-    key = "Enter",
-    mods = "SUPER",
-    action = term.action.ActivateCopyMode
-  },
-  {
-    key = "t",
-    mods = "SUPER",
-    action = term.action.SpawnTab("CurrentPaneDomain")
-  },
-  {
-    key = "w",
-    mods = "SUPER",
-    action = term.action.CloseCurrentTab({ confirm = false })
-  },
-  {
-    key = "LeftArrow",
-    mods = "ALT",
-    action = term.action.ActivateTabRelative(-1),
-  },
-  {
-    key = "h",
-    mods = "ALT",
-    action = term.action.ActivateTabRelative(-1),
-  },
-  {
-    key = "RightArrow",
-    mods = "ALT",
-    action = term.action.ActivateTabRelative(1),
-  },
-  {
-    key = "l",
-    mods = "ALT",
-    action = term.action.ActivateTabRelative(1),
-  },
-  {
-    key = "-",
-    mods = "SUPER",
-    action = term.action.SplitPane({
-      direction = "Down",
-    }),
-  },
-  {
-    key = "_",
-    mods = "SUPER|SHIFT",
-    action = term.action.SplitPane({
-      direction = "Down",
-      top_level = true,
-    }),
-  },
-  {
-    key = "\\",
-    mods = "SUPER",
-    action = term.action.SplitPane({
-      direction = "Right",
-    }),
-  },
-  {
-    key = "|",
-    mods = "SUPER|SHIFT",
-    action = term.action.SplitPane({
-      direction = "Right",
-      top_level = true,
-    }),
-  },
-  {
-    key = "LeftArrow",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Left"),
-  },
-  {
-    key = "h",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Left"),
-  },
-  {
-    key = "RightArrow",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Right"),
-  },
-  {
-    key = "l",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Right"),
-  },
-  {
-    key = "UpArrow",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Up"),
-  },
-  {
-    key = "k",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Up"),
-  },
-  {
-    key = "DownArrow",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Down"),
-  },
-  {
-    key = "j",
-    mods = "SUPER",
-    action = term.action.ActivatePaneDirection("Down"),
-  },
-  {
-    key = "x",
-    mods = "SUPER",
-    action = term.action.CloseCurrentPane({ confirm = false }),
-  },
-  {
-    key = "H",
-    mods = "SUPER",
-    action = term.action.AdjustPaneSize({ "Left", 2 }),
-  },
-  {
-    key = "J",
-    mods = "SUPER",
-    action = term.action.AdjustPaneSize({ "Down", 2 }),
-  },
-  {
-    key = "K",
-    mods = "SUPER",
-    action = term.action.AdjustPaneSize({ "Up", 2 })
-  },
-  {
-    key = "L",
-    mods = "SUPER",
-    action = term.action.AdjustPaneSize({ "Right", 2 }),
-  },
+  { key = "R", mods = "SUPER|SHIFT", action = term.action.ReloadConfiguration },
+  { key = "=", mods = "SUPER", action = term.action.IncreaseFontSize },
+  { key = "+", mods = "SUPER", action = term.action.DecreaseFontSize },
+  { key = "0", mods = "SUPER", action = term.action.ResetFontSize },
+  { key = "p", mods = "SUPER", action = term.action.ShowLauncherArgs({ flags = "WORKSPACES" }), },
+  { key = "Enter", mods = "SUPER", action = term.action.ActivateCopyMode },
+  { key = "t", mods = "SUPER", action = term.action.SpawnTab("CurrentPaneDomain") },
+  { key = "w", mods = "SUPER", action = term.action.CloseCurrentTab({ confirm = false }) },
+  { key = "LeftArrow", mods = "ALT", action = term.action.ActivateTabRelative(-1) },
+  { key = "h", mods = "ALT", action = term.action.ActivateTabRelative(-1) },
+  { key = "RightArrow", mods = "ALT", action = term.action.ActivateTabRelative(1) },
+  { key = "l", mods = "ALT", action = term.action.ActivateTabRelative(1) },
+  { key = "-", mods = "SUPER", action = term.action.SplitPane({ direction = "Down" }) },
+  { key = "_", mods = "SUPER|SHIFT", action = term.action.SplitPane({ direction = "Down", top_level = true }) },
+  { key = "\\", mods = "SUPER", action = term.action.SplitPane({ direction = "Right" }) },
+  { key = "|", mods = "SUPER|SHIFT", action = term.action.SplitPane({ direction = "Right", top_level = true }) },
+  { key = "LeftArrow", mods = "SUPER", action = term.action.ActivatePaneDirection("Left") },
+  { key = "h", mods = "SUPER", action = term.action.ActivatePaneDirection("Left") },
+  { key = "RightArrow", mods = "SUPER", action = term.action.ActivatePaneDirection("Right") },
+  { key = "l", mods = "SUPER", action = term.action.ActivatePaneDirection("Right") },
+  { key = "UpArrow", mods = "SUPER", action = term.action.ActivatePaneDirection("Up") },
+  { key = "k", mods = "SUPER", action = term.action.ActivatePaneDirection("Up") },
+  { key = "DownArrow", mods = "SUPER", action = term.action.ActivatePaneDirection("Down") },
+  { key = "j", mods = "SUPER", action = term.action.ActivatePaneDirection("Down") },
+  { key = "x", mods = "SUPER", action = term.action.CloseCurrentPane({ confirm = false }) },
+  { key = "H", mods = "SUPER", action = term.action.AdjustPaneSize({ "Left", 2 }) },
+  { key = "J", mods = "SUPER", action = term.action.AdjustPaneSize({ "Down", 2 }) },
+  { key = "K", mods = "SUPER", action = term.action.AdjustPaneSize({ "Up", 2 }) },
+  { key = "L", mods = "SUPER", action = term.action.AdjustPaneSize({ "Right", 2 }) },
 }
 
 term.on("gui-startup", function()
