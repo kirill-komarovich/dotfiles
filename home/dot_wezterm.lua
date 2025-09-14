@@ -55,13 +55,18 @@ config.keys = {
     }),
   },
   {
+    key = "Enter",
+    mods = "SUPER",
+    action = term.action.ActivateCopyMode
+  },
+  {
     key = "t",
-    mods = "CMD",
+    mods = "SUPER",
     action = term.action.SpawnTab("CurrentPaneDomain")
   },
   {
     key = "w",
-    mods = "CMD",
+    mods = "SUPER",
     action = term.action.CloseCurrentTab({ confirm = false })
   },
   {
