@@ -40,6 +40,16 @@ config.keys = {
     }),
   },
   {
+    key = "t",
+    mods = "CMD",
+    action = term.action.SpawnTab("CurrentPaneDomain")
+  },
+  {
+    key = "w",
+    mods = "CMD",
+    action = term.action.CloseCurrentTab({ confirm = false })
+  },
+  {
     key = "-",
     mods = "SUPER",
     action = term.action.SplitPane({
