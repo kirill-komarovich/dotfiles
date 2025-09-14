@@ -33,30 +33,37 @@ config.debug_key_events = true
 config.leader = { key = 'SUPER' }
 config.keys = {
   {
-    key = '-',
-    mods = 'LEADER',
+    key = "p",
+    mods = "SUPER",
+    action = term.action.ShowLauncherArgs({
+      flags = "WORKSPACES",
+    }),
+  },
+  {
+    key = "-",
+    mods = "SUPER",
     action = term.action.SplitPane({
       direction = "Down",
     }),
   },
   {
-    key = '_',
-    mods = 'LEADER|SHIFT',
+    key = "_",
+    mods = "SUPER|SHIFT",
     action = term.action.SplitPane({
       direction = "Down",
       top_level = true,
     }),
   },
   {
-    key = '\\',
-    mods = 'LEADER',
+    key = "\\",
+    mods = "SUPER",
     action = term.action.SplitPane({
       direction = "Right",
     }),
   },
   {
-    key = '|',
-    mods = 'LEADER|SHIFT',
+    key = "|",
+    mods = "SUPER|SHIFT",
     action = term.action.SplitPane({
       direction = "Right",
       top_level = true,
