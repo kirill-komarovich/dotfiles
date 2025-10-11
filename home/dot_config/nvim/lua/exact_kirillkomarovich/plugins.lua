@@ -405,9 +405,6 @@ require("lazy").setup({
         autotag = { enable = true },
       },
     },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts[1])
-    end,
     dependencies = {
       "RRethy/nvim-treesitter-endwise",
       "romgrk/nvim-treesitter-context",
