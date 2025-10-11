@@ -58,10 +58,33 @@ autocmd({ "FileType" }, {
   end
 })
 
-autocmd({ "BufWritePost" }, {
-  pattern = "plugins.lua",
-  group = augroup("packages", { clear = true }),
-  callback = function()
-    require("lazy").sync()
+autocmd({ "LspAttach" }, {
+  group = augroup("lsp-attach", { clear = true }),
+  callback = function(args)
+    local lsp_opts = { silent = true, buffer = args.buf }
+
+    noremap("n", "grr", function()
+      require("telescope.builtin").lsp_references()
+    end, lsp_opts)
+
+    noremap("n", "gri", function()
+      require("telescope.builtin").lsp_implementations()
+    end, lsp_opts)
+
+    noremap("n", "<leader>f", function()
+      vim.lsp.buf.format({ async = true })
+    end, lsp_opts)
+
+
+    local diagnostic_opts = { silent = true }
+    noremap("n", "<leader>e", vim.diagnostic.open_float, diagnostic_opts)
+    noremap("n", "<leader>ld", function()
+      require("telescope.builtin").diagnostics()
+    end, diagnostic_opts)
+    noremap("n", "<leader>d", function()
+      require("telescope.builtin").diagnostics({ bufnr = args.buf })
+    end, diagnostic_opts)
+
+    noremap("n", "<leader>q", vim.diagnostic.setloclist, diagnostic_opts)
   end,
 })

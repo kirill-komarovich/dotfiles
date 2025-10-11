@@ -124,35 +124,6 @@ require("lazy").setup({
     end
   },
 
-  -- LSP
-  {
-    "neovim/nvim-lspconfig",
-    lazy = true,
-    event = { "BufReadPre", "BufNewFile" },
-    cmd = "Mason",
-    config = function()
-      require("kirillkomarovich.plugin.lsp")
-    end,
-    dependencies = {
-      { "mason-org/mason.nvim", version = "^1.0.0" },
-      { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
-      "nvimtools/none-ls.nvim",
-      "nvimtools/none-ls-extras.nvim",
-      "davidmh/cspell.nvim",
-      "jay-babu/mason-null-ls.nvim",
-    },
-  },
-
-  {
-    "rgroli/other.nvim",
-    cmd = "Other",
-    opts = {
-      mappings = {
-        "rails",
-      },
-    }
-  },
-
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -305,6 +276,112 @@ require("lazy").setup({
       "nvim-telescope/telescope-ui-select.nvim",
     },
   },
+
+  -- LSP
+  {
+    "mason-org/mason-lspconfig.nvim",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
+    config = function(opts)
+      require("mason-lspconfig").setup(opts)
+
+      vim.lsp.config("jsonls", {
+        settings = {
+          json = {
+            schemas = {
+              {
+                description = "TypeScript compiler configuration file",
+                fileMatch = {
+                  "tsconfig.json",
+                  "tsconfig.*.json",
+                },
+                url = "https://json.schemastore.org/tsconfig.json",
+              },
+              {
+                description = "Babel configuration",
+                fileMatch = {
+                  ".babelrc.json",
+                  ".babelrc",
+                  "babel.config.json",
+                },
+                url = "https://json.schemastore.org/babelrc.json",
+              },
+              {
+                description = "ESLint config",
+                fileMatch = {
+                  ".eslintrc.json",
+                  ".eslintrc",
+                },
+                url = "https://json.schemastore.org/eslintrc.json",
+              },
+              {
+                description = "Prettier config",
+                fileMatch = {
+                  ".prettierrc",
+                  ".prettierrc.json",
+                  "prettier.config.json",
+                },
+                url = "https://json.schemastore.org/prettierrc",
+              },
+              {
+                description = "Stylelint config",
+                fileMatch = {
+                  ".stylelintrc",
+                  ".stylelintrc.json",
+                  "stylelint.config.json",
+                },
+                url = "https://json.schemastore.org/stylelintrc",
+              },
+              {
+                description = "NPM configuration file",
+                fileMatch = { "package.json" },
+                url = "https://json.schemastore.org/package.json",
+              },
+              {
+                description = "Chrome Extension Manifest",
+                fileMatch = { "manifest.json" },
+                url = "https://json.schemastore.org/chrome-manifest.json",
+              },
+            },
+          },
+        },
+      })
+
+      vim.lsp.config("yamlls", {
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
+                "docker-compose.yml",
+                "docker-compose.yaml",
+                "docker-compose.*.yml",
+                "docker-compose.*.yaml",
+              },
+            },
+          },
+        },
+      })
+
+      vim.lsp.config("tailwindcss", {
+        settings = {
+          tailwindCSS = {
+            classAttributes = { "class", "className", "ngClass", "\\w+_CLASSES", "classes" },
+            includeLanguages = {
+              rust = "html",
+            },
+          },
+        },
+      })
+
+      vim.lsp.config("gdscript", {
+        cmd = { "gdscript-language-server", "--stdio" },
+      })
+    end,
+  },
+
 
   -- Treesitter
   {
