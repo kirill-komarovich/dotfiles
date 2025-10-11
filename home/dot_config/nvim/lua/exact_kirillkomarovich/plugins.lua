@@ -267,7 +267,6 @@ require("lazy").setup({
     end,
     cmd = "Telescope",
     dependencies = {
-      "nvim-telescope/telescope-media-files.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
