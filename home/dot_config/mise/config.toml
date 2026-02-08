@@ -20,6 +20,7 @@ erlang = "28"
 elixir = "1.19.3-otp-28"
 yazi = "latest"
 ruby = "3.4.6"
+"go:github.com/glebglazov/pop" = "latest"
 
 [tools."github:bitwarden/clients"]
 version = "cli-v2025.8.0"
