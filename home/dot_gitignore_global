@@ -4,3 +4,4 @@
 .vscode
 .project_layout.sh
 .mise.toml
+.claude/settings.local.json
