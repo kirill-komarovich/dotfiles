@@ -1,8 +1,5 @@
-[alias]
-gitui = "github:gitui-org/gitui"
-
 [tools]
-gitui = "0.27.0"
+gitui = "latest"
 neovim = "latest"
 ripgrep = "latest"
 fzf = "latest"
@@ -11,22 +8,21 @@ dust = "latest"
 usage = "latest"
 tmux = "latest"
 node = "latest"
-ruby = "3.4.5"
-erlang = "28.0.2"
-elixir = "1.18.4-otp-28"
 java = "openjdk-17"
 go = "latest"
 tokei = "12.1.2"
 bat = "latest"
 k9s = "latest"
 zig = "0.14.0"
-rust = "1.88.0"
+rust = "latest"
+typst = "latest"
+erlang = "28"
+elixir = "1.19.3-otp-28"
+yazi = "latest"
+ruby = "3.4.6"
+
 [tools."github:bitwarden/clients"]
 version = "cli-v2025.8.0"
 version_prefix = "cli-v"
 asset_pattern = "bw-macos-arm64-*.zip"
 bin = "bw"
-
-[settings]
-experimental = true
-idiomatic_version_file_enable_tools = ["ruby"]
