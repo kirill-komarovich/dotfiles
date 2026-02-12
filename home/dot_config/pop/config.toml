@@ -1,0 +1,5 @@
+projects = [
+  { path = "~/.local/share/chezmoi" },
+  { path = "~/projects/*/*", display_depth = 2 },
+]
+exclude_current_dir = false
