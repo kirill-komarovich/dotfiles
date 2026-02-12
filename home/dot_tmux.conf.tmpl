@@ -69,8 +69,7 @@ bind a choose-window 'join-pane -h -s "%%"'
 bind A choose-window 'join-pane -s "%%"'
 
 bind S command-prompt -p "New Session:" "new-session -A -s '%%'"
-bind o display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -E "tmux-windowizer"
-bind O display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -E "tmux-sessionizer"
+bind o display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -E "pop select"
 bind g display-popup -e "PATH=$PATH:$HOME/.local/share/mise/shims" -d "#{pane_current_path}" -h 90% -w 90% -E "EDITOR=\"gitui-editor\" gitui"
 
 set-option -g status-justify left
