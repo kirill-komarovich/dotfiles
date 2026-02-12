@@ -88,3 +88,13 @@ autocmd({ "LspAttach" }, {
     noremap("n", "<leader>q", vim.diagnostic.setloclist, diagnostic_opts)
   end,
 })
+
+autocmd({ "FileType" }, {
+  group = augroup("treesitter", { clear = true }),
+  pattern = { "ruby", "javascript", "javascriptreact", "typescript", "json", "yaml", "elixir", "heex" },
+  callback = function()
+    vim.treesitter.start()
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
