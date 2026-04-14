@@ -109,10 +109,6 @@ require("lazy").setup({
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
 
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-      "saadparwaiz1/cmp_luasnip",
-
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-nvim-lsp-signature-help",
@@ -407,7 +403,6 @@ require("lazy").setup({
     dependencies = {
       "RRethy/nvim-treesitter-endwise",
       "romgrk/nvim-treesitter-context",
-      "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
     },
   },

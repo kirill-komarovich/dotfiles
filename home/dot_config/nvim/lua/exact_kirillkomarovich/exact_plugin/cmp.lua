@@ -1,39 +1,9 @@
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append("c")
 
-local luasnip = require("luasnip")
-
-require("luasnip/loaders/from_vscode").lazy_load()
-local nvim_create_augroup = vim.api.nvim_create_augroup
-local nvim_create_autocmd = vim.api.nvim_create_autocmd
-
-LuasnipGroup = nvim_create_augroup('LuasnipGroup', { clear = true })
--- Stop snippets when you leave to normal mode
-nvim_create_autocmd("ModeChanged", {
-  pattern = "*",
-  group = LuasnipGroup,
-  callback = function()
-    if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
-        and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
-        and not luasnip.session.jump_active then
-      luasnip.unlink_current()
-    end
-  end,
-})
-
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
 local cmp = require("cmp")
 
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
   window = {
     documentation = cmp.config.window.bordered(),
   },
@@ -72,28 +42,17 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm { select = true } -- auto select first item
-      elseif luasnip.expandable() then
-        luasnip.expand()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif check_backspace() then
-        fallback()
       else
         fallback()
       end
     end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
+      fallback()
     end, { "i", "s" }),
   },
   sources = {
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
-    { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
   },
@@ -102,7 +61,7 @@ cmp.setup({
       mode = "symbol_text",
       show_labelDetails = true,
       maxwidth = 50,
-      before = function (entry, vim_item)
+      before = function(entry, vim_item)
         if entry.source.name == "nvim_lsp" then
           vim_item.menu = "[" .. entry.source.source.client.name .. "]"
         end
