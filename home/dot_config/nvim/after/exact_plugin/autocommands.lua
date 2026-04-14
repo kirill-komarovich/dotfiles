@@ -91,7 +91,7 @@ autocmd({ "LspAttach" }, {
 
 autocmd({ "FileType" }, {
   group = augroup("treesitter", { clear = true }),
-  pattern = { "ruby", "javascript", "javascriptreact", "typescript", "json", "yaml", "elixir", "heex" },
+  pattern = { "ruby", "javascript", "javascriptreact", "typescript", "json", "yaml", "elixir", "heex", "zig", "gdscript" },
   callback = function()
     vim.treesitter.start()
     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
