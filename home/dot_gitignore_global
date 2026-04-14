@@ -3,5 +3,5 @@
 .tool-versions
 .vscode
 .project_layout.sh
-.mise.toml
+.mise.local.toml
 .claude/settings.local.json
