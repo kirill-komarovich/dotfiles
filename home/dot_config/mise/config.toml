@@ -22,9 +22,3 @@ yazi = "latest"
 ruby = "4.0.1"
 "go:github.com/glebglazov/pop" = "latest"
 lazygit = "latest"
-
-[tools."github:bitwarden/clients"]
-version = "cli-v2025.8.0"
-version_prefix = "cli-v"
-asset_pattern = "bw-macos-arm64-*.zip"
-bin = "bw"
