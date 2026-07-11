@@ -1,0 +1,8 @@
+{{- $profiles := promptStringOnce . "claude_profiles" "Claude profiles (comma-separated)" "personal" -}}
+
+[data]
+claude_profiles = [
+  {{- range $i, $p := splitList "," $profiles }}
+  {{- if $i }},{{ end }} "{{ trim $p }}"
+  {{- end }}
+]

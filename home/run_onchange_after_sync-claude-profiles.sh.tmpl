@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+shared="$HOME/.claude-shared"
+profiles=({{ range .claude_profiles }}{{ . | quote }} {{ end }})
+
+for p in "${profiles[@]}"; do
+  dir="$HOME/.claude-$p"
+  mkdir -p "$dir"
+  for entry in skills CLAUDE.md statusline-command.sh; do
+    target="$shared/$entry"
+    link="$dir/$entry"
+    if [[ -e "$link" || -L "$link" ]] && [[ ! -L "$link" || "$(readlink "$link")" != "$target" ]]; then
+      if [[ ! -L "$link" ]]; then
+        backup="$link.pre-chezmoi.$(date +%Y%m%d%H%M%S).bak"
+        mv "$link" "$backup"
+        echo "backed up $link -> $backup"
+      fi
+    fi
+    ln -sfn "$target" "$link"
+  done
+  echo "synced $dir"
+done
