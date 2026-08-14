@@ -1,0 +1,43 @@
+{{- /* Externals for github.com/mattpocock/skills, one per skill, flattening
+       upstream's category buckets into ~/.agent-shared/skills. */ -}}
+{{- $url := "https://github.com/mattpocock/skills/archive/refs/heads/main.tar.gz" -}}
+{{- $skills := dict
+  "engineering" (list
+    "ask-matt"
+    "code-review"
+    "codebase-design"
+    "diagnosing-bugs"
+    "domain-modeling"
+    "grill-with-docs"
+    "implement"
+    "improve-codebase-architecture"
+    "prototype"
+    "research"
+    "resolving-merge-conflicts"
+    "setup-matt-pocock-skills"
+    "tdd"
+    "to-spec"
+    "to-tickets"
+    "triage"
+    "wayfinder"
+    "wizard")
+  "productivity" (list
+    "grill-me"
+    "grilling"
+    "handoff"
+    "teach"
+    "to-questionnaire"
+    "wait-what"
+    "writing-for-agents") -}}
+{{- range $bucket, $names := $skills }}
+{{- range $names }}
+
+[".agent-shared/skills/{{ . }}"]
+    type = "archive"
+    url = {{ $url | quote }}
+    exact = true
+    stripComponents = 4
+    include = ["skills-main/skills/{{ $bucket }}/{{ . }}/**"]
+    refreshPeriod = "168h"
+{{- end }}
+{{- end }}

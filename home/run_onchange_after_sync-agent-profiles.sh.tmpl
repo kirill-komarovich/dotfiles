@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Every coding agent gets the same skills and instructions out of ~/.agent-shared,
+# linked in under whatever name that agent expects.
+shared="$HOME/.agent-shared"
+
+# Entries are <link name in the agent's config dir>=<entry in $shared>.
+claude_links=(
+  "skills=skills"
+  "CLAUDE.md=AGENTS.md"
+  "statusline-command.sh=statusline-command.sh"
+)
+
+link_into() {
+  local dir="$1"
+  shift
+  mkdir -p "$dir"
+  for pair in "$@"; do
+    local link="$dir/${pair%%=*}"
+    local target="$shared/${pair#*=}"
+    if [[ -e "$link" && ! -L "$link" ]]; then
+      local backup="$link.pre-chezmoi.$(date +%Y%m%d%H%M%S).bak"
+      mv "$link" "$backup"
+      echo "backed up $link -> $backup"
+    fi
+    ln -sfn "$target" "$link"
+  done
+  echo "synced $dir"
+}
+
+profiles=({{ range .claude_profiles }}{{ . | quote }} {{ end }})
+for p in "${profiles[@]}"; do
+  link_into "$HOME/.claude-$p" "${claude_links[@]}"
+done

@@ -1,0 +1,13 @@
+{{- /* Refresh externals on demand with: chezmoi apply --refresh-externals */ -}}
+{{ template "mattpocock-skills-externals" . }}
+
+# The skill is the whole repo root upstream, but its .gitattributes
+# export-ignores everything that isn't skill payload, so the archive arrives
+# clean apart from an empty dist/.
+[".agent-shared/skills/ux-writing-skill"]
+    type = "archive"
+    url = "https://github.com/content-designer/ux-writing-skill/archive/refs/heads/main.tar.gz"
+    exact = true
+    stripComponents = 1
+    exclude = ["ux-writing-skill-main/dist"]
+    refreshPeriod = "168h"
