@@ -16,7 +16,8 @@ require("lazy").setup({
   {
     "Mofiqul/vscode.nvim",
     lazy = false,
-    priority = -1000,
+    -- Must land before anything that defines highlight groups against it.
+    priority = 1000,
     config = function()
       require("kirillkomarovich.plugin.vscode")
     end,
@@ -38,29 +39,32 @@ require("lazy").setup({
     }
   },
   {
-    {
-      "echasnovski/mini.nvim",
-      event = "VeryLazy",
-      config = function()
-        require("mini.pairs").setup()
-        require("mini.surround").setup({
-          mappings = {
-            add = "sa",
-            delete = "sd",
-            find = "sn",
-            find_left = "sF",
-            highlight = "sh",
-            replace = "sr",
-            update_n_lines = "sn",
-          },
-        })
-      end,
-    },
+    "echasnovski/mini.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("mini.pairs").setup()
+      require("mini.surround").setup({
+        mappings = {
+          add = "sa",
+          delete = "sd",
+          find = "sn",
+          find_left = "sF",
+          highlight = "sh",
+          replace = "sr",
+        },
+      })
+    end,
   },
   {
     "numToStr/Comment.nvim",
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
+    },
+    keys = {
+      { "gc", mode = { "n", "x", "o" } },
+      { "gb", mode = { "n", "x", "o" } },
+      { "gcc", mode = "n" },
+      { "gbc", mode = "n" },
     },
     config = function()
       require("kirillkomarovich.plugin.comment")
@@ -89,6 +93,7 @@ require("lazy").setup({
 
   {
     "lukas-reineke/indent-blankline.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       vim.opt.list = true
       vim.opt.listchars:append "space:⋅"
@@ -103,7 +108,7 @@ require("lazy").setup({
 
   {
     "hrsh7th/nvim-cmp",
-    priority = 100,
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -224,6 +229,7 @@ require("lazy").setup({
             vim.cmd('noau normal! "vy"')
             telescope.builtin.current_buffer_fuzzy_find(telescope.themes.get_ivy({ default_text = vim.fn.getreg("v") }))
           end),
+          mode = "v",
           desc = "Find content in current buffer with telescope.current_buffer_fuzzy_find using current selected text",
         },
         {
@@ -275,11 +281,12 @@ require("lazy").setup({
   -- LSP
   {
     "mason-org/mason-lspconfig.nvim",
+    event = "VeryLazy",
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",
     },
-    config = function(opts)
+    config = function(_, opts)
       require("mason-lspconfig").setup(opts)
 
       vim.lsp.config("jsonls", {
@@ -384,11 +391,26 @@ require("lazy").setup({
     branch = 'main',
     build = ':TSUpdate',
     opts = {},
-    dependencies = {
-      "RRethy/nvim-treesitter-endwise",
-      "romgrk/nvim-treesitter-context",
-      "windwp/nvim-ts-autotag",
-    },
+  },
+  {
+    -- Registers its FileType hook on load, so it has to be in place before
+    -- FileType fires for the first buffer.
+    "RRethy/nvim-treesitter-endwise",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+  {
+    "romgrk/nvim-treesitter-context",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
+    -- On nvim-treesitter's main branch the plugin's own init() is a no-op;
+    -- setup() is the only thing that attaches it.
+    opts = {},
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 
   -- Git
@@ -413,6 +435,7 @@ require("lazy").setup({
 
   {
     "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
     config = function()
       require("supermaven-nvim").setup({})
     end,

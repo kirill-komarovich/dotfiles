@@ -3,14 +3,25 @@ local autocmd = vim.api.nvim_create_autocmd
 local nvim_command = vim.api.nvim_command
 local noremap = require("kirillkomarovich.remap").noremap
 
+-- Trailing whitespace is significant in these (markdown hard breaks, diff context).
+local keep_trailing_whitespace = { markdown = true, diff = true, gitcommit = true, gitsendemail = true }
+
 -- Trim Whitespaces at the end of line
 -- Trim blank lines at the end of file
 autocmd({ "BufWritePre" }, {
   pattern = "*",
   group = augroup("general-settings", { clear = true }),
-  callback = function()
-    nvim_command("%s/\\($\\n\\s*\\)\\+\\%$//e")
-    nvim_command("%s/\\s\\+$//e")
+  callback = function(args)
+    if keep_trailing_whitespace[vim.bo[args.buf].filetype] then
+      return
+    end
+
+    -- keeppatterns + winrestview so the write leaves the search register,
+    -- cursor and scroll position untouched.
+    local view = vim.fn.winsaveview()
+    nvim_command("keeppatterns %s/\\($\\n\\s*\\)\\+\\%$//e")
+    nvim_command("keeppatterns %s/\\s\\+$//e")
+    vim.fn.winrestview(view)
   end,
 })
 
@@ -22,6 +33,18 @@ autocmd({ "FileType" }, {
 
     local pairs = require("mini.pairs")
     pairs.map_buf(0, "i", "|", { action = "closeopen", pair = "||" })
+  end
+})
+
+autocmd({ "FileType" }, {
+  group = augroup("gdscript-settings", { clear = true }),
+  pattern = "gdscript",
+  callback = function()
+    vim.cmd.setlocal("indentkeys-=.")
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
   end
 })
 
@@ -94,6 +117,7 @@ autocmd({ "FileType" }, {
   pattern = { "ruby", "javascript", "javascriptreact", "typescript", "json", "yaml", "elixir", "heex", "zig", "gdscript" },
   callback = function()
     vim.treesitter.start()
+    vim.wo.foldmethod = "expr"
     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
