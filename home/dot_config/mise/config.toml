@@ -21,6 +21,10 @@ elixir = "1.20.0-otp-29"
 yazi = "latest"
 ruby = "4.0.5"
 "go:github.com/glebglazov/pop" = "latest"
+"github:basecamp/once" = { version = "latest", postinstall = "sudo $MISE_TOOL_INSTALL_PATH/once background install" }
 fnox = "latest"
 age = "latest"
 bitwarden = "latest"
+
+[tool_alias]
+once = "github:basecamp/once"
