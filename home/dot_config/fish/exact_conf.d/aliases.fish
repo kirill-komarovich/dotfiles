@@ -8,3 +8,5 @@ alias dcl='docker-compose logs -f'
 alias dcchown='sudo chown -R $USER'
 
 alias cdc="cd && clear"
+
+abbr -a e nvim-open

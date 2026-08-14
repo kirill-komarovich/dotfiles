@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# The skill ships inside the binary, so regenerate it whenever the version moves.
+# {{ if lookPath "herdr" }}{{ output "herdr" "--version" | trim }}{{ else }}herdr not installed{{ end }}
+command -v herdr >/dev/null || exit 0
+
+dir="$HOME/.agent-shared/skills/herdr"
+mkdir -p "$dir"
+herdr --skill >"$dir/SKILL.md"
+echo "wrote $dir/SKILL.md"

@@ -1,0 +1,71 @@
+#!/bin/sh
+# $EDITOR entry point: sends files to this project's nvim session when one is
+# running, otherwise edits locally.
+
+[ $# -eq 0 ] && exec nvim
+
+for f in "$@"; do
+  case $f in
+  # Git's temp files must be edited locally and block: the caller reads the
+  # file back once the editor exits, and a remote hand-off returns immediately.
+  .git/* | */.git/* | *COMMIT_EDITMSG | *MERGE_MSG | *TAG_EDITMSG | *git-rebase-todo)
+    exec nvim "$@"
+    ;;
+  # --remote takes plain paths only; it would open a +cmd as a literal file.
+  +* | -*)
+    exec nvim "$@"
+    ;;
+  esac
+done
+
+# nvim's cwd comes from getcwd(), which resolves symlinks, so the socket name
+# has to be built from the physical path too.
+here=$(pwd -P)
+root=$(git rev-parse --show-toplevel 2>/dev/null) || root=$here
+root=$(cd -P "$root" 2>/dev/null && pwd -P) || root=$here
+socket="${XDG_CACHE_HOME:-$HOME/.cache}/nvim/sockets/$(printf %s "$root" | tr / %).pipe"
+
+# --remote silently starts a whole new nvim when the server is unreachable,
+# which looks like it worked but loads the full config. --remote-expr fails
+# fast instead, so probe with it.
+# </dev/null on every --remote-expr: given a tty on stdin the client starts a
+# UI and writes escape sequences to stdout instead of answering.
+if nvim --server "$socket" --remote-expr 1 </dev/null >/dev/null 2>&1; then
+  # The server resolves relative paths against its own cwd, not ours.
+  n=$#
+  for f in "$@"; do
+    case $f in
+    /*) ;;
+    *) f="$here/$f" ;;
+    esac
+    set -- "$@" "$f"
+  done
+  shift "$n"
+  nvim --server "$socket" --remote-silent "$@" || exit $?
+
+  # Bring the session's pane into view. The session knows which pane it lives
+  # in, so ask it rather than matching panes by cwd. Don't gate this on our own
+  # HERDR_* env: a popup exports HERDR_ACTIVE_* instead of HERDR_PANE_ID.
+  pane=$(nvim --server "$socket" --remote-expr '$HERDR_PANE_ID' </dev/null 2>/dev/null)
+  case $pane in
+  ?*:?*)
+    # herdr's API can only focus a *direction*, but zooming focuses a pane by
+    # id and unzooming keeps that focus.
+    herdr pane zoom "$pane" --on >/dev/null 2>&1 &&
+      herdr pane zoom "$pane" --off >/dev/null 2>&1
+    ;;
+  esac
+
+  # A herdr popup isn't a pane, so nothing in the API can dismiss it; it closes
+  # when its command exits. We run as a child of that command, so end it.
+  if [ -n "$HERDR_ACTIVE_PANE_ID" ] && [ -z "$HERDR_PANE_ID" ]; then
+    case $(ps -o comm= -p "$PPID" 2>/dev/null) in
+    "" | *herdr*) ;; # never signal the server itself
+    *) kill "$PPID" 2>/dev/null ;;
+    esac
+  fi
+  exit 0
+fi
+
+rm -f "$socket"
+exec nvim "$@"

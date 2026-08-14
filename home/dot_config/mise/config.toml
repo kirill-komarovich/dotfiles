@@ -25,6 +25,7 @@ ruby = "4.0.5"
 fnox = "latest"
 age = "latest"
 bitwarden = "latest"
+herdr = "latest"
 
 [tool_alias]
 once = "github:basecamp/once"
