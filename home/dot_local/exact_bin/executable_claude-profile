@@ -1,0 +1,27 @@
+#!/bin/sh
+# Invoked through a claude-<profile> symlink; the link name picks the config dir.
+# The name may be any unique prefix, so claude-t reaches ~/.claude-tds.
+
+name=${0##*/}
+profile=${name#claude-}
+dir="$HOME/.claude-$profile"
+
+if [ ! -d "$dir" ]; then
+  dir=
+  for candidate in "$HOME/.claude-$profile"*; do
+    [ -d "$candidate" ] || continue
+    if [ -n "$dir" ]; then
+      echo "$name: '$profile' matches more than one profile" >&2
+      exit 64
+    fi
+    dir=$candidate
+  done
+  if [ -z "$dir" ]; then
+    echo "$name: no claude profile matching '$profile'" >&2
+    exit 64
+  fi
+fi
+
+CLAUDE_CONFIG_DIR="$dir"
+export CLAUDE_CONFIG_DIR
+exec claude "$@"

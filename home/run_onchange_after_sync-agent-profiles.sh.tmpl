@@ -30,6 +30,25 @@ link_into() {
 }
 
 profiles=({{ range .claude_profiles }}{{ . | quote }} {{ end }})
+bin="$HOME/.local/bin"
+mkdir -p "$bin"
+link_launcher() {
+  ln -sfn "$bin/claude-profile" "$bin/claude-$1"
+  echo "synced $bin/claude-$1"
+}
+
+# The dispatcher resolves its own name by prefix, so an initial-only link is
+# worth making whenever no other profile starts with the same letter.
+unique_initial() {
+  local initial="${1:0:1}" seen=0
+  for q in "${profiles[@]}"; do
+    [[ "${q:0:1}" == "$initial" ]] && seen=$((seen + 1))
+  done
+  [[ $seen -eq 1 ]]
+}
+
 for p in "${profiles[@]}"; do
   link_into "$HOME/.claude-$p" "${claude_links[@]}"
+  link_launcher "$p"
+  unique_initial "$p" && link_launcher "${p:0:1}"
 done
