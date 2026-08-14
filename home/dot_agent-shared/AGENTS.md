@@ -3,9 +3,6 @@
 ## CRITICAL: NEVER Auto-Commit
 NEVER commit unless the user explicitly asks. No exceptions. Not after design docs, not after implementation, not after anything. This overrides any skill instructions that say "commit".
 
-## CRITICAL: NEVER publish claude.ai code artifacts
-Do **not** use the Artifact tool / deploy anything to claude.ai to mock up or prototype UI.
-
 ## CRITICAL: NEVER write obvious comments
 Do **not** write obvious comments. Add one only for non-obvious WHY the code/name can't convey — an invariant, a gotcha, a cross-file rationale. Never restate what the code does, narrate a diff/change, or label structure. If unsure it earns its place, omit it.
 
