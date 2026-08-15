@@ -261,106 +261,33 @@ require("lazy").setup({
 
   -- LSP
   {
-    "mason-org/mason-lspconfig.nvim",
-    event = "VeryLazy",
+    -- Contributes lsp/<server>.lua definitions to the runtimepath; nothing
+    -- calls into it. Per-server overrides live in after/lsp/, which is the
+    -- only place that reliably wins over these (see :h lsp-config).
+    "neovim/nvim-lspconfig",
+    lazy = false,
     dependencies = {
+      -- Prepends its bin dir to PATH, which is what makes the bare `cmd` in
+      -- each definition resolve.
       { "mason-org/mason.nvim", opts = {} },
-      "neovim/nvim-lspconfig",
     },
-    config = function(_, opts)
-      require("mason-lspconfig").setup(opts)
-
-      vim.lsp.config("jsonls", {
-        settings = {
-          json = {
-            schemas = {
-              {
-                description = "TypeScript compiler configuration file",
-                fileMatch = {
-                  "tsconfig.json",
-                  "tsconfig.*.json",
-                },
-                url = "https://json.schemastore.org/tsconfig.json",
-              },
-              {
-                description = "Babel configuration",
-                fileMatch = {
-                  ".babelrc.json",
-                  ".babelrc",
-                  "babel.config.json",
-                },
-                url = "https://json.schemastore.org/babelrc.json",
-              },
-              {
-                description = "ESLint config",
-                fileMatch = {
-                  ".eslintrc.json",
-                  ".eslintrc",
-                },
-                url = "https://json.schemastore.org/eslintrc.json",
-              },
-              {
-                description = "Prettier config",
-                fileMatch = {
-                  ".prettierrc",
-                  ".prettierrc.json",
-                  "prettier.config.json",
-                },
-                url = "https://json.schemastore.org/prettierrc",
-              },
-              {
-                description = "Stylelint config",
-                fileMatch = {
-                  ".stylelintrc",
-                  ".stylelintrc.json",
-                  "stylelint.config.json",
-                },
-                url = "https://json.schemastore.org/stylelintrc",
-              },
-              {
-                description = "NPM configuration file",
-                fileMatch = { "package.json" },
-                url = "https://json.schemastore.org/package.json",
-              },
-              {
-                description = "Chrome Extension Manifest",
-                fileMatch = { "manifest.json" },
-                url = "https://json.schemastore.org/chrome-manifest.json",
-              },
-            },
-          },
-        },
-      })
-
-      vim.lsp.config("yamlls", {
-        settings = {
-          yaml = {
-            schemas = {
-              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
-                "docker-compose.yml",
-                "docker-compose.yaml",
-                "docker-compose.*.yml",
-                "docker-compose.*.yaml",
-              },
-            },
-          },
-        },
-      })
-
-      vim.lsp.config("tailwindcss", {
-        settings = {
-          tailwindCSS = {
-            classAttributes = { "class", "className", "ngClass", "\\w+_CLASSES", "classes" },
-            includeLanguages = {
-              rust = "html",
-            },
-          },
-        },
-      })
-
-      vim.lsp.config("gdscript", {
-        cmd = { "gdscript-language-server", "--stdio" },
+    config = function()
+      vim.lsp.enable({
+        "cssls",
+        "dockerls",
+        "eslint",
+        "expert",
+        "gdscript",
+        "gradle_ls",
+        "jsonls",
+        "lua_ls",
+        "rubocop",
+        "ruby_lsp",
+        "tailwindcss",
+        "taplo",
+        "ts_ls",
+        "yamlls",
+        "zls",
       })
     end,
   },
