@@ -16,7 +16,9 @@
       "AskUserQuestion",
       "CronCreate",
       "CronDelete",
-      "CronList"
+      "CronList",
+      "ListAgents",
+      "ShareOnboardingGuide"
     ]
   },
   "model": "opus",
