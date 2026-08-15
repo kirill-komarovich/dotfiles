@@ -57,3 +57,4 @@ vim.filetype.add({
 })
 
 require("kirillkomarovich.plugins")
+require("kirillkomarovich.completion")

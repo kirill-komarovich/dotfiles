@@ -106,25 +106,6 @@ require("lazy").setup({
     end
   },
 
-  {
-    "hrsh7th/nvim-cmp",
-    event = { "InsertEnter", "CmdlineEnter" },
-    dependencies = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-
-      "onsails/lspkind.nvim",
-    },
-    config = function()
-      require("kirillkomarovich.plugin.cmp")
-    end
-  },
-
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
