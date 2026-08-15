@@ -11,6 +11,11 @@ for f in "$@"; do
   .git/* | */.git/* | *COMMIT_EDITMSG | *MERGE_MSG | *TAG_EDITMSG | *git-rebase-todo)
     exec nvim "$@"
     ;;
+  # herdr's prefix+e scrollback dumps are throwaway: handing them to the project
+  # session would leave the buffer list full of transcripts.
+  */herdr-scrollback-*.txt)
+    exec nvim "$@"
+    ;;
   # --remote takes plain paths only; it would open a +cmd as a literal file.
   +* | -*)
     exec nvim "$@"
