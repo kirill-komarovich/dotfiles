@@ -1,6 +1,6 @@
 #!/bin/sh
-# $EDITOR entry point: sends files to this project's nvim session when one is
-# running, otherwise edits locally.
+# $EDITOR entry point: sends files to this project's nvim session, starting one
+# in its own herdr tab when none is running.
 
 [ $# -eq 0 ] && exec nvim
 
@@ -23,6 +23,16 @@ for f in "$@"; do
   esac
 done
 
+# A herdr popup isn't a pane, so nothing in the API can dismiss it; it closes
+# when its command exits. We run as a child of that command, so end it.
+dismiss_popup() {
+  [ -n "$HERDR_ACTIVE_PANE_ID" ] && [ -z "$HERDR_PANE_ID" ] || return 0
+  case $(ps -o comm= -p "$PPID" 2>/dev/null) in
+  "" | *herdr*) ;; # never signal the server itself
+  *) kill "$PPID" 2>/dev/null ;;
+  esac
+}
+
 # nvim's cwd comes from getcwd(), which resolves symlinks, so the socket name
 # has to be built from the physical path too.
 here=$(pwd -P)
@@ -30,22 +40,24 @@ root=$(git rev-parse --show-toplevel 2>/dev/null) || root=$here
 root=$(cd -P "$root" 2>/dev/null && pwd -P) || root=$here
 socket="${XDG_CACHE_HOME:-$HOME/.cache}/nvim/sockets/$(printf %s "$root" | tr / %).pipe"
 
+# Both hand-offs run nvim somewhere else, where relative paths resolve against
+# a different cwd than ours.
+n=$#
+for f in "$@"; do
+  case $f in
+  /*) ;;
+  *) f="$here/$f" ;;
+  esac
+  set -- "$@" "$f"
+done
+shift "$n"
+
 # --remote silently starts a whole new nvim when the server is unreachable,
 # which looks like it worked but loads the full config. --remote-expr fails
 # fast instead, so probe with it.
 # </dev/null on every --remote-expr: given a tty on stdin the client starts a
 # UI and writes escape sequences to stdout instead of answering.
 if nvim --server "$socket" --remote-expr 1 </dev/null >/dev/null 2>&1; then
-  # The server resolves relative paths against its own cwd, not ours.
-  n=$#
-  for f in "$@"; do
-    case $f in
-    /*) ;;
-    *) f="$here/$f" ;;
-    esac
-    set -- "$@" "$f"
-  done
-  shift "$n"
   nvim --server "$socket" --remote-silent "$@" || exit $?
 
   # Bring the session's pane into view. The session knows which pane it lives
@@ -61,16 +73,33 @@ if nvim --server "$socket" --remote-expr 1 </dev/null >/dev/null 2>&1; then
     ;;
   esac
 
-  # A herdr popup isn't a pane, so nothing in the API can dismiss it; it closes
-  # when its command exits. We run as a child of that command, so end it.
-  if [ -n "$HERDR_ACTIVE_PANE_ID" ] && [ -z "$HERDR_PANE_ID" ]; then
-    case $(ps -o comm= -p "$PPID" 2>/dev/null) in
-    "" | *herdr*) ;; # never signal the server itself
-    *) kill "$PPID" 2>/dev/null ;;
-    esac
-  fi
+  dismiss_popup
   exit 0
 fi
 
 rm -f "$socket"
+
+# No session yet: start one in its own tab rooted at the repo rather than
+# borrowing the caller's terminal. nvim keys its socket on cwd, so a tab at the
+# root is the session every later hand-off from this repo will find.
+# A bare tab create lands in the UI-focused workspace, which needn't be ours;
+# a popup reports the caller's as HERDR_ACTIVE_WORKSPACE_ID.
+ws=${HERDR_WORKSPACE_ID:-$HERDR_ACTIVE_WORKSPACE_ID}
+if [ -n "$HERDR_ENV" ] && [ -n "$ws" ] && command -v herdr >/dev/null 2>&1 &&
+  tab=$(herdr tab create --workspace "$ws" --cwd "$root" --label "${root##*/}" --no-focus 2>/dev/null); then
+  # pane run types into the tab's shell, so the paths need shell quoting.
+  cmd=nvim
+  for f in "$@"; do
+    cmd="$cmd '$(printf %s "$f" | sed "s/'/'\\\\''/g")'"
+  done
+  # Greedy .* leaves the last match; tab_id repeats with the same value.
+  pane=$(printf %s "$tab" | sed -n 's/.*"pane_id":"\([^"]*\)".*/\1/p')
+  tab_id=$(printf %s "$tab" | sed -n 's/.*"tab_id":"\([^"]*\)".*/\1/p')
+  if herdr pane run "$pane" "$cmd" >/dev/null 2>&1; then
+    herdr tab focus "$tab_id" >/dev/null 2>&1
+    dismiss_popup
+    exit 0
+  fi
+fi
+
 exec nvim "$@"
