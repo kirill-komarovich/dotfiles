@@ -11,3 +11,11 @@
     stripComponents = 1
     exclude = ["ux-writing-skill-main/dist"]
     refreshPeriod = "168h"
+
+[".agent-shared/skills/unslop"]
+    type = "archive"
+    url = "https://github.com/backnotprop/pstack/archive/refs/heads/main.tar.gz"
+    exact = true
+    stripComponents = 3
+    include = ["pstack-main/skills/unslop/**"]
+    refreshPeriod = "168h"
