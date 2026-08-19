@@ -84,6 +84,18 @@ command = "EDITOR=nvim-open gitui"
 width = "90%"
 height = "90%"
 
+# Full-tab splits: the built-in splits subdivide the focused pane, so these
+# spawn a pane along a whole edge instead. Also accepts top and left.
+[[keys.command]]
+key = "prefix+shift+backslash"
+type = "shell"
+command = "herdr-spawn-pane right"
+
+[[keys.command]]
+key = "prefix+shift+minus"
+type = "shell"
+command = "herdr-spawn-pane bottom"
+
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
 # [keys.indexed]
