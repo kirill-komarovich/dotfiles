@@ -50,6 +50,25 @@ local kind_icons = {
   TypeParameter = "",
 }
 
+-- The server label cannot come from the 'convert' below: that is stored once
+-- per buffer, by whichever client attaches first, so a closure over its name
+-- would label every server's items with that one name. The client id is only
+-- known a layer up, where each client's results are converted, so the label is
+-- stamped on there.
+local convert_results = vim.lsp.completion._convert_results
+if convert_results then
+  vim.lsp.completion._convert_results = function(line, lnum, cursor_col, client_id, ...)
+    local matches, server_start_boundary = convert_results(line, lnum, cursor_col, client_id, ...)
+    local client = vim.lsp.get_client_by_id(client_id)
+    if client then
+      for _, match in ipairs(matches) do
+        match.menu = "[" .. client.name .. "]"
+      end
+    end
+    return matches, server_start_boundary
+  end
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("kk_completion_lsp", { clear = true }),
   callback = function(ev)
@@ -63,10 +82,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, {
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or "Text"
-        return {
-          kind = kind_icons[kind] or "",
-          menu = "[" .. client.name .. "]",
-        }
+        return { kind = kind_icons[kind] or "" }
       end,
     })
 
