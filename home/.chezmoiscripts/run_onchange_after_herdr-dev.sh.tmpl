@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+# Deliberately not a build system. A run_onchange_ script re-runs only when its
+# own rendered content changes, so editing the crate's source does not rebuild
+# here — the day-to-day build is a manual `mise exec -- cargo build --release`,
+# and ~/.local/bin/herdr-dev being a symlink makes that rebuild live with no
+# re-link, no apply and no config reload. This script is bootstrap and repair
+# for a fresh or broken machine.
+
+command -v mise >/dev/null || exit 0
+
+crate={{ .chezmoi.sourceDir | dir }}/herdr-dev
+
+cd "$crate"
+
+# mise refuses to read a config file it has not been told to trust.
+mise trust
+mise install -y
+mise exec -- cargo build --release
+
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$crate/target/release/herdr-dev" "$HOME/.local/bin/herdr-dev"
+
+herdr plugin link "$crate"

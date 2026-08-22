@@ -1,0 +1,24 @@
+# ~/projects/tds/player_server/.herdr-dev.toml
+#
+# PORT=3003, VITE_RUBY_PORT=3038 from .mise.local.toml via `mise exec --`. The Procfile's
+# `rails server -p ${RAILS_PORT:-3000}` is wrong for us — puma.rb reads PORT.
+
+[env]
+
+[local.rails]
+cmd = ["bundle", "exec", "rails", "s"]
+
+[local.sidekiq]
+cmd = ["bundle", "exec", "sidekiq"]
+
+[local.vite]
+cmd = ["bin/vite", "dev"]
+
+[docker]
+names = ["db", "redis", "memcached", "mongo", "harmony"]
+# minio is not run locally. The rest are the containerised app — the same three processes as
+# the local units above.
+hidden = ["minio", "web", "sidekiq", "frontend"]
+
+[docker.notes]
+harmony = "run `docker compose run --rm harmony rails db:create db:migrate` once, by hand"

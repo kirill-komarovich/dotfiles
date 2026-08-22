@@ -84,6 +84,13 @@ command = "EDITOR=nvim-open gitui"
 width = "90%"
 height = "90%"
 
+[[keys.command]]
+key = "prefix+d"
+type = "popup"
+command = "herdr-dev"
+width = "90%"
+height = "80%"
+
 # Full-tab splits: the built-in splits subdivide the focused pane, so these
 # spawn a pane along a whole edge instead. Also accepts top and left.
 [[keys.command]]

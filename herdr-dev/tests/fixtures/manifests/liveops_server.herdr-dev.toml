@@ -1,0 +1,20 @@
+# ~/projects/tds/liveops_server/.herdr-dev.toml
+#
+# Exists only because harmony includes this repo. PORT=3006, VITE_RUBY_PORT=3041.
+# Its compose parameterises MEMCACHED_SERVERS / REDIS_HOST / PRIMARY_DATABASE_HOST /
+# CDN_*_HOST off CURRENT_WORKTREE, but only for the containerised services.
+
+[env]
+
+[local.rails]
+cmd = ["bundle", "exec", "rails", "s"]
+
+[local.sidekiq]
+cmd = ["bundle", "exec", "sidekiq"]
+
+[local.vite]
+cmd = ["bin/vite", "dev"]
+
+[docker]
+names = ["db", "redis", "memcached", "harmony"]
+hidden = ["minio", "web", "sidekiq", "frontend"]

@@ -1,0 +1,31 @@
+# ~/projects/tds/harmony/.herdr-dev.toml
+#
+# .mise.local.toml sets neither PORT nor VITE_RUBY_PORT, so rails lands on Puma's 3000 and vite
+# on config/vite.json's 3036. The README warns that overriding VITE_RUBY_PORT means passing it
+# to *both* servers — that is what the top-level [env] is for.
+
+# Merged under every unit's own env. A worktree sets CURRENT_WORKTREE here, once.
+[env]
+
+[local.rails]
+cmd = ["bundle", "exec", "rails", "s"]
+
+[local.vite]
+cmd = ["bin/vite", "dev"]
+
+[docker]
+names = ["db"]
+# Recorded even though minio_init is hidden — it stays true if the trio is ever unhidden.
+one_shot = ["minio_init"]
+# The static-sites trio is not run locally. web is containerised rails, frontend containerised
+# vite — never alongside the local units.
+hidden = ["minio", "caddy", "minio_init", "web", "frontend"]
+
+[includes.player_server]
+path = "~/projects/tds/player_server"
+
+[includes.game_server]
+path = "~/projects/tds/game_server"
+
+[includes.liveops_server]
+path = "~/projects/tds/liveops_server"

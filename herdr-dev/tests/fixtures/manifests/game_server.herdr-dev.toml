@@ -1,0 +1,35 @@
+# ~/projects/tds/game_server/.herdr-dev.toml
+#
+# Exists only because harmony includes this repo. PORT=3005, VITE_RUBY_PORT=3040.
+# compose is keyed `name: ${COMPOSE_PROJECT_NAME:-game-server}` and its redis hands containers
+# `redis.${COMPOSE_PROJECT_NAME:-game-server}.orb.local`, so a worktree sets it in [env] once.
+# The widest case on this machine: 15 compose services + 3 local units.
+
+[env]
+
+[local.rails]
+cmd = ["bundle", "exec", "rails", "s"]
+
+[local.sidekiq]
+cmd = ["bundle", "exec", "sidekiq"]
+
+[local.vite]
+cmd = ["bin/vite", "dev"]
+
+[docker]
+names = [
+  "db",
+  "redis",
+  "memcached",
+  "mongo",
+  "dragonfly",
+  "redis-sentinel-1",
+  "redis-sentinel-2",
+  "harmony",
+  "migrate",
+]
+one_shot = ["migrate"]
+hidden = ["gateway", "application", "web", "sidekiq", "frontend", "websockets"]
+
+[docker.notes]
+migrate = "declares no restart: key, so only a human can mark it one-shot"
