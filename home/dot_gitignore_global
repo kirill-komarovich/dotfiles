@@ -5,4 +5,5 @@
 .project_layout.sh
 .mise*.local.toml
 mise*.local.toml
+.herdr-dev*
 .claude/settings.local.json
