@@ -23,6 +23,10 @@ cmd = ["bundle", "exec", "rails", "s"]
 [local.vite]
 cmd = ["bin/vite", "dev"]
 
+[local.rails_console]
+cmd = ["bundle", "exec", "rails", "console"]
+tty = true
+
 [docker]
 names = ["db", "memcached", "redis"]
 one_shot = ["migrate"]
@@ -36,7 +40,7 @@ path = "~/projects/tds/player_server"
 ```
 
 - **`[local.<name>]`** — a process the plugin spawns itself. `cmd` is an **argv array**, never a shell
-  string; optional `cwd` and `env`. The table key is the unit name and the row label.
+  string; optional `cwd`, `env` and `tty`. The table key is the unit name and the row label.
 - **`[docker]`** — membership lists of compose **service names**, not tables. `names` is what you can
   start; `one_shot` names services that run and exit; `hidden` names services that must never be
   rendered or started. A service may be in `one_shot` **and** `hidden`.
@@ -45,6 +49,24 @@ path = "~/projects/tds/player_server"
 - **`[env]`** — merged under each unit's own `env`.
 
 Document order is display order. `names` order is row order within docker.
+
+## When a unit deserves `tty = true`
+
+A unit runs on a pipe by default, which is what nearly every dev server wants. `tty = true` gives it a
+controlling terminal of its own instead, and the plugin's attach pane can then type into it.
+
+Declare it when the program has interactive behaviour worth reaching:
+
+- a Rails server, because `binding.irb` or `debugger` raised mid-request needs a terminal to prompt on
+  — this is the case people reach for by muscle memory, and the one the key exists for;
+- anything else whose useful behaviour is a prompt: a console, a REPL, a generator that asks before
+  overwriting.
+
+Leave it out otherwise. A plain `vite dev`, a `sidekiq`, a watcher — nothing ever types at them, and a
+terminal only makes them buffer differently and print colour the log then has to strip.
+
+It costs nothing to read back: the log stays plain text either way, so the overlay, the peek and
+`tail -f` are the same for both kinds of unit.
 
 ## Never put ports in it
 
@@ -96,5 +118,6 @@ There is no schema validation anywhere, so a typo is silent:
 - Every name in `one_shot` and `hidden` must be a real compose service.
 - No duplicates within `names`.
 - Every `[local.*]` has a `cmd`, and every `cmd` is an array of separate arguments.
+- Every `tty` is a bare `true` or `false`, not `"true"`.
 - Parse the file (`python3 -c "import tomllib; tomllib.load(open(p,'rb'))"` or `taplo`) before calling
   it done. Hand-written TOML that has never been parsed is not finished.
