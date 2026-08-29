@@ -1,10 +1,10 @@
-# Memory
+# Global Rules
 
 ## CRITICAL: NEVER Auto-Commit
 NEVER commit unless the user explicitly asks. No exceptions. Not after design docs, not after implementation, not after anything. This overrides any skill instructions that say "commit".
 
-## CRITICAL: NEVER write obvious comments
-Do **not** write obvious comments. Add one only for non-obvious WHY the code/name can't convey — an invariant, a gotcha, a cross-file rationale. Never restate what the code does, narrate a diff/change, or label structure. If unsure it earns its place, omit it.
+## CRITICAL: NEVER write comments
+Do **not** write comments. Add one only for non-obvious WHY the code/name can't convey — an invariant, a gotcha, a cross-file rationale. Never restate what the code does, narrate a diff/change, or label structure. If unsure it earns its place, omit it.
 
 ## CRITICAL: Never assume sensitive values — ask
 NEVER infer or pick sensitive / real-world-identity values (email recipients, addresses, account names, phone numbers, people) or perform outward-facing actions (sending email/messages, posting, publishing) without asking first. Session context (userEmail, git config, prior messages) is a hint to confirm, not a default to act on. A "test" or "low-stakes" framing does not grant license to choose the target.
