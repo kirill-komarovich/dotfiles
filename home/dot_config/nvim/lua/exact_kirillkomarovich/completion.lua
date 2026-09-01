@@ -69,6 +69,58 @@ if convert_results then
   end
 end
 
+-- Both Nvim and vim.lsp.completion size the "popup" documentation window to the
+-- full height of its text and never clamp it, so anything longer than the
+-- window grows over the tabline and statusline and ends up anchored to the
+-- first editor row. Refit it to the room left around the menu.
+local function fit_doc_window(win)
+  if not (win and win > 0 and vim.api.nvim_win_is_valid(win)) then
+    return
+  end
+  local pum = vim.fn.pum_getpos()
+  if vim.tbl_isempty(pum) then
+    return
+  end
+
+  local tabline = (vim.o.showtabline == 2 or (vim.o.showtabline == 1 and #vim.api.nvim_list_tabpages() > 1))
+      and 1
+    or 0
+  local below = vim.o.lines - vim.o.cmdheight - 1 - pum.row
+  local above = pum.row + pum.height - tabline
+  local text = vim.api.nvim_win_text_height(win, {}).all
+
+  local config = vim.api.nvim_win_get_config(win)
+  if text <= below or below >= above then
+    config.height, config.row = math.min(text, below), pum.row
+  else
+    config.height = math.min(text, above)
+    config.row = pum.row + pum.height - config.height
+  end
+  vim.api.nvim_win_set_config(win, config)
+end
+
+-- Resolved docs are sized from inside vim.lsp.completion's
+-- completionItem/resolve callback and nothing is emitted afterwards, so the
+-- resize call is the only place left to correct.
+local set_height = vim.api.nvim_win_set_height
+vim.api.nvim_win_set_height = function(win, height)
+  if win == vim.fn.complete_info({ "selected" }).preview_winid then
+    return fit_doc_window(win)
+  end
+  return set_height(win, height)
+end
+
+-- Docs that come with the completion response instead of a resolve are sized by
+-- Nvim itself, before any of the above runs.
+vim.api.nvim_create_autocmd("CompleteChanged", {
+  group = vim.api.nvim_create_augroup("kk_completion_docs", { clear = true }),
+  callback = function()
+    vim.schedule(function()
+      fit_doc_window(vim.fn.complete_info({ "selected" }).preview_winid)
+    end)
+  end,
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("kk_completion_lsp", { clear = true }),
   callback = function(ev)
