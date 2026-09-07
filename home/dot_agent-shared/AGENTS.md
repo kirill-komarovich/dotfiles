@@ -21,3 +21,13 @@ Do **not** kill dev server processes to restart them if user already has running
 ## Concision
 
 When reporting to me, be extreamly concise and sacrifice grammar for the sake of concision.
+
+## Scratch storage lives in an Obsidian vault
+
+A repo's `.scratch/` is a symlink into `~/.obsidian/scratch/<repo-dir>/`, keeping specs, tickets and wayfinder maps out of git and browsable in Obsidian. Create it on first use and git-ignore `.scratch`:
+
+```sh
+d=~/.obsidian/scratch/$(basename $PWD); mkdir -p $d && ln -s $d .scratch
+```
+
+A repo's own instructions override this.
