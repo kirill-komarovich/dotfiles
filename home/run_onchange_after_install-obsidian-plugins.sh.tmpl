@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+vault="personal"
+plugins=({{ range (include "dot_obsidian/personal/dot_obsidian/community-plugins.json" | fromJson) }}{{ . | quote }} {{ end }})
+[[ ${#plugins[@]} -eq 0 ]] && exit 0
+
+dir="$HOME/.obsidian/$vault/.obsidian"
+missing=()
+for plugin in "${plugins[@]}"; do
+  [[ -f "$dir/plugins/$plugin/manifest.json" ]] || missing+=("$plugin")
+done
+[[ ${#missing[@]} -eq 0 ]] && exit 0
+
+# plugin: commands only reach a vault that already has a window open.
+open -g "obsidian://open?vault=$vault"
+for _ in $(seq 1 30); do
+  [[ "$(obsidian "vault=$vault" vault 2>/dev/null | awk -F'\t' '$1 == "name" { print $2 }')" == "$vault" ]] && break
+  sleep 1
+done
+
+for plugin in "${missing[@]}"; do
+  obsidian "vault=$vault" plugin:install "id=$plugin" enable || true
+  if [[ -f "$dir/plugins/$plugin/manifest.json" ]]; then
+    echo "installed $plugin into $vault"
+  else
+    echo "failed to install $plugin into $vault" >&2
+  fi
+done

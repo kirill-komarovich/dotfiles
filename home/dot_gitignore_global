@@ -7,3 +7,4 @@
 mise*.local.toml
 .herdr-dev*
 .claude/settings.local.json
+.scratch
