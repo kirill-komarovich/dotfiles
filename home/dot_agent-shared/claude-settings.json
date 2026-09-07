@@ -22,14 +22,13 @@
     ]
   },
   "model": "opus",
-  "workflowKeywordTriggerEnabled": false,
-  "askUserQuestionTimeout": "never",
-  "disableAgentView": true,
-  "disableArtifact": true,
-  "disableBundledSkills": true,
   "disableClaudeAiConnectors": true,
+  "disableBundledSkills": true,
+  "disableAgentView": true,
   "disableRemoteControl": true,
   "disableWorkflows": true,
+  "disableArtifact": true,
+  "workflowKeywordTriggerEnabled": false,
   "statusLine": {
     "type": "command",
     "command": "$HOME/.agent-shared/statusline-command.sh"
@@ -37,7 +36,9 @@
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true
   },
+  "feedbackDrafts": "off",
   "effortLevel": "high",
+  "askUserQuestionTimeout": "never",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
