@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# The skill and the browser binaries are version-matched to the CLI, so both get
+# refreshed whenever the version moves.
+# {{ if lookPath "agent-browser" }}{{ output "agent-browser" "--version" | trim }}{{ else }}agent-browser not installed{{ end }}
+command -v agent-browser >/dev/null || exit 0
+
+src="$(agent-browser skills path | head -1)/agent-browser/SKILL.md"
+dir="$HOME/.agent-shared/skills/agent-browser"
+mkdir -p "$dir"
+cp "$src" "$dir/SKILL.md"
+echo "wrote $dir/SKILL.md"
+
+agent-browser install
