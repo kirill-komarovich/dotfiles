@@ -26,6 +26,7 @@ fnox = "latest"
 age = "latest"
 bitwarden = "latest"
 herdr = "latest"
+"npm:agent-browser" = "latest"
 
 [tool_alias]
 once = "github:basecamp/once"
