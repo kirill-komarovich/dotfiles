@@ -2,6 +2,8 @@
 
 set -eufo pipefail
 
+{{- $profile := includeTemplate "profile" . }}
+
 {{ $packages := list
   "git"
   "curl"
@@ -12,7 +14,26 @@ set -eufo pipefail
 {{   $sudo = "" -}}
 {{ end -}}
 
-{{ if eq .chezmoi.os "linux" -}}
+{{ if eq $profile "mac" -}}
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew install {{ $packages | join " " }}
+brew install fish
+
+{{ else if eq $profile "omarchy" -}}
+
+{{ $arch_packages := concat $packages (list
+  "base-devel"
+  "fish"
+  "ripgrep"
+  "tmux"
+  "wl-clipboard"
+) -}}
+
+{{ $sudo }}pacman -S --needed --noconfirm {{ $arch_packages | join " " }}
+
+{{ else -}}
 
 {{ $repos := list
   "ppa:git-core/ppa"
@@ -21,12 +42,5 @@ set -eufo pipefail
 {{ $sudo }}add-apt-repository -y {{ $repos | join " " }}
 {{ $sudo }}apt update
 {{ $sudo }}apt install -y {{ $packages | join " " }}
-
-{{ else if eq .chezmoi.os "darwin" -}}
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-brew install {{ $packages | join " " }}
-brew install fish
 
 {{ end -}}

@@ -23,4 +23,6 @@ mise exec -- cargo build --release
 mkdir -p "$HOME/.local/bin"
 ln -sfn "$crate/target/release/herdr-dev" "$HOME/.local/bin/herdr-dev"
 
-herdr plugin link "$crate"
+if command -v herdr >/dev/null; then
+  herdr plugin link "$crate"
+fi
