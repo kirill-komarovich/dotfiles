@@ -23,11 +23,15 @@ if test $HOME/.local/bin/mise
   end
 end
 
+{{ if eq (includeTemplate "profile" .) "mac" -}}
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 set -gx PNPM_HOME "$HOME/Library/pnpm"
+{{ else -}}
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+{{ end -}}
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end

@@ -1,3 +1,4 @@
+{{- $profile := includeTemplate "profile" . -}}
 *
 !tmux-*
 !git*
@@ -6,3 +7,7 @@
 # Only the dispatcher: the claude-<profile> links are made by a run_onchange
 # script, so exact_ must keep treating them as none of its business.
 !claude-profile
+{{ if eq $profile "mac" }}
+!macos-cleanup
+!macos-cleanup-wizard
+{{ end }}

@@ -1,0 +1,15 @@
+{{- $profiles := "" -}}
+{{- if hasKey . "claude_profiles" -}}
+{{-   $profiles = join "," .claude_profiles -}}
+{{- else -}}
+{{-   $profiles = promptStringOnce . "claude_profiles" "Claude profiles (comma-separated)" "personal" -}}
+{{- end -}}
+
+sourceDir = {{ .chezmoi.workingTree | quote }}
+
+[data]
+claude_profiles = [
+  {{- range $i, $p := splitList "," $profiles }}
+  {{- if $i }},{{ end }} "{{ trim $p }}"
+  {{- end }}
+]

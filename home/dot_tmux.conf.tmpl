@@ -1,7 +1,13 @@
 set -g mouse on
 set -g set-clipboard on
-
-bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -i"
+{{ $profile := includeTemplate "profile" . -}}
+{{ $copy := "xclip -selection clipboard -i" -}}
+{{ if eq $profile "mac" -}}
+{{   $copy = "pbcopy" -}}
+{{ else if eq $profile "omarchy" -}}
+{{   $copy = "wl-copy" -}}
+{{ end }}
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "{{ $copy }}"
 
 set -g history-limit 10000
 set-option -g detach-on-destroy off
@@ -16,8 +22,8 @@ set-option escape-time 40
 unbind C-Space
 set-option -g prefix C-Space
 
-{{ $fish_path := "/bin/fish" -}}
-{{ if eq .chezmoi.os "darwin" -}}
+{{ $fish_path := "/usr/bin/fish" -}}
+{{ if eq $profile "mac" -}}
 {{   $fish_path = "/opt/homebrew/bin/fish" -}}
 {{ end -}}
 

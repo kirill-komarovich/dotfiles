@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+{{ if eq (includeTemplate "profile" .) "mac" -}}
 vault="personal"
 plugins=({{ range (include "dot_obsidian/personal/dot_obsidian/community-plugins.json" | fromJson) }}{{ . | quote }} {{ end }})
 [[ ${#plugins[@]} -eq 0 ]] && exit 0
@@ -27,3 +27,4 @@ for plugin in "${missing[@]}"; do
     echo "failed to install $plugin into $vault" >&2
   fi
 done
+{{ end -}}
