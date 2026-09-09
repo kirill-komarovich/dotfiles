@@ -1,0 +1,108 @@
+{{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+vim.opt.background = "{{ $c.mode }}"
+
+local colors = require("vscode.colors").get_colors()
+
+require("vscode").setup({
+  style = "{{ $c.mode }}",
+  color_overrides = {
+    vscBack = "{{ $c.background }}",
+    vscFront = "{{ $c.foreground }}",
+    vscTabCurrent = "{{ $c.background }}",
+    vscTabOther = "{{ $c.dark_background }}",
+    vscTabOutside = "{{ $c.darker_background }}",
+    vscLeftDark = "{{ $c.dark_background }}",
+    vscLeftMid = "{{ $c.lighter_background }}",
+    vscLeftLight = "{{ $c.muted }}",
+    vscPopupBack = "{{ $c.dark_background }}",
+    vscPopupFront = "{{ $c.foreground }}",
+    vscSplitDark = "{{ $c.darker_background }}",
+    vscSplitLight = "{{ $c.lighter_background }}",
+    vscSelection = "{{ $c.selection }}",
+    vscLineNumber = "{{ $c.muted }}",
+    vscCursorDark = "{{ $c.bright_foreground }}",
+    vscGray = "{{ $c.muted }}",
+    vscGreen = "{{ $c.green }}",
+    vscLightGreen = "{{ $c.bright_green }}",
+    vscBlueGreen = "{{ $c.cyan }}",
+    vscBlue = "{{ $c.blue }}",
+    vscLightBlue = "{{ $c.bright_blue }}",
+    vscAccentBlue = "{{ $c.bright_blue }}",
+    vscRed = "{{ $c.red }}",
+    vscLightRed = "{{ $c.bright_red }}",
+    vscOrange = "{{ $c.orange }}",
+    vscYellow = "{{ $c.yellow }}",
+    vscYellowOrange = "{{ $c.accent }}",
+    vscDarkYellow = "{{ $c.brown }}",
+    vscViolet = "{{ $c.magenta }}",
+    vscPink = "{{ $c.bright_magenta }}",
+    vscGitAdded = "{{ $c.green }}",
+    vscGitModified = "{{ $c.accent }}",
+    vscGitDeleted = "{{ $c.red }}",
+    vscGitUntracked = "{{ $c.cyan }}",
+  },
+  transparent_background = false,
+  italic_comments = true,
+  group_overrides = {
+    OilDir = { fg = colors.vscFront, bg = 'NONE' },
+    OilDirIcon = { fg = "{{ $c.light_foreground }}", bg = "NONE" },
+    GitSignsChange = { fg = colors.vscBlue, bg = "NONE" },
+    ["@string.special.symbol"] = { fg = colors.vscBlue, bg = "NONE" },
+    ["@tag.javascript"] = { fg = colors.vscBlueGreen, bg = 'NONE' },
+  },
+});
+
+local pink = "{{ $c.bright_magenta }}"
+local ruby_color = colors.vscRed
+local docker_color = colors.vscLightBlue
+local docker_compose_color = pink
+
+local ruby_icon = ""
+local docker_icon = ""
+
+local function ruby_config(name)
+  return {
+    icon = ruby_icon,
+    color = ruby_color,
+    cterm_color = "52",
+    name = name,
+  }
+end
+
+require("nvim-web-devicons").setup({
+  override = {
+    rb = ruby_config("Rb"),
+    rake = ruby_config("Rake"),
+    ["config.ru"] = ruby_config("ConfigRu"),
+    gemspec = ruby_config("Gemspec"),
+    gemfile = ruby_config("Gemfile"),
+    rakefile = ruby_config("Rakefile"),
+    dangerfile = ruby_config("Dangerfile"),
+    dockerfile = {
+      icon = docker_icon,
+      color = docker_color,
+      cterm_color = "59",
+      name = "dockerfile",
+    },
+    [".dockerignore"] = {
+      icon = docker_icon,
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile",
+    },
+    ["docker-compose.*"] = {
+      icon = docker_icon,
+      color = docker_compose_color,
+      cterm_color = "59",
+      name = "Dockerfile",
+    },
+    ["pnpm-lock.yaml"] = {
+      icon = "",
+      color = "#bbbbbb",
+      cterm_color = "250",
+      name = "PnpmLockYaml",
+    },
+  },
+})
+
+vim.cmd [[colorscheme vscode]]
