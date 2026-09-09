@@ -37,3 +37,50 @@ vim.filetype.add({
     end,
   },
 })
+
+-- Highlighting both layers takes a flavour of the gotmpl grammar per host
+-- language: the same parser registered under another name, whose queries can
+-- name the host statically the way heex names elixir. Injecting the other way
+-- round fails because a host parser shreds {{ ... }} into fragments too small
+-- to parse.
+local flavours = {
+  toml = "toml", fish = "fish", sh = "bash", bash = "bash", lua = "lua",
+  ini = "ini", json = "json", yaml = "yaml", tmux = "tmux", markdown = "markdown",
+}
+
+local gotmpl_so = vim.api.nvim_get_runtime_file("parser/gotmpl.so", false)[1]
+local registered = {}
+
+local function flavour_for(filetype)
+  local host = flavours[filetype]
+  if not host or not gotmpl_so then
+    return nil
+  end
+
+  local lang = "gotmpl_" .. host
+  if not registered[lang] then
+    local ok = pcall(vim.treesitter.language.add, lang, { path = gotmpl_so, symbol_name = "gotmpl" })
+    if not ok then
+      return nil
+    end
+    registered[lang] = true
+  end
+
+  return lang
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  group = vim.api.nvim_create_augroup("chezmoi-template-highlight", { clear = true }),
+  callback = function(args)
+    if not vim.api.nvim_buf_get_name(args.buf):match("%.tmpl$") then
+      return
+    end
+
+    local lang = flavour_for(vim.bo[args.buf].filetype)
+    if lang then
+      vim.treesitter.stop(args.buf)
+      vim.treesitter.start(args.buf, lang)
+    end
+  end,
+})
