@@ -31,7 +31,28 @@ brew install fish
   "wl-clipboard"
 ) -}}
 
-{{ $sudo }}pacman -S --needed --noconfirm {{ $arch_packages | join " " }}
+{{/* mise builds erlang, elixir and ruby from source, so their headers ship here. */ -}}
+{{ $arch_build_deps := list
+  "gmp"
+  "libffi"
+  "libxslt"
+  "libyaml"
+  "ncurses"
+  "openssl"
+  "readline"
+  "unixodbc"
+  "unzip"
+  "wxwidgets-gtk3"
+  "zlib"
+-}}
+
+packages=({{ concat $arch_packages $arch_build_deps | join " " }})
+
+if ! {{ $sudo }}pacman -S --needed --noconfirm "${packages[@]}"; then
+  # A stale sync db asks the mirror for versions it has already dropped.
+  {{ $sudo }}pacman -Sy --noconfirm
+  {{ $sudo }}pacman -S --needed --noconfirm "${packages[@]}"
+fi
 
 {{ else -}}
 

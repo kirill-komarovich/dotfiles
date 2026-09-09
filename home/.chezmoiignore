@@ -8,6 +8,9 @@
 .config/fish/conf.d/brew.fish
 {{ end }}
 {{- if eq $profile "omarchy" }}
+.bash_aliases
+.bash_env
+.bashrc
 .config/ghostty
 .config/ghostty/**
 .config/alacritty
