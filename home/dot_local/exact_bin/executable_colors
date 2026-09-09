@@ -1,0 +1,50 @@
+#!/bin/sh
+# Show the terminal's palette: swatches, named foregrounds, a syntax sample, attributes.
+
+names="black red green yellow blue magenta cyan white"
+esc=$(printf '\033')
+r="${esc}[0m"
+
+theme=$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)
+[ -n "$theme" ] && printf '%s\n\n' "theme: $theme"
+
+printf 'blocks\n'
+i=0
+for n in $names; do
+  printf '%s[48;5;%dm  %-8s%s' "$esc" "$i" "" "$r"
+  i=$((i + 1))
+done
+printf '\n'
+i=0
+for n in $names; do
+  printf '%s[48;5;%dm  %-8s%s' "$esc" "$((i + 8))" "" "$r"
+  i=$((i + 1))
+done
+printf '\n'
+for n in $names; do printf '  %-8s' "$n"; done
+printf '\n\n'
+
+printf 'foreground\n'
+i=0
+for n in $names; do
+  printf '  %s[38;5;%dm%-9s%s %s[1;38;5;%dm%-9s%s %s[38;5;%dm%-9s%s\n' \
+    "$esc" "$i" "$n" "$r" \
+    "$esc" "$i" "bold" "$r" \
+    "$esc" "$((i + 8))" "bright" "$r"
+  i=$((i + 1))
+done
+printf '\n'
+
+printf 'sample\n'
+printf '  %s[38;5;4mfunction%s %s[38;5;3mrender%s(%s[38;5;6mopts%s) {\n' "$esc" "$r" "$esc" "$r" "$esc" "$r"
+printf '    %s[38;5;8m// comment: dim text lives here%s\n' "$esc" "$r"
+printf '    %s[38;5;5mconst%s name = %s[38;5;2m"a string"%s;\n' "$esc" "$r" "$esc" "$r"
+printf '    %s[38;5;1mthrow%s new Error(%s[38;5;2m"failed"%s);\n' "$esc" "$r" "$esc" "$r"
+printf '  }\n'
+printf '  %s[38;5;2m+ added line%s\n' "$esc" "$r"
+printf '  %s[38;5;1m- removed line%s\n' "$esc" "$r"
+printf '  %s[38;5;3m~ modified line%s\n\n' "$esc" "$r"
+
+printf 'attributes\n'
+printf '  %s[1mbold%s  %s[2mdim%s  %s[3mitalic%s  %s[4munderline%s  %s[7mreverse%s  %s[9mstrike%s\n' \
+  "$esc" "$r" "$esc" "$r" "$esc" "$r" "$esc" "$r" "$esc" "$r" "$esc" "$r"
