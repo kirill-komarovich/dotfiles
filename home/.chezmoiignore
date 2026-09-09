@@ -11,8 +11,6 @@
 .bash_aliases
 .bash_env
 .bashrc
-.config/ghostty
-.config/ghostty/**
 .config/alacritty
 .config/alacritty/**
 {{ end }}
