@@ -1,0 +1,31 @@
+{{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+{{- $rgb := dict "red" $c.red "orange" $c.orange "yellow" $c.yellow "green" $c.green "cyan" $c.cyan "blue" $c.blue "purple" $c.magenta "pink" $c.bright_magenta -}}
+.theme-{{ $c.mode }} {
+  --color-base-00: {{ $c.background }};
+  --color-base-05: {{ $c.background }};
+  --color-base-10: {{ $c.lighter_background }};
+  --color-base-20: {{ $c.lighter_background }};
+  --color-base-25: {{ $c.selection }};
+  --color-base-30: {{ $c.selection }};
+  --color-base-35: {{ $c.selection }};
+  --color-base-40: {{ $c.muted }};
+  --color-base-50: {{ $c.muted }};
+  --color-base-60: {{ $c.dark_foreground }};
+  --color-base-70: {{ $c.foreground }};
+  --color-base-100: {{ $c.light_foreground }};
+
+{{ range $name, $hex := $rgb }}  --color-{{ $name }}: {{ $hex }};
+  --color-{{ $name }}-rgb: {{ includeTemplate "hex-rgb" $hex }};
+{{ end }}
+  --background-secondary: {{ $c.dark_background }};
+  --background-modifier-border: {{ $c.selection }};
+  --background-modifier-border-hover: {{ $c.muted }};
+  --background-modifier-border-focus: {{ $c.muted }};
+  --text-selection: {{ $c.selection }};
+  --text-highlight-bg: {{ $c.selection }};
+  --text-accent: {{ $c.accent }};
+  --text-accent-hover: {{ $c.light_foreground }};
+  --h1-color: {{ $c.bright_foreground }};
+  --h2-color: {{ $c.bright_foreground }};
+  --h3-color: {{ $c.light_foreground }};
+}

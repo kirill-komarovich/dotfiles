@@ -1,0 +1,2 @@
+{{- $h := . | trimPrefix "#" -}}
+{{ int (printf "0x%s" (substr 0 2 $h)) }}, {{ int (printf "0x%s" (substr 2 4 $h)) }}, {{ int (printf "0x%s" (substr 4 6 $h)) }}

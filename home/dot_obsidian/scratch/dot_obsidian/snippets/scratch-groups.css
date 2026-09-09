@@ -1,0 +1,22 @@
+.nav-folder-title[data-path="private"] .nav-folder-title-content::before {
+  content: "🏠 ";
+}
+
+.nav-folder-title[data-path="tds"] .nav-folder-title-content::before {
+  content: "🏢 ";
+}
+
+.nav-folder-title[data-path="tds"],
+.nav-folder-title[data-path^="tds/"] {
+  color: var(--color-orange);
+}
+
+.nav-folder-title[data-path^="tds/"],
+.nav-file-title[data-path^="tds/"] {
+  border-left: 2px solid var(--color-orange);
+}
+
+.nav-folder-title[data-path^="private/"],
+.nav-file-title[data-path^="private/"] {
+  border-left: 2px solid var(--color-blue);
+}
