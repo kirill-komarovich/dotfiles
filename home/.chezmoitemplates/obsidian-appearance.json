@@ -1,5 +1,12 @@
+{{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
 {
+  "theme": "{{ if eq $c.mode "light" }}moonstone{{ else }}obsidian{{ end }}",
+  "accentColor": "{{ $c.accent }}",
   "cssTheme": "",
   "showViewHeader": false,
-  "showRibbon": false
+  "showRibbon": false,
+  "enabledCssSnippets": [
+    "theme-colors",
+    "scratch-groups"
+  ]
 }
