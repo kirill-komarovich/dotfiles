@@ -1,4 +1,44 @@
-theme = Seti
+{{ $profile := includeTemplate "profile" . -}}
+{{ if eq $profile "omarchy" -}}
+{{/* Omarchy's packaged config carries the live theme include, the CSI-u
+     keybinds and the hyprland async-backend workaround. Ours only overrides
+     behaviour on top, so `omarchy theme set` keeps working. */ -}}
+config-file = ?"/usr/share/omarchy/config/ghostty/config"
+
+{{/* Repeated font-family appends a fallback, so the list needs clearing first.
+     monospace resolves through fontconfig, which is where omarchy-font-set
+     writes the chosen family. */ -}}
+font-family = ""
+font-family = "monospace"
+font-size = 16
+shell-integration = fish
+
+initial-command = /usr/bin/fish -l -c "herdr"
+window-decoration = none
+{{ else -}}
+{{ $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+background = {{ $c.background }}
+foreground = {{ $c.foreground }}
+cursor-color = {{ $c.bright_foreground }}
+selection-background = {{ $c.selection }}
+selection-foreground = {{ $c.bright_foreground }}
+
+palette = 0={{ $c.background }}
+palette = 1={{ $c.red }}
+palette = 2={{ $c.green }}
+palette = 3={{ $c.yellow }}
+palette = 4={{ $c.blue }}
+palette = 5={{ $c.magenta }}
+palette = 6={{ $c.cyan }}
+palette = 7={{ $c.foreground }}
+palette = 8={{ $c.muted }}
+palette = 9={{ $c.bright_red }}
+palette = 10={{ $c.bright_green }}
+palette = 11={{ $c.bright_yellow }}
+palette = 12={{ $c.bright_blue }}
+palette = 13={{ $c.bright_magenta }}
+palette = 14={{ $c.bright_cyan }}
+palette = 15={{ $c.bright_foreground }}
 
 # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DroidSansMono
 font-family = "DroidSansM Nerd Font Mono"
@@ -6,10 +46,6 @@ font-size = 16
 
 shell-integration = fish
 
-{{ $fish_path := "/bin/fish" -}}
-{{ if eq .chezmoi.os "darwin" -}}
-{{   $fish_path = "/opt/homebrew/bin/fish" -}}
-{{ end -}}
-
-initial-command = {{ $fish_path }} -l -c "herdr"
+initial-command = /opt/homebrew/bin/fish -l -c "herdr"
 window-decoration = none
+{{ end -}}

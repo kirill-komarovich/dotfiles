@@ -1,7 +1,19 @@
 [theme]
 auto_switch = false
-name = "one-dark"
+name = "terminal"
 light_name = "one-light"
+
+{{ $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+[theme.custom]
+panel_bg = "{{ $c.background }}"
+sidebar_bg = "{{ $c.dark_background }}"
+active_row_bg = "{{ $c.lighter_background }}"
+selection_bg = "{{ $c.selection }}"
+accent = "{{ $c.accent }}"
+red = "{{ $c.red }}"
+green = "{{ $c.green }}"
+blue = "{{ $c.blue }}"
+yellow = "{{ $c.yellow }}"
 
 [terminal]
 shell_mode = "auto"
