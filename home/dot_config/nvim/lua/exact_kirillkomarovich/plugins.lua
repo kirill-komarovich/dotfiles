@@ -19,7 +19,7 @@ require("lazy").setup({
     -- Must land before anything that defines highlight groups against it.
     priority = 1000,
     config = function()
-      require("kirillkomarovich.plugin.vscode")
+      require("kirillkomarovich.plugin.theme")
     end,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
