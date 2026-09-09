@@ -15,14 +15,15 @@ crate={{ .chezmoi.sourceDir | dir }}/herdr-dev
 
 cd "$crate"
 
+# The source tree is shared with other machines, so keep build output out of it.
+export CARGO_TARGET_DIR="$HOME/.cache/cargo-target/herdr-dev"
+
 # mise refuses to read a config file it has not been told to trust.
 mise trust
 mise install -y
 mise exec -- cargo build --release
 
-mkdir -p "$HOME/.local/bin"
-ln -sfn "$crate/target/release/herdr-dev" "$HOME/.local/bin/herdr-dev"
 
-if command -v herdr >/dev/null; then
-  herdr plugin link "$crate"
+if mise which herdr >/dev/null 2>&1; then
+  mise exec -- herdr plugin link "$crate"
 fi
