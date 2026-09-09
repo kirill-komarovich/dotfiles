@@ -1,7 +1,6 @@
-{{- /* Arch means Omarchy here: no other machine in the fleet runs it. */ -}}
 {{- if eq .chezmoi.os "darwin" -}}
 mac
-{{- else if eq .chezmoi.osRelease.id "arch" -}}
+{{- else if stat "/usr/share/omarchy" -}}
 omarchy
 {{- else -}}
 linux
