@@ -7,9 +7,10 @@ set -eufo pipefail
 {{   $sudo = "" -}}
 {{ end -}}
 
-curl https://mise.run | sh
-
-mise=$HOME/.local/bin/mise
+if ! mise=$(command -v mise); then
+  curl https://mise.run | sh
+  mise=$HOME/.local/bin/mise
+fi
 
 {{ $tmux_packages := list
   "make"
