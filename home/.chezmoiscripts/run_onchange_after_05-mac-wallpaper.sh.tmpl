@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if eq (includeTemplate "profile" .) "mac" -}}
+{{ $wallpaper := includeTemplate "wallpaper" . | trim -}}
+
+wallpaper="$HOME/.local/share/wallpapers/{{ $wallpaper }}"
+[ -f "$wallpaper" ] || exit 0
+
+{{/* Re-runs when the image itself changes, not just when this script does. */ -}}
+# {{ printf "dot_local/share/wallpapers/%s" $wallpaper | include | sha256sum }}
+osascript -e "tell application \"System Events\" to set picture of every desktop to \"$wallpaper\"" >/dev/null
+
+{{ end -}}

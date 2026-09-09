@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if eq (includeTemplate "profile" .) "omarchy" -}}
+
+command -v omarchy-theme-set >/dev/null || exit 0
+
+# Scripts do not inherit the session's env bootstrap.
+export OMARCHY_PATH="${OMARCHY_PATH:-/usr/share/omarchy}"
+
+theme=local-dark
+
+# Both themes show the same wallpaper, so the repo carries one copy. omarchy's
+# theme staging skips symlinks, so each theme gets a hard link to it instead.
+{{ $wallpaper := includeTemplate "wallpaper" . | trim -}}
+wallpaper="$HOME/.local/share/wallpapers/{{ $wallpaper }}"
+if [ -f "$wallpaper" ]; then
+  for t in local-dark local-light; do
+    dir="$HOME/.config/omarchy/themes/$t/backgrounds"
+    mkdir -p "$dir"
+    [ "$dir/1-{{ $wallpaper }}" -ef "$wallpaper" ] ||
+      ln -f "$wallpaper" "$dir/1-{{ $wallpaper }}" 2>/dev/null ||
+      cp -f "$wallpaper" "$dir/1-{{ $wallpaper }}"
+  done
+fi
+
+# Both omarchy-theme-list and the switcher union ~/.config/omarchy/themes with
+# the package's own theme directory, and neither takes a filter, so the shipped
+# themes have to leave the disk. pacman owns them, so an omarchy update puts
+# them back and this prunes them again on the next apply.
+if [ -n "$(ls -A "$OMARCHY_PATH/themes" 2>/dev/null)" ]; then
+  if sudo -n true 2>/dev/null || [ -t 0 ]; then
+    sudo rm -rf -- "$OMARCHY_PATH"/themes/*
+  else
+    echo "omarchy theme: left the shipped themes alone, sudo needs a password" >&2
+  fi
+fi
+
+if [ "$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)" != "$theme" ]; then
+  omarchy-theme-set "$theme"
+fi
+
+{{ end -}}
