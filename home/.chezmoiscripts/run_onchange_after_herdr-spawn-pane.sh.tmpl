@@ -13,10 +13,11 @@ crate={{ .chezmoi.sourceDir | dir }}/herdr-spawn-pane
 
 cd "$crate"
 
+# The source tree is shared with other machines, so keep build output out of it.
+export CARGO_TARGET_DIR="$HOME/.cache/cargo-target/herdr-spawn-pane"
+
 # mise refuses to read a config file it has not been told to trust.
 mise trust
 mise install -y
 mise exec -- cargo build --release
 
-mkdir -p "$HOME/.local/bin"
-ln -sfn "$crate/target/release/herdr-spawn-pane" "$HOME/.local/bin/herdr-spawn-pane"
