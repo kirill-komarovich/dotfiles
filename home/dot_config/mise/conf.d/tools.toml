@@ -20,7 +20,7 @@ erlang = "29"
 elixir = "1.20.0-otp-29"
 yazi = "latest"
 ruby = "4.0.5"
-"go:github.com/glebglazov/pop" = "latest"
+"go:github.com/glebglazov/pop" = "0.0.0-20260811061438-681390c50599"
 "github:basecamp/once" = { version = "latest", postinstall = "sudo $MISE_TOOL_INSTALL_PATH/once background install" }
 fnox = "latest"
 age = "latest"
