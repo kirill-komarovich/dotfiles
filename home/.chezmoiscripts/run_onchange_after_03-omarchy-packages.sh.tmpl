@@ -1,0 +1,105 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if eq (includeTemplate "profile" .) "omarchy" -}}
+
+command -v omarchy-pkg-drop >/dev/null || exit 0
+
+{{/* Runs after 02-mise so the mise-provided replacements exist before their
+     pacman counterparts go. Composed from the pieces of omarchy-remove-preinstalls
+     rather than calling it: that one is gum-gated and takes obsidian with it. */ -}}
+
+{{ $drop := list
+  "aether"
+  "bat"
+  "cliamp"
+  "dotnet-runtime"
+  "fd"
+  "fzf"
+  "herdr"
+  "kdenlive"
+  "lazygit"
+  "libreoffice-fresh"
+  "localsend"
+  "moonlight-qt"
+  "nvim"
+  "obs-studio"
+  "omacalc"
+  "omacut"
+  "omarchy-nvim"
+  "omawrite"
+  "pinta"
+  "ripgrep"
+  "ruby"
+  "starship"
+  "sushi"
+  "tmux"
+  "usage"
+  "xournalpp"
+  "yt-dlp"
+-}}
+
+drop=({{ range $drop }}{{ . | quote }} {{ end }})
+
+# Every removal needs sudo, and a non-interactive apply has no way to answer it.
+if ! sudo -n true 2>/dev/null && [ ! -t 0 ]; then
+  echo "omarchy packages: skipped, sudo needs a password and stdin is not a terminal" >&2
+  exit 0
+fi
+
+if ! omarchy-pkg-present zen-browser-bin; then
+  omarchy-install-browser zen || true
+fi
+
+# chromium is Omarchy's built-in browser, so omarchy-remove-browser has no case
+# for it and it has to go through pkg-drop like anything else. Only once zen is
+# actually installed, or the box is left with no browser at all.
+if omarchy-pkg-present zen-browser-bin; then
+  if [ "$(omarchy-default-browser)" != zen ]; then
+    omarchy-default-browser zen || echo "omarchy packages: could not make zen the default browser" >&2
+  fi
+  drop+=("chromium")
+else
+  echo "omarchy packages: zen not installed, keeping chromium" >&2
+fi
+
+if ! omarchy-pkg-present ghostty; then
+  omarchy-install-terminal ghostty || true
+fi
+
+# foot is Omarchy's shipped terminal and xdg-terminal-exec resolves through it,
+# so it only goes once ghostty answers instead.
+if omarchy-pkg-present ghostty; then
+  if [ "$(omarchy-default-terminal)" != ghostty ]; then
+    omarchy-default-terminal ghostty || echo "omarchy packages: could not make ghostty the default terminal" >&2
+  fi
+  drop+=("foot")
+else
+  echo "omarchy packages: ghostty not installed, keeping foot" >&2
+fi
+
+omarchy-webapp-remove-all
+omarchy-tui-remove-all
+
+# Omarchy's update migrations only add preinstalled apps while this file is absent.
+mkdir -p ~/.local/state/omarchy
+touch ~/.local/state/omarchy/preinstalls-removed
+
+kept=()
+for pkg in "${drop[@]}"; do
+  # Entries can name a provides rather than a package: nvim is provided by
+  # neovim, and pacman -R only accepts real package names.
+  installed=$(pacman -Qq "$pkg" 2>/dev/null) || continue
+  omarchy-pkg-drop "$installed" || kept+=("$installed")
+done
+
+if [ ${#kept[@]} -gt 0 ]; then
+  echo "omarchy packages: still required by something else, left alone: ${kept[*]}" >&2
+fi
+
+if [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ] && command -v hyprctl >/dev/null; then
+  hyprctl reload >/dev/null
+fi
+
+{{ end -}}
