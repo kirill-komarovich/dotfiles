@@ -27,6 +27,7 @@ age = "latest"
 bitwarden = "latest"
 herdr = "latest"
 "npm:agent-browser" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
 
 [tool_alias]
 once = "github:basecamp/once"

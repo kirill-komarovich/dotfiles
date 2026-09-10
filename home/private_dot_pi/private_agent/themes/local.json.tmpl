@@ -1,0 +1,74 @@
+{{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+{
+  "$schema": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
+  "name": "local",
+  "colors": {
+    "accent": "{{ $c.accent }}",
+    "border": "{{ $c.muted }}",
+    "borderAccent": "{{ $c.accent }}",
+    "borderMuted": "{{ $c.lighter_background }}",
+    "success": "{{ $c.green }}",
+    "error": "{{ $c.red }}",
+    "warning": "{{ $c.orange }}",
+    "muted": "{{ $c.dark_foreground }}",
+    "dim": "{{ $c.muted }}",
+    "text": "{{ $c.foreground }}",
+    "thinkingText": "{{ $c.muted }}",
+
+    "selectedBg": "{{ $c.selection }}",
+    "scrollbarTrack": "{{ $c.lighter_background }}",
+    "scrollbarThumb": "{{ $c.muted }}",
+    "searchMatchBg": "{{ $c.accent }}",
+    "searchMatchText": "{{ $c.background }}",
+    "userMessageBg": "{{ $c.lighter_background }}",
+    "userMessageText": "{{ $c.foreground }}",
+    "customMessageBg": "{{ $c.dark_background }}",
+    "customMessageText": "{{ $c.foreground }}",
+    "customMessageLabel": "{{ $c.magenta }}",
+    "toolPendingBg": "{{ $c.dark_background }}",
+    "toolSuccessBg": "{{ $c.darker_background }}",
+    "toolErrorBg": "{{ $c.selection }}",
+    "toolTitle": "{{ $c.light_foreground }}",
+    "toolOutput": "{{ $c.muted }}",
+
+    "mdHeading": "{{ $c.accent }}",
+    "mdLink": "{{ $c.blue }}",
+    "mdLinkUrl": "{{ $c.muted }}",
+    "mdCode": "{{ $c.cyan }}",
+    "mdCodeBlock": "{{ $c.green }}",
+    "mdCodeBlockBorder": "{{ $c.lighter_background }}",
+    "mdQuote": "{{ $c.muted }}",
+    "mdQuoteBorder": "{{ $c.lighter_background }}",
+    "mdHr": "{{ $c.lighter_background }}",
+    "mdListBullet": "{{ $c.accent }}",
+
+    "toolDiffAdded": "{{ $c.green }}",
+    "toolDiffRemoved": "{{ $c.red }}",
+    "toolDiffContext": "{{ $c.muted }}",
+
+    "syntaxComment": "{{ $c.muted }}",
+    "syntaxKeyword": "{{ $c.blue }}",
+    "syntaxFunction": "{{ $c.yellow }}",
+    "syntaxVariable": "{{ $c.bright_blue }}",
+    "syntaxString": "{{ $c.orange }}",
+    "syntaxNumber": "{{ $c.bright_green }}",
+    "syntaxType": "{{ $c.cyan }}",
+    "syntaxOperator": "{{ $c.foreground }}",
+    "syntaxPunctuation": "{{ $c.foreground }}",
+
+    "thinkingOff": "{{ $c.lighter_background }}",
+    "thinkingMinimal": "{{ $c.muted }}",
+    "thinkingLow": "{{ $c.cyan }}",
+    "thinkingMedium": "{{ $c.blue }}",
+    "thinkingHigh": "{{ $c.bright_blue }}",
+    "thinkingXhigh": "{{ $c.magenta }}",
+    "thinkingMax": "{{ $c.bright_magenta }}",
+
+    "bashMode": "{{ $c.green }}"
+  },
+  "export": {
+    "pageBg": "{{ $c.darker_background }}",
+    "cardBg": "{{ $c.dark_background }}",
+    "infoBg": "{{ $c.selection }}"
+  }
+}
