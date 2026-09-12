@@ -14,20 +14,33 @@ brightness=/sys/class/leds/$led/brightness
 session=$(loginctl --value show-user "$(id -un)" -p Display)
 [ -n "$session" ] || exit 0
 
+export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+
 # The sysfs file is root-owned and this user is not in video, so the write has
 # to go through logind, which grants it to whoever holds the active session.
 path=$(busctl --json=short call org.freedesktop.login1 /org/freedesktop/login1 \
   org.freedesktop.login1.Manager GetSession s "$session" |
   sed 's/.*"\(\/org\/freedesktop\/login1\/session\/[^"]*\)".*/\1/')
 
+# Omarchy locks through an ext-session-lock in the compositor, which logind never
+# hears about, so LockedHint stays "no" throughout and cannot be used here.
+locked() {
+  [ "$(omarchy-shell lock isLocked 2>/dev/null)" = true ]
+}
+
 last=$(cat "$brightness")
 was_locked=no
 
 while :; do
-  locked=$(loginctl --value show-session "$session" -p LockedHint 2>/dev/null || echo no)
+  if locked; then
+    now_locked=yes
+  else
+    now_locked=no
+  fi
+
   current=$(cat "$brightness")
 
-  if [ "$locked" = no ]; then
+  if [ "$now_locked" = no ]; then
     if [ "$current" -gt 0 ]; then
       last=$current
     elif [ "$was_locked" = yes ] && [ "$last" -gt 0 ]; then
@@ -36,6 +49,6 @@ while :; do
     fi
   fi
 
-  was_locked=$locked
-  sleep 1
+  was_locked=$now_locked
+  sleep 2
 done
