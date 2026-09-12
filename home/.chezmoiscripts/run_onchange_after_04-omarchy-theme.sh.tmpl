@@ -41,4 +41,10 @@ if [ "$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)" != "$t
   omarchy-theme-set "$theme"
 fi
 
+# The bar's own transparency flips the text to a contrasting colour; setting the
+# alpha in themed/shell.toml.tpl would leave the text unreadable.
+if [ "$(jq -r '.bar.transparent // false' "$HOME/.config/omarchy/shell.json" 2>/dev/null)" != true ]; then
+  omarchy-bar transparent true
+fi
+
 {{ end -}}
