@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if eq (includeTemplate "profile" .) "omarchy" -}}
+
+compgen -G "/sys/class/leds/*kbd_backlight" >/dev/null || exit 0
+
+systemctl --user enable --now kbd-backlight-restore.service
+
+{{ end -}}

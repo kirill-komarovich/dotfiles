@@ -14,6 +14,8 @@
 {{ end }}
 {{ if eq $profile "mac" }}
 .config/ghostty/overrides
+.config/systemd
+.config/systemd/**
 .config/omarchy
 .config/omarchy/**
 .config/hypr
