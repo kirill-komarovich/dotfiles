@@ -28,6 +28,8 @@ yellow = "{{ $c.yellow }}"
 default_shell = "{{ $fish_path }}"
 shell_mode = "auto"
 
+kitty_graphics = true
+
 [keys]
 # Prefix key to enter prefix mode (default: "ctrl+b")
 # Examples: "ctrl+b", "f12", "esc", "-"
@@ -289,9 +291,6 @@ position = "top-right"
 [experimental]
 # Allow launching herdr from inside a herdr-managed pane.
 # allow_nested = false
-# Experimental local Kitty graphics rendering for attached clients.
-# Requires a Kitty graphics-compatible outer terminal.
-kitty_graphics = true
 # Save recent pane screen history across full server restarts.
 pane_history = false
 # While prefix mode is active, temporarily switch the host input source to
