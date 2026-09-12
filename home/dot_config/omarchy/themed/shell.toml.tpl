@@ -103,7 +103,7 @@ scale-with-font = true
 # derives from it (e.g. body = base, subtitle ≈ base * 1.083,
 # heading ≈ base * 1.333). The shell only floors this at 1px; increase it
 # as much as you want.
-base-size = 14
+base-size = 12
 # Per-token overrides, in px. Uncomment any to pin a specific size without
 # affecting the rest of the scale. Useful for stylistic emphasis (a
 # minimalist theme that wants a bigger heading without scaling everything).
