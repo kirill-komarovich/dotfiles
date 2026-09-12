@@ -54,6 +54,10 @@ if ! {{ $sudo }}pacman -S --needed --noconfirm "${packages[@]}"; then
   {{ $sudo }}pacman -S --needed --noconfirm "${packages[@]}"
 fi
 
+if [ "$(getent passwd {{ .chezmoi.username }} | cut -d: -f7)" != /usr/bin/fish ]; then
+  {{ $sudo }}chsh -s /usr/bin/fish {{ .chezmoi.username }}
+fi
+
 {{ else -}}
 
 {{ $repos := list
