@@ -7,13 +7,5 @@ hl.config({
   decoration = {
     rounding = 10,
     rounding_power = 4,
-    blur = {
-      enabled = true,
-      size = 6,
-      passes = 2,
-    },
   },
 })
-
--- Global blur reaches windows only; layer surfaces like the bar need opting in.
-hl.layer_rule({ match = { namespace = "omarchy-bar" }, blur = true })
