@@ -5,7 +5,7 @@
 [bar]
 # Alpha companions (where present) range from 0 (invisible) to 1 (opaque).
 background       = "{{ background }}"
-background-alpha = 1.0
+background-alpha = 0.75
 text             = "{{ foreground }}"
 # Modules calling attention to themselves (recording, voxtype, alerts, updates)
 active           = "{{ red }}"
