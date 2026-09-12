@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -euo pipefail
+
+led=""
+for candidate in /sys/class/leds/*kbd_backlight; do
+  [ -e "$candidate" ] || continue
+  led=$(basename "$candidate")
+  break
+done
+[ -n "$led" ] || exit 0
+
+brightness=/sys/class/leds/$led/brightness
+session=$(loginctl --value show-user "$(id -un)" -p Display)
+[ -n "$session" ] || exit 0
+
+# The sysfs file is root-owned and this user is not in video, so the write has
+# to go through logind, which grants it to whoever holds the active session.
+path=$(busctl --json=short call org.freedesktop.login1 /org/freedesktop/login1 \
+  org.freedesktop.login1.Manager GetSession s "$session" |
+  sed 's/.*"\(\/org\/freedesktop\/login1\/session\/[^"]*\)".*/\1/')
+
+last=$(cat "$brightness")
+was_locked=no
+
+while :; do
+  locked=$(loginctl --value show-session "$session" -p LockedHint 2>/dev/null || echo no)
+  current=$(cat "$brightness")
+
+  if [ "$locked" = no ]; then
+    if [ "$current" -gt 0 ]; then
+      last=$current
+    elif [ "$was_locked" = yes ] && [ "$last" -gt 0 ]; then
+      busctl call org.freedesktop.login1 "$path" org.freedesktop.login1.Session \
+        SetBrightness ssu leds "$led" "$last"
+    fi
+  fi
+
+  was_locked=$locked
+  sleep 1
+done
