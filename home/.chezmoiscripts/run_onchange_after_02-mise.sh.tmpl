@@ -12,19 +12,6 @@ if ! mise=$(command -v mise); then
   mise=$HOME/.local/bin/mise
 fi
 
-{{ $tmux_packages := list
-  "make"
-  "gcc"
-  "zip"
-  "unzip"
-  "autoconf"
-  "bison"
-  "pkg-config"
--}}
-
-# {{ $sudo }}apt-get install -y {{ $tmux_packages | join " " }}
-# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
 {{ $ruby_packages := list
   "autoconf"
   "bison"
