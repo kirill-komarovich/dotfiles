@@ -11,8 +11,6 @@
 .bash_aliases
 .bash_env
 .bashrc
-.config/alacritty
-.config/alacritty/**
 {{ end }}
 {{ if eq $profile "mac" }}
 .config/omarchy
