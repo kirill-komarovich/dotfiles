@@ -33,6 +33,7 @@ command -v omarchy-pkg-drop >/dev/null || exit 0
   "ripgrep"
   "ruby"
   "sushi"
+  "tobi-try"
   "tmux"
   "usage"
   "xournalpp"
@@ -92,6 +93,16 @@ for pkg in "${drop[@]}"; do
   installed=$(pacman -Qq "$pkg" 2>/dev/null) || continue
   omarchy-pkg-drop "$installed" || kept+=("$installed")
 done
+
+# A drop can be blocked by another entry that has not gone yet: tobi-try holds
+# ruby. One retry clears whatever the first pass freed.
+if [ ${#kept[@]} -gt 0 ]; then
+  retry=("${kept[@]}")
+  kept=()
+  for pkg in "${retry[@]}"; do
+    omarchy-pkg-drop "$pkg" || kept+=("$pkg")
+  done
+fi
 
 if [ ${#kept[@]} -gt 0 ]; then
   echo "omarchy packages: still required by something else, left alone: ${kept[*]}" >&2
