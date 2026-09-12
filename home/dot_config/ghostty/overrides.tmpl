@@ -6,11 +6,14 @@
      writes the chosen family. */ -}}
 font-family = ""
 font-family = "monospace"
-font-size = 16
+font-size = 12
 shell-integration = fish
 
 window-decoration = none
 window-padding-x = 0
 window-padding-y = 0
 
+{{/* initial-command only reaches the first surface, so every later window fell
+     back to $SHELL, which is whatever the session that started Hyprland had. */ -}}
+command = /usr/bin/fish
 initial-command = /usr/bin/fish -l -c "herdr"
