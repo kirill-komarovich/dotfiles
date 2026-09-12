@@ -17,7 +17,15 @@ green = "{{ $c.green }}"
 blue = "{{ $c.blue }}"
 yellow = "{{ $c.yellow }}"
 
+{{ $fish_path := "/usr/bin/fish" -}}
+{{ if eq (includeTemplate "profile" .) "mac" -}}
+{{   $fish_path = "/opt/homebrew/bin/fish" -}}
+{{ end -}}
+
 [terminal]
+# $SHELL follows the session that started Hyprland, so a chsh only reaches panes
+# after a re-login. Naming the shell keeps new panes right from the first one.
+default_shell = "{{ $fish_path }}"
 shell_mode = "auto"
 
 [keys]
