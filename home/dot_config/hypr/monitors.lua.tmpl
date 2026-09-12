@@ -1,0 +1,6 @@
+{{ $scale := "1" -}}
+{{ if eq .chezmoi.hostname "blue" -}}
+{{   $scale = "1.25" -}}
+{{ end -}}
+hl.env("GDK_SCALE", "1")
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = {{ $scale }} })

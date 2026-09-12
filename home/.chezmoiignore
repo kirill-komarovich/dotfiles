@@ -13,6 +13,7 @@
 .bashrc
 {{ end }}
 {{ if eq $profile "mac" }}
+.config/ghostty/overrides
 .config/omarchy
 .config/omarchy/**
 .config/hypr

@@ -4,19 +4,8 @@
      keybinds and the hyprland async-backend workaround. Ours only overrides
      behaviour on top, so `omarchy theme set` keeps working. */ -}}
 config-file = ?"/usr/share/omarchy/config/ghostty/config"
+config-file = "~/.config/ghostty/overrides"
 
-{{/* Repeated font-family appends a fallback, so the list needs clearing first.
-     monospace resolves through fontconfig, which is where omarchy-font-set
-     writes the chosen family. */ -}}
-font-family = ""
-font-family = "monospace"
-font-size = 16
-shell-integration = fish
-
-initial-command = /usr/bin/fish -l -c "herdr"
-window-decoration = none
-window-padding-x = 0
-window-padding-y = 0
 {{ else -}}
 {{ $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
 background = {{ $c.background }}
