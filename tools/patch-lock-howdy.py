@@ -14,6 +14,26 @@ import sys
 
 PATCHES = [
     (
+        '    if (!lockRequested || authenticatingPassword || password.length === 0) return\n',
+        '    if (!lockRequested || authenticatingPassword) return\n'
+        '    // Submitting an empty field is the deliberate "scan me now" gesture:\n'
+        '    // it skips the grace window a manual lock otherwise imposes.\n'
+        '    if (password.length === 0) {\n'
+        '      howdyLockedAt = 0\n'
+        '      startHowdy()\n'
+        '      return\n'
+        '    }\n'
+    ),
+    (
+        '    resetAuthenticationState()\n'
+        '    lockRequested = true\n'
+        '    armBlankTimer()\n',
+        '    resetAuthenticationState()\n'
+        '    lockRequested = true\n'
+        '    howdyLockedAt = Date.now()\n'
+        '    armBlankTimer()\n'
+    ),
+    (
         '  property bool fingerprintAuthenticating: false\n'
         '  property bool passwordPamConfigured: false\n'
         '  property bool fingerprintConfigured: false\n',
@@ -26,6 +46,8 @@ PATCHES = [
         '  property bool howdyFaceLockedOut: false\n'
         '  property bool howdyRetryPaused: false\n'
         '  property double howdyLastActivityAt: 0\n'
+        '  property double howdyLockedAt: 0\n'
+        '  readonly property int howdyGraceMs: 20000\n'
         '  readonly property int maxFaceAttempts: 5\n'
         '  readonly property int howdyActiveWindowMs: 10000\n'
     ),
@@ -137,6 +159,14 @@ PATCHES = [
         '    // means aborting it again a moment later, with a visible flash of\n'
         '    // camera activity right as you\'re already logging in.\n'
         '    if (authenticatingPassword) return\n'
+        '    // A manual lock happens with the user sitting right there, so an\n'
+        '    // immediate scan just unlocks what they deliberately locked. Idle\n'
+        '    // and lid-close locks are long past this window by the time anyone\n'
+        '    // looks at the screen again.\n'
+        '    if (Date.now() - howdyLockedAt < howdyGraceMs) {\n'
+        '      howdyRetryTimer.restart()\n'
+        '      return\n'
+        '    }\n'
         '\n'
         '    howdyRetryPaused = false\n'
         '    howdyAuthenticating = true\n'
