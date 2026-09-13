@@ -21,7 +21,7 @@
       "ShareOnboardingGuide"
     ]
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "disableAgentView": true,
@@ -39,11 +39,15 @@
   "feedbackDrafts": "off",
   "effortLevel": "high",
   "askUserQuestionTimeout": "never",
+  "dialogExpiry": "never",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
+  "switchModelsOnFlag": false,
+  "autoContinueAtUsageLimit": false,
   "showTurnDuration": true,
   "remoteControlAtStartup": false
 }
