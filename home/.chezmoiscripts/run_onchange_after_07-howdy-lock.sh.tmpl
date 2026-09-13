@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if eq (includeTemplate "profile" .) "omarchy" -}}
+
+[ -f /usr/lib/security/pam_howdy.so ] || exit 0
+[ -f "/etc/howdy/models/$(id -un).dat" ] || exit 0
+
+if ! sudo -n true 2>/dev/null && [ ! -t 0 ]; then
+  echo "howdy lock: skipped, sudo needs a password and stdin is not a terminal" >&2
+  exit 0
+fi
+
+{{/* Its own PAM service rather than a line in omarchy-lock-password: a face
+     miss there would fall through to pam_unix and count against faillock. */ -}}
+sudo install -m 644 /dev/stdin /etc/pam.d/omarchy-lock-howdy <<'PAM'
+#%PAM-1.0
+auth       required                    pam_howdy.so
+account    include                     system-local-login
+PAM
+
+{{/* Root executes only this copy, so a warm sudo timestamp cannot be used to
+     run tampered bytes from the user-writable checkout. */ -}}
+sudo install -m 755 "$HOME/.config/omarchy/patch-lock-howdy.py" /usr/local/bin/omarchy-lock-howdy-patch
+
+sudo /usr/local/bin/omarchy-lock-howdy-patch "${OMARCHY_PATH:-/usr/share/omarchy}/shell/plugins/lock/Service.qml"
+
+omarchy-shell shell rescanPlugins >/dev/null 2>&1 || true
+
+{{ end -}}
