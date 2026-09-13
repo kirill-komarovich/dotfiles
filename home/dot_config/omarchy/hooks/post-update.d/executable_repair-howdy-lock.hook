@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# omarchy update reinstalls the lock plugin from the package, dropping the Howdy
+# auth path. This runs while update's own sudo session is still warm, so the
+# repair lands without a prompt. Root runs the copy in /usr/local/bin, never the
+# user-writable one under ~/.config.
+
+set -euo pipefail
+
+qml="${OMARCHY_PATH:-/usr/share/omarchy}/shell/plugins/lock/Service.qml"
+patcher=/usr/local/bin/omarchy-lock-howdy-patch
+
+[ -f "$qml" ] && [ -x "$patcher" ] || exit 0
+grep -q omarchy-lock-howdy "$qml" && exit 0
+
+if ! sudo -n "$patcher" "$qml"; then
+  omarchy-notification-send -u critical "Face unlock broken" \
+    "The lock screen patch was lost and could not be reapplied. Run: chezmoi apply"
+  exit 0
+fi
+
+omarchy-shell shell rescanPlugins >/dev/null 2>&1 || true
