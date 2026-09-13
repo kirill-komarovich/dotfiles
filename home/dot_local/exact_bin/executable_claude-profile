@@ -1,9 +1,20 @@
 #!/bin/sh
 # Invoked through a claude-<profile> symlink; the link name picks the config dir.
 # The name may be any unique prefix, so claude-t reaches ~/.claude-tds.
+# Called under its own name, CLAUDE_PROFILE supplies that name instead.
 
 name=${0##*/}
-profile=${name#claude-}
+if [ "$name" = claude-profile ]; then
+  profile=$CLAUDE_PROFILE
+else
+  profile=${name#claude-}
+fi
+
+if [ -z "$profile" ]; then
+  echo "$name: set CLAUDE_PROFILE or invoke a claude-<profile> link" >&2
+  exit 64
+fi
+
 dir="$HOME/.claude-$profile"
 
 if [ ! -d "$dir" ]; then
