@@ -1,0 +1,18 @@
+{{- /* Externals for the skills shipped inside ChromeDevTools/chrome-devtools-mcp,
+       pinned to the tag matching the CLI mise has installed, since the skills
+       document that version's command surface. */ -}}
+{{- if lookPath "chrome-devtools" -}}
+{{- $version := output "chrome-devtools" "--version" | trim -}}
+{{- $url := printf "https://github.com/ChromeDevTools/chrome-devtools-mcp/archive/refs/tags/chrome-devtools-mcp-v%s.tar.gz" $version -}}
+{{- $root := printf "chrome-devtools-mcp-chrome-devtools-mcp-v%s" $version -}}
+{{- range list "chrome-devtools-cli" "a11y-debugging" "debug-optimize-lcp" "memory-leak-debugging" }}
+
+[".agent-shared/skills/{{ . }}"]
+    type = "archive"
+    url = {{ $url | quote }}
+    exact = true
+    stripComponents = 3
+    include = ["{{ $root }}/skills/{{ . }}/**"]
+    refreshPeriod = "168h"
+{{- end }}
+{{- end -}}
