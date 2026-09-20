@@ -11,6 +11,7 @@ claude_links=(
   "CLAUDE.md=AGENTS.md"
   "statusline-command.sh=statusline-command.sh"
   "settings.json=claude-settings.json"
+  "hooks/herdr-agent-state.sh=herdr-agent-state.sh"
 )
 
 link_into() {
@@ -20,6 +21,7 @@ link_into() {
   for pair in "$@"; do
     local link="$dir/${pair%%=*}"
     local target="$shared/${pair#*=}"
+    mkdir -p "$(dirname "$link")"
     if [[ -e "$link" && ! -L "$link" ]]; then
       local backup="$link.pre-chezmoi.$(date +%Y%m%d%H%M%S).bak"
       mv "$link" "$backup"

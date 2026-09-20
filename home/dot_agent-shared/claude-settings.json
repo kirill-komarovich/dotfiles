@@ -49,5 +49,19 @@
   "switchModelsOnFlag": false,
   "autoContinueAtUsageLimit": false,
   "showTurnDuration": true,
-  "remoteControlAtStartup": false
+  "remoteControlAtStartup": false,
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$HOME/.agent-shared/herdr-agent-state.sh\" session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
 }
