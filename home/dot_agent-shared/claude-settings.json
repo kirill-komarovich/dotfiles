@@ -1,8 +1,10 @@
 {
+  "syncClaudeAiSkills": false,
   "env": {
     "CLAUDE_AFK_TIMEOUT_MS": "86400000"
   },
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "deny": [
       "EnterPlanMode",
       "ExitPlanMode",
@@ -23,8 +25,21 @@
   },
   "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
-  "syncClaudeAiSkills": false,
   "disableBundledSkills": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$HOME/.agent-shared/herdr-agent-state.sh\" session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "disableAgentView": true,
   "disableRemoteControl": true,
   "disableWorkflows": true,
@@ -51,18 +66,9 @@
   "autoContinueAtUsageLimit": false,
   "showTurnDuration": true,
   "remoteControlAtStartup": false,
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh \"$HOME/.agent-shared/herdr-agent-state.sh\" session",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
   }
 }
