@@ -10,27 +10,84 @@ else
   profile=${name#claude-}
 fi
 
-if [ -z "$profile" ]; then
-  echo "$name: set CLAUDE_PROFILE or invoke a claude-<profile> link" >&2
-  exit 64
-fi
-
-dir="$HOME/.claude-$profile"
-
-if [ ! -d "$dir" ]; then
-  dir=
-  for candidate in "$HOME/.claude-$profile"*; do
+show_profiles() {
+  any=
+  for candidate in "$HOME"/.claude-*; do
     [ -d "$candidate" ] || continue
-    if [ -n "$dir" ]; then
-      echo "$name: '$profile' matches more than one profile" >&2
+    any=1
+  done
+  if [ -z "$any" ]; then
+    echo "$name: no profiles found in ~/.claude-*" >&2
+    return
+  fi
+  echo "$name: pick one with CLAUDE_PROFILE=<name>, or run its launcher:" >&2
+  for candidate in "$HOME"/.claude-*; do
+    [ -d "$candidate" ] || continue
+    printf '  %-12s %s\n' "${candidate#"$HOME"/.claude-}" "claude-${candidate#"$HOME"/.claude-}" >&2
+  done
+}
+
+# Herdr restores an agent pane with a bare `claude --resume <id>`, so the
+# transcript on disk is the only thing left pointing at the owning profile.
+dir_from_session_arg() {
+  id=
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --resume=*)
+        id=${1#--resume=}
+        ;;
+      --resume | -r)
+        case ${2-} in
+          '' | -*) ;;
+          *) id=$2 ;;
+        esac
+        ;;
+    esac
+    if [ -n "$id" ]; then
+      break
+    fi
+    shift
+  done
+  [ -n "$id" ] || return 1
+
+  found=
+  for transcript in "$HOME"/.claude-*/projects/*/"$id".jsonl; do
+    [ -f "$transcript" ] || continue
+    candidate=${transcript%/projects/*}
+    if [ -n "$found" ] && [ "$found" != "$candidate" ]; then
+      echo "$name: session '$id' exists in more than one profile" >&2
+      return 1
+    fi
+    found=$candidate
+  done
+  [ -n "$found" ] || return 1
+
+  printf '%s\n' "$found"
+}
+
+if [ -n "$profile" ]; then
+  dir="$HOME/.claude-$profile"
+
+  if [ ! -d "$dir" ]; then
+    dir=
+    for candidate in "$HOME/.claude-$profile"*; do
+      [ -d "$candidate" ] || continue
+      if [ -n "$dir" ]; then
+        echo "$name: '$profile' matches more than one profile" >&2
+        exit 64
+      fi
+      dir=$candidate
+    done
+    if [ -z "$dir" ]; then
+      echo "$name: no claude profile matching '$profile'" >&2
       exit 64
     fi
-    dir=$candidate
-  done
-  if [ -z "$dir" ]; then
-    echo "$name: no claude profile matching '$profile'" >&2
-    exit 64
   fi
+else
+  dir=$(dir_from_session_arg "$@") || {
+    show_profiles
+    exit 64
+  }
 fi
 
 CLAUDE_CONFIG_DIR="$dir"
