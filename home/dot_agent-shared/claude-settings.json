@@ -4,7 +4,6 @@
     "CLAUDE_AFK_TIMEOUT_MS": "86400000"
   },
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "deny": [
       "EnterPlanMode",
       "ExitPlanMode",
@@ -21,9 +20,10 @@
       "CronList",
       "ListAgents",
       "ShareOnboardingGuide"
-    ]
+    ],
+    "defaultMode": "bypassPermissions"
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -54,6 +54,11 @@
   },
   "feedbackDrafts": "off",
   "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
   "askUserQuestionTimeout": "never",
   "dialogExpiry": "never",
   "tui": "fullscreen",
@@ -65,10 +70,5 @@
   "switchModelsOnFlag": false,
   "autoContinueAtUsageLimit": false,
   "showTurnDuration": true,
-  "remoteControlAtStartup": false,
-  "modelSettings": {
-    "claude-opus-5-5": {
-      "effortLevel": "high"
-    }
-  }
+  "remoteControlAtStartup": false
 }
