@@ -14,18 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { "nvim-lua/plenary.nvim", lazy = true },
   {
-    "Mofiqul/vscode.nvim",
-    lazy = false,
-    -- Must land before anything that defines highlight groups against it.
-    priority = 1000,
-    config = function()
-      require("kirillkomarovich.plugin.theme")
-    end,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    }
-  },
-  {
     "nvim-lualine/lualine.nvim",
     event = { "BufReadPre", "BufNewFile" },
     lazy = true,
@@ -34,14 +22,20 @@ require("lazy").setup({
     },
     opts = {
       options = {
-        theme = "vscode",
+        theme = "local",
       },
     }
   },
   {
     "echasnovski/mini.nvim",
-    event = "VeryLazy",
+    lazy = false,
+    -- The theme must land before anything that defines highlight groups against it.
+    priority = 1000,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
     config = function()
+      require("kirillkomarovich.plugin.theme")
       require("mini.pairs").setup()
       require("mini.surround").setup({
         mappings = {

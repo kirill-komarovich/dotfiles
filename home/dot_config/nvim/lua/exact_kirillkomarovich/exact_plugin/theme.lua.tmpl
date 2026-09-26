@@ -1,61 +1,47 @@
 {{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
 vim.opt.background = "{{ $c.mode }}"
 
-local colors = require("vscode.colors").get_colors()
+local c = {
+{{- range $k, $v := $c }}{{ if ne $k "mode" }}
+  {{ $k }} = "{{ $v }}",
+{{- end }}{{ end }}
+}
 
-require("vscode").setup({
-  style = "{{ $c.mode }}",
-  color_overrides = {
-    vscBack = "{{ $c.background }}",
-    vscFront = "{{ $c.foreground }}",
-    vscTabCurrent = "{{ $c.background }}",
-    vscTabOther = "{{ $c.dark_background }}",
-    vscTabOutside = "{{ $c.darker_background }}",
-    vscLeftDark = "{{ $c.dark_background }}",
-    vscLeftMid = "{{ $c.lighter_background }}",
-    vscLeftLight = "{{ $c.muted }}",
-    vscPopupBack = "{{ $c.dark_background }}",
-    vscPopupFront = "{{ $c.foreground }}",
-    vscSplitDark = "{{ $c.darker_background }}",
-    vscSplitLight = "{{ $c.lighter_background }}",
-    vscSelection = "{{ $c.selection }}",
-    vscLineNumber = "{{ $c.muted }}",
-    vscCursorDark = "{{ $c.bright_foreground }}",
-    vscGray = "{{ $c.muted }}",
-    vscGreen = "{{ $c.green }}",
-    vscLightGreen = "{{ $c.bright_green }}",
-    vscBlueGreen = "{{ $c.cyan }}",
-    vscBlue = "{{ $c.blue }}",
-    vscLightBlue = "{{ $c.bright_blue }}",
-    vscAccentBlue = "{{ $c.bright_blue }}",
-    vscRed = "{{ $c.red }}",
-    vscLightRed = "{{ $c.bright_red }}",
-    vscOrange = "{{ $c.orange }}",
-    vscYellow = "{{ $c.yellow }}",
-    vscYellowOrange = "{{ $c.accent }}",
-    vscDarkYellow = "{{ $c.brown }}",
-    vscViolet = "{{ $c.magenta }}",
-    vscPink = "{{ $c.bright_magenta }}",
-    vscGitAdded = "{{ $c.green }}",
-    vscGitModified = "{{ $c.accent }}",
-    vscGitDeleted = "{{ $c.red }}",
-    vscGitUntracked = "{{ $c.cyan }}",
+require("mini.base16").setup({
+  palette = {
+    base00 = c.background,
+    base01 = c.lighter_background,
+    base02 = c.selection,
+    base03 = c.muted,
+    base04 = c.dark_foreground,
+    base05 = c.foreground,
+    base06 = c.light_foreground,
+    base07 = c.bright_foreground,
+    base08 = c.red,
+    base09 = c.orange,
+    base0A = c.yellow,
+    base0B = c.green,
+    base0C = c.cyan,
+    base0D = c.blue,
+    base0E = c.magenta,
+    base0F = c.brown,
   },
-  transparent_background = false,
-  italic_comments = true,
-  group_overrides = {
-    ChezmoiTemplateAction = { fg = "{{ $c.accent }}", bg = "NONE" },
-    OilDir = { fg = colors.vscFront, bg = 'NONE' },
-    OilDirIcon = { fg = "{{ $c.light_foreground }}", bg = "NONE" },
-    GitSignsChange = { fg = colors.vscBlue, bg = "NONE" },
-    ["@string.special.symbol"] = { fg = colors.vscBlue, bg = "NONE" },
-    ["@tag.javascript"] = { fg = colors.vscBlueGreen, bg = 'NONE' },
-  },
-});
+})
+vim.g.colors_name = "local"
 
-local pink = "{{ $c.bright_magenta }}"
-local ruby_color = colors.vscRed
-local docker_color = colors.vscLightBlue
+local groups = require("kirillkomarovich.plugin.theme_groups")(c, vim.o.background == "dark")
+groups.ChezmoiTemplateAction = { fg = c.accent }
+groups.OilDir = { fg = c.foreground }
+groups.OilDirIcon = { fg = c.light_foreground }
+groups["@string.special.symbol"] = { fg = c.blue }
+groups["@tag.javascript"] = { fg = c.cyan }
+for group, spec in pairs(groups) do
+  vim.api.nvim_set_hl(0, group, spec)
+end
+
+local pink = c.bright_magenta
+local ruby_color = c.red
+local docker_color = c.bright_blue
 local docker_compose_color = pink
 
 local ruby_icon = ""
@@ -105,5 +91,3 @@ require("nvim-web-devicons").setup({
     },
   },
 })
-
-vim.cmd [[colorscheme vscode]]
