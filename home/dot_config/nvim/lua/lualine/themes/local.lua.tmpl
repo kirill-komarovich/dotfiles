@@ -1,0 +1,27 @@
+{{- $c := includeTemplate "terminal-theme" . | trim | printf "dot_config/omarchy/themes/%s/colors.toml" | include | fromToml -}}
+local bg = "{{ $c.lighter_background }}"
+local bg2 = "{{ $c.selection }}"
+local fg = "{{ $c.bright_foreground }}"
+local text = "{{ $c.background }}"
+
+local function mode(color, b_fg)
+  return {
+    a = { fg = text, bg = color, gui = "bold" },
+    b = { fg = b_fg or color, bg = bg2 },
+    c = { fg = fg, bg = bg },
+  }
+end
+
+return {
+  normal = mode("{{ $c.blue }}"),
+  insert = mode("{{ $c.cyan }}"),
+  visual = mode("{{ $c.accent }}"),
+  replace = mode("{{ $c.red }}"),
+  command = mode("{{ $c.bright_magenta }}"),
+  terminal = mode("{{ $c.cyan }}", fg),
+  inactive = {
+    a = { fg = fg, bg = bg, gui = "bold" },
+    b = { fg = "{{ $c.muted }}", bg = bg },
+    c = { fg = "{{ $c.muted }}", bg = bg },
+  },
+}
