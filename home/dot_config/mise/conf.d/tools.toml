@@ -25,6 +25,7 @@ fnox = "latest"
 age = "latest"
 bitwarden = "latest"
 herdr = "latest"
+claude = { version = "latest", minimum_release_age = "0" }
 "npm:agent-browser" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:chrome-devtools-mcp" = "latest"
