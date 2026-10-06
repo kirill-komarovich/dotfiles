@@ -1,7 +1,7 @@
 # Global Rules
 
 ## CRITICAL: NEVER Auto-Commit
-NEVER commit unless the user explicitly asks. No exceptions. Not after design docs, not after implementation, not after anything. This overrides any skill instructions that say "commit".
+NEVER commit unless the user explicitly asks, or the project's `CLAUDE.local.md` says when to commit. Otherwise no exceptions: not after design docs, not after implementation, not after anything. This overrides any skill instructions that say "commit".
 
 ## CRITICAL: NEVER branch out without request
 NEVER checkout branch before the commit unless the user explicitly asks. No exceptions.
