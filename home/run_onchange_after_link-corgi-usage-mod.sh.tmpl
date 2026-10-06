@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# The Corgi herdr plugin ships a Claude Code mod that writes each session's usage for the phone;
+# every Claude profile loads it from the shared skills folder. Relinked when the plugin moves or
+# changes version.
+# {{ if lookPath "herdr" }}{{ output "herdr" "plugin" "list" "--plugin" "corgi" | sha256sum }}{{ else }}herdr not installed{{ end }}
+command -v herdr >/dev/null || exit 0
+
+link="$HOME/.agent-shared/skills/corgi-usage"
+plugin="$(herdr plugin list --plugin corgi 2>/dev/null | sed -n 's/.*\[local:\(.*\)\].*/\1/p' | head -n 1)"
+mod="$plugin/claude-mod/corgi-usage"
+if [[ -z "$plugin" || ! -f "$mod/.claude-plugin/plugin.json" ]]; then
+  [[ -L "$link" ]] && rm "$link" && echo "removed $link"
+  exit 0
+fi
+mkdir -p "$(dirname "$link")"
+ln -sfn "$mod" "$link"
+echo "linked $link -> $mod"
