@@ -13,6 +13,7 @@
 .bashrc
 {{ end }}
 {{ if eq $profile "mac" }}
+.config/fish/conf.d/ssh-agent.fish
 .config/ghostty/overrides
 .config/systemd
 .config/systemd/**

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if ne (includeTemplate "profile" .) "mac" -}}
+
+systemctl --user enable --now ssh-agent.socket
+systemctl --user enable --now ssh-add-keys.service
+
+{{ end -}}
