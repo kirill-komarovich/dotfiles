@@ -33,8 +33,8 @@ One object per unit under `units`:
   server that binds late shows none until it does. Read the port from here rather than from a
   `mise.toml` or a compose file.
 - `log` — a plain file a local unit writes; `tail -n 50` it when a start did not take.
-- `note` — what the state itself says (`unhealthy`, a stale reading); `manifest_note` is the user's
-  standing hint about the unit.
+- `note` — what the state itself says (`unhealthy`, a stale reading, `config changed since start:
+  <files>` on a running local unit); `manifest_note` is the user's standing hint about the unit.
 - `pid`, `cmd`, `cwd`, `uptime_ms`, `exit_code`, `one_shot`, `repo`.
 
 `daemon` is `null` when nothing is supervising, which is the stack being down. `problems` holds
@@ -43,12 +43,14 @@ anything that could not be read.
 ## Rules
 
 - **`status` starts nothing.** A verb starts the daemon if it is not running; a read never does.
-- **Act on the unit you were asked about.** The user is working in these servers: a restart is theirs
-  to ask for, and a stop takes their session's dep with it.
+- **Act on the unit you were asked about.** The user is working in these servers: restart one only
+  when you've diagnosed it stale (a `config changed since start` note), naming the unit and why; a
+  stop takes their session's dep with it.
 - **Poll after a start.** A verb returns when the unit is spawned, not when it is serving: re-read
   `status` until `state` is `up` and the port you need is in `ports`.
-- **Restart to pick up config**: a changed `mise.toml`, `.env` or compose file takes effect on the
-  next start, never in the running process.
+- **Restart to pick up config**: a changed `package.json`, lockfile, `vite.config.*`, `mise.toml`,
+  `.env` or compose file takes effect on the next start, never in the running process. A
+  `config changed since start` note is the cue.
 - Starting a unit that is already running succeeds and says so in `results[].note`.
 
 Exit status is 0 when every verb took, 1 when one did not (the JSON still prints, and
