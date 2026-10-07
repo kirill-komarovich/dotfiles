@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# The Corgi herdr plugin ships a Claude Code mod that writes each session's usage for the phone;
+# The Corgi herdr plugin ships a Claude Code mod that writes each session's usage and subagents for the phone;
 # every Claude profile loads it from the shared skills folder. Relinked when the plugin moves or
 # changes version.
 # {{ if lookPath "herdr" }}{{ output "herdr" "plugin" "list" "--plugin" "corgi" | sha256sum }}{{ else }}herdr not installed{{ end }}
 command -v herdr >/dev/null || exit 0
 
-link="$HOME/.agent-shared/skills/corgi-usage"
+link="$HOME/.agent-shared/skills/corgi"
+old="$HOME/.agent-shared/skills/corgi-usage"
+[[ -L "$old" ]] && rm "$old" && echo "removed $old"
 plugin="$(herdr plugin list --plugin corgi 2>/dev/null | sed -n 's/.*\[local:\(.*\)\].*/\1/p' | head -n 1)"
-mod="$plugin/claude-mod/corgi-usage"
+mod="$plugin/claude-mod/corgi"
 if [[ -z "$plugin" || ! -f "$mod/.claude-plugin/plugin.json" ]]; then
   [[ -L "$link" ]] && rm "$link" && echo "removed $link"
   exit 0
