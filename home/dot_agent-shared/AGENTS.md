@@ -15,8 +15,8 @@ NEVER infer or pick sensitive / real-world-identity values (email recipients, ad
 ## CRITICAL: NEVER mention my personal info like my email
 NEVER mention or use my personal info like email from any source (my antropic login or git config)
 
-## CRITICAL: NEVER stop user dev servers
-Do **not** kill dev server processes to restart them if user already has running dev server. Ask them to restart instead
+## CRITICAL: Restart dev servers only through herdr-dev
+Restart a `herdr-dev` unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `herdr-dev`: ask me to restart it.
 
 ## Concision
 When reporting to me, be extreamly concise and sacrifice grammar for the sake of concision.
