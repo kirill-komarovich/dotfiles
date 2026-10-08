@@ -15,8 +15,8 @@ NEVER infer or pick sensitive / real-world-identity values (email recipients, ad
 ## CRITICAL: NEVER mention my personal info like my email
 NEVER mention or use my personal info like email from any source (my antropic login or git config)
 
-## CRITICAL: Restart dev servers only through herdr-dev
-Restart a `herdr-dev` unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `herdr-dev`: ask me to restart it.
+## CRITICAL: Run dev processes through herdr-dev
+Before starting any long-running process (dev server, watch build, Storybook, docker dep), look for the project's `.herdr-dev.toml`. When a unit covers the process, check `herdr-dev status` and use that unit (`herdr-dev start <unit>`), even when a README gives a manual command. Restart a `herdr-dev` unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `herdr-dev`: ask me to restart it.
 
 ## Concision
 When reporting to me, be extreamly concise and sacrifice grammar for the sake of concision.
