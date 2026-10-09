@@ -1,0 +1,18 @@
+[tasks.upgrade-ai]
+description = "Upgrade all AI tools"
+depends = ["upgrade-ai:*"]
+
+[tasks."upgrade-ai:claude"]
+description = "Upgrade Claude Code"
+run = "mise upgrade claude"
+
+[tasks."upgrade-ai:pi"]
+description = "Upgrade pi and its extensions"
+run = [
+  "mise upgrade npm:@earendil-works/pi-coding-agent",
+  "pi update --extensions",
+]
+
+[tasks."upgrade-ai:tools"]
+description = "Upgrade AI agent tools"
+run = "mise upgrade npm:agent-browser npm:chrome-devtools-mcp"
