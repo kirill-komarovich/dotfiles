@@ -1,0 +1,10 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $managed := `
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+` | fromToml -}}
+{{- $current := dict -}}
+{{- if .chezmoi.stdin -}}
+{{-   $current = fromToml .chezmoi.stdin -}}
+{{- end -}}
+{{- mergeOverwrite $current $managed | toToml -}}
