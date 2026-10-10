@@ -4,7 +4,7 @@
 NEVER commit unless the user explicitly asks, or the project's `CLAUDE.local.md` says when to commit. Otherwise no exceptions: not after design docs, not after implementation, not after anything. This overrides any skill instructions that say "commit".
 
 ## CRITICAL: NEVER branch out without request
-NEVER checkout branch before the commit unless the user explicitly asks. No exceptions.
+NEVER checkout a branch before the commit or create a worktree unless the user explicitly asks. Work in the repo's main checkout. No exceptions.
  
 ## CRITICAL: NEVER write comments
 Do **not** write comments. Add one only for non-obvious WHY the code/name can't convey — an invariant, a gotcha, a cross-file rationale. Never restate what the code does, narrate a diff/change, or label structure. If unsure it earns its place, omit it.
