@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+#MISE description="Second-opinion /code-review of the changes since a base by a gpt-6.1-sol pi agent in a herdr pane"
+#MISE dir="{{cwd}}"
+#USAGE arg "[base]" help="Commit, branch or tag to review from; defaults to the merge-base with the default branch"
+#USAGE flag "-c --context <text>" help="Spec for the Spec axis: what the change is meant to do, or a path to a spec file"
+#USAGE flag "-e --effort <level>" default="high" help="pi thinking level, only applied when the agent is first started" {
+#USAGE   choices "low" "medium" "high" "xhigh"
+#USAGE }
+#USAGE flag "-w --wait" help="Block until the review is done, print the report after its path, then close the pane"
+set -euo pipefail
+
+name=code-review
+
+if [[ -z ${HERDR_PANE_ID:-} ]]; then
+  echo "code-review: run inside a herdr pane" >&2
+  exit 1
+fi
+
+base=${usage_base:-}
+if [[ -z $base ]]; then
+  for ref in origin/HEAD main master; do
+    if git rev-parse --verify -q "$ref" >/dev/null; then
+      base=$(git merge-base HEAD "$ref")
+      break
+    fi
+  done
+fi
+if [[ -z $base ]]; then
+  echo "code-review: no default branch found, pass a base" >&2
+  exit 1
+fi
+
+if agent=$(herdr agent get "$name" 2>/dev/null); then
+  status=$(jq -r .result.agent.agent_status <<<"$agent")
+  if [[ $status == working || $status == blocked ]]; then
+    echo "code-review: agent is $status; wait for it or close its pane" >&2
+    exit 1
+  fi
+  agent_root=$(git -C "$(jq -r .result.agent.cwd <<<"$agent")" rev-parse --show-toplevel 2>/dev/null || true)
+  if [[ $agent_root != "$(git rev-parse --show-toplevel)" ]]; then
+    echo "code-review: agent is reviewing ${agent_root:-another directory}; close its pane first" >&2
+    exit 1
+  fi
+else
+  pane=$(herdr pane split --current --direction right --cwd "$PWD" --no-focus | jq -r .result.pane.pane_id)
+  herdr agent start "$name" --kind pi --pane "$pane" --timeout 60000 -- \
+    --model "openai-codex/gpt-6.1-sol:${usage_effort:-high}" \
+    --exclude-tools edit \
+    --append-system-prompt "$HOME/.agent-shared/code-review.md" \
+    -n "$name" >/dev/null
+fi
+
+tmp=${TMPDIR:-/tmp}
+mkdir -p "${tmp%/}/code-review"
+report=$(mktemp "${tmp%/}/code-review/$(date +%Y%m%d-%H%M%S)-XXXX")
+
+prompt="/skill:code-review Fixed point: $base. Diff the working tree with \`git diff $base\` instead of \`$base...HEAD\`, and include untracked files from \`git status\`."
+if [[ -n ${usage_context:-} ]]; then
+  prompt+=" Spec: ${usage_context%.}."
+else
+  prompt+=" Spec: issue references in the commits, else none; without one, skip the Spec axis."
+fi
+prompt+=" Without docs/agents/issue-tracker.md, fetch issues with gh."
+prompt+=" Wait for every sub-agent to finish, then write the report to $report in one go and reply with it."
+
+echo "$report"
+if [[ ${usage_wait:-false} == true ]]; then
+  herdr agent prompt "$name" "$prompt" --wait >/dev/null
+  # pi can end its turn while background sub-agents still run, so idle is not done.
+  until [[ -s $report ]]; do
+    status=$(herdr agent get "$name" 2>/dev/null | jq -r .result.agent.agent_status) || {
+      echo "code-review: agent is gone before writing the report" >&2
+      exit 1
+    }
+    if [[ $status == blocked ]]; then
+      echo "code-review: agent is blocked; see its pane" >&2
+      exit 1
+    fi
+    sleep 5
+  done
+  cat "$report"
+  herdr pane close "$(herdr agent get "$name" | jq -r .result.agent.pane_id)" >/dev/null
+else
+  herdr agent prompt "$name" "$prompt" >/dev/null
+fi
