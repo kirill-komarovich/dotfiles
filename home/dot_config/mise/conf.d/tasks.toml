@@ -6,6 +6,10 @@ depends = ["upgrade-ai:*"]
 description = "Upgrade Claude Code"
 run = "mise upgrade claude"
 
+[tasks."upgrade-ai:codex"]
+description = "Upgrade Codex"
+run = "mise upgrade codex"
+
 [tasks."upgrade-ai:pi"]
 description = "Upgrade pi and its extensions"
 run = [

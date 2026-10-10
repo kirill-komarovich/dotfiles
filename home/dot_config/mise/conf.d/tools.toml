@@ -27,8 +27,9 @@ age = "latest"
 bitwarden = "latest"
 herdr = "latest"
 claude = { version = "latest", minimum_release_age = "0" }
+codex = { version = "latest", minimum_release_age = "0" }
 "npm:agent-browser" = "latest"
-"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0" }
 "npm:chrome-devtools-mcp" = "latest"
 
 [tool_alias]
