@@ -19,6 +19,14 @@ cd "$crate"
 # Not ~/.cache: cache cleaners wipe it, and the ~/.local/bin symlinks point here.
 export CARGO_TARGET_DIR="$HOME/.local/state/cargo-target/herdr-dev"
 
+# herdr-plugin.toml runs ./target/release/herdr-dev, and a plain `cargo build`
+# or rust-analyzer writes to ./target, so it must be the same dir.
+mkdir -p "$CARGO_TARGET_DIR"
+if [ ! -L target ]; then
+  rm -rf target
+  ln -s "$CARGO_TARGET_DIR" target
+fi
+
 # mise refuses to read a config file it has not been told to trust.
 mise trust
 mise install -y
