@@ -16,7 +16,8 @@ crate={{ .chezmoi.sourceDir | dir }}/herdr-dev
 cd "$crate"
 
 # The source tree is shared with other machines, so keep build output out of it.
-export CARGO_TARGET_DIR="$HOME/.cache/cargo-target/herdr-dev"
+# Not ~/.cache: cache cleaners wipe it, and the ~/.local/bin symlinks point here.
+export CARGO_TARGET_DIR="$HOME/.local/state/cargo-target/herdr-dev"
 
 # mise refuses to read a config file it has not been told to trust.
 mise trust
