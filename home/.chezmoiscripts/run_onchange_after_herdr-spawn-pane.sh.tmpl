@@ -2,8 +2,8 @@
 
 set -eufo pipefail
 
-# Bootstrap and repair only, same deal as the herdr-dev script next door: a
-# run_onchange_ script re-runs only when its own rendered content changes, and
+# Bootstrap and repair only: a run_onchange_ script re-runs only when its own
+# rendered content changes, and
 # ~/.local/bin/herdr-spawn-pane is a symlink, so a manual
 # `mise exec -- cargo build --release` goes live without an apply.
 

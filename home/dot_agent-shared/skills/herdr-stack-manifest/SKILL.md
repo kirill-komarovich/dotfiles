@@ -1,14 +1,14 @@
 ---
-name: herdr-dev-manifest
+name: herdr-stack-manifest
 disable-model-invocation: true
-description: "Write or update a project's .herdr-dev.toml — the manifest the Herdr dev-stack plugin reads to know which docker services and local processes make up this project's dev stack. Use when a project has no manifest, when its compose services have changed, or when the user asks to regenerate one."
+description: "Write or update a project's .herdr-stack.toml — the manifest the Herdr dev-stack plugin reads to know which docker services and local processes make up this project's dev stack. Use when a project has no manifest, when its compose services have changed, or when the user asks to regenerate one."
 ---
 
-# .herdr-dev.toml
+# .herdr-stack.toml
 
 The Herdr dev-stack plugin runs a project's deps and dev servers in the background, controlled from
-one popup TUI. `.herdr-dev.toml` at the project root is the whole of its configuration. It is
-**gitignored** (`.herdr-dev*` in `~/.gitignore_global`), personal, and written by you — the plugin has
+one popup TUI. `.herdr-stack.toml` at the project root is the whole of its configuration. It is
+**gitignored** (`.herdr-stack*` in `~/.gitignore_global`), personal, and written by you — the plugin has
 no generator, deliberately: what belongs in it is judgment, not parsing.
 
 ## Shape
@@ -70,9 +70,10 @@ It costs nothing to read back: the log stays plain text either way, so the overl
 
 ## Never put ports in it
 
-Every unit is spawned through `mise exec --` with cwd set, so `PORT`, `VITE_RUBY_PORT` and the
-toolchain all come from the project's `mise.toml` / `.mise.local.toml`. A manifest that restates a
-port is wrong even when the number is right — it will drift the moment mise changes.
+Every unit starts in the user's own shell in its directory, with the shell's prompt hooks run first,
+so `PORT`, `VITE_RUBY_PORT` and the toolchain come from whatever those hooks load there — the
+project's `mise.toml` / `.mise.local.toml` / `.envrc`. A manifest that restates a port is wrong even when the number is
+right — it will drift the moment those files change.
 
 ## How to fill it in
 
@@ -94,7 +95,7 @@ port is wrong even when the number is right — it will drift the moment mise ch
 5. **Local units**: name them for what they are (`rails`, `sidekiq`, `vite`, `phoenix`) and take the
    command from how the user actually runs it. A `Procfile`, if the repo has one, is a decent source of
    names and bare commands but a bad source of arguments — strip leading `VAR=value` assignments and
-   any token containing `${`, since the manifest is argv and mise already supplies the env. Never carry
+   any token containing `${`, since the manifest is argv and mise or direnv already supplies the env. Never carry
    over `-p ${RAILS_PORT:-3000}`.
 6. **Includes and notes are hand knowledge.** Never invent an include; ask which sibling repos this one
    is run alongside. Add a note only where a row needs a warning a reader could not infer.

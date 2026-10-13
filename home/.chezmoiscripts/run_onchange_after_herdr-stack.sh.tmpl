@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+# herdr has no `plugin update`: bumping this changes the script, which is what
+# makes a run_onchange_ script run again and reinstall.
+version=0.0.1
+repo=kirill-komarovich/herdr-stack
+
+command -v mise >/dev/null || exit 0
+mise which herdr >/dev/null 2>&1 || exit 0
+
+herdr() {
+  mise exec -- herdr "$@"
+}
+
+# An install refuses to replace a local link, and herdr-dev is this plugin's id
+# from before its rename, left pointing at a checkout that is gone.
+for id in herdr-stack herdr-dev; do
+  if herdr plugin list | grep -q "^- $id .*\[local:"; then
+    herdr plugin unlink "$id"
+  fi
+done
+
+herdr plugin install "$repo" --ref "v$version" --yes
+
+# The checkout's dir name carries a hash herdr derives from the repo, so it is
+# found rather than spelled. symlink_herdr-stack.tmpl finds it the same way, but
+# only from the next apply, so the first one links it here.
+checkout=$(find "$HOME/.config/herdr/plugins/github" -maxdepth 1 -name 'herdr-stack-*' -print -quit)
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$checkout/target/release/herdr-stack" "$HOME/.local/bin/herdr-stack"

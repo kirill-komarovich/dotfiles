@@ -5,7 +5,7 @@
 .project_layout.sh
 .mise*.local.toml
 mise*.local.toml
-.herdr-dev*
+.herdr-stack*
 .claude/settings.local.json
 .scratch
 AGENTS.local.md

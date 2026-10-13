@@ -1,0 +1,2 @@
+{{- $found := glob (joinPath .chezmoi.homeDir ".config/herdr/plugins/github/herdr-stack-*/target/release/herdr-stack") -}}
+{{- if $found }}{{ index $found 0 }}{{ end -}}
