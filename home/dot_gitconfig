@@ -32,3 +32,6 @@
 
 [core]
   excludesFile = ~/.gitignore_global
+
+[advice]
+  defaultBranchName = false
