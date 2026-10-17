@@ -39,18 +39,6 @@
           }
         ]
       }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh \"$HOME/.agent-shared/code-review-hook.sh\"",
-            "timeout": 10
-          }
-        ]
-      }
     ]
   },
   "disableAgentView": true,
