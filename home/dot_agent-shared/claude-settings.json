@@ -39,6 +39,18 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|EnterWorktree|Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$HOME/.agent-shared/git-guard.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "disableAgentView": true,
