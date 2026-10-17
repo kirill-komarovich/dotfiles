@@ -18,5 +18,8 @@ NEVER mention or use my personal info like email from any source (my antropic lo
 ## CRITICAL: Run dev processes through herdr-stack
 Before starting any long-running process (dev server, watch build, Storybook, docker dep), look for the project's `.herdr-stack.toml`. When a unit covers the process, check `herdr-stack status` and use that unit (`herdr-stack start <unit>`), even when a README gives a manual command. Restart a `herdr-stack` unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `herdr-stack`: ask me to restart it.
 
+## Root-cause fixes first
+When proposing fixes, lead with the root-cause fix; offer mitigations alongside it, not instead of it.
+
 ## Concision
 When reporting to me, be extreamly concise and sacrifice grammar for the sake of concision.
