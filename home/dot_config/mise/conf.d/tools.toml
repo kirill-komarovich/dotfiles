@@ -26,11 +26,11 @@ fnox = "latest"
 age = "latest"
 bitwarden = "latest"
 herdr = "latest"
-claude = { version = "latest", minimum_release_age = "0" }
-codex = { version = "latest", minimum_release_age = "0" }
-"npm:agent-browser" = "latest"
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0" }
-"npm:chrome-devtools-mcp" = "latest"
+claude = { version = "latest", minimum_release_age = "0", auto_update = true }
+codex = { version = "latest", minimum_release_age = "0", auto_update = true }
+"npm:agent-browser" = { version = "latest", auto_update = true }
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0", auto_update = true }
+"npm:chrome-devtools-mcp" = { version = "latest", auto_update = true }
 
 [tool_alias]
 once = "github:basecamp/once"
