@@ -22,3 +22,6 @@
 .config/hypr
 .config/hypr/**
 {{ end }}
+{{ if ne $profile "omarchy" }}
+.config/mise/tasks/lid-awake
+{{ end }}

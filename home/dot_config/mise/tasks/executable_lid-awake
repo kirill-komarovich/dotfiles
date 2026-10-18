@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#MISE description="Keep the laptop running with the lid closed"
+#USAGE arg "[state]" help="on keeps it running with the lid closed, off restores suspend; prints the current state when omitted" {
+#USAGE   choices "on" "off"
+#USAGE }
+set -euo pipefail
+
+conf=/etc/systemd/logind.conf.d/30-lid-awake.conf
+
+reload() {
+  # HUP reloads logind.conf; a restart would end the graphical session.
+  sudo systemctl kill -s HUP systemd-logind
+}
+
+case ${usage_state:-} in
+on)
+  sudo install -D -m 644 /dev/stdin "$conf" <<'CONF'
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+CONF
+  reload
+  echo "lid-awake: on"
+  ;;
+off)
+  sudo rm -f "$conf"
+  reload
+  echo "lid-awake: off"
+  ;;
+*)
+  if [[ -f $conf ]]; then echo "lid-awake: on"; else echo "lid-awake: off"; fi
+  ;;
+esac
