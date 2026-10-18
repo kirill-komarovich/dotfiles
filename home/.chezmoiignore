@@ -1,5 +1,6 @@
 {{- $profile := includeTemplate "profile" . -}}
 .config/nvim/plugin/packer_compiled.lua
+.config/nvim/lazy-lock.json
 .obsidian/*/.obsidian/workspace*.json
 .obsidian/*/.obsidian/graph.json
 {{ if ne $profile "mac" }}
