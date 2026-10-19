@@ -26,5 +26,15 @@
     url = "https://github.com/cursor/plugins/archive/refs/heads/main.tar.gz"
     exact = true
     stripComponents = 4
-    include = ["plugins-main/pstack/skills/poteto-mode/**"]
+    include = ["plugins-main/pstack/skills/poteto-mode/[!S]*/**"]
+    refreshPeriod = "168h"
+
+# Cursor's SKILL.md names the skill with a display label, but Agent Skills names
+# accept only lowercase slugs. An include beats an exclude in chezmoi, so the
+# archive's pattern above is what keeps its SKILL.md out.
+[".agent-shared/skills/poteto-mode/SKILL.md"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/cursor/plugins/main/pstack/skills/poteto-mode/SKILL.md"
+    filter.command = "sed"
+    filter.args = ["s/^name: Poteto Mode$/name: poteto-mode/"]
     refreshPeriod = "168h"
