@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# herdr update never refreshes the agent integrations. Claude and Codex read herdr's
+# hook from paths this repo wires up (the shared script, our own settings.json and
+# hooks.json), so take herdr's scripts from a scratch install rather than let it
+# rewrite that config.
+# {{ if lookPath "herdr" }}{{ output "herdr" "--version" | trim }}{{ else }}herdr not installed{{ end }}
+command -v herdr >/dev/null || exit 0
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+mkdir -p "$tmp/claude" "$tmp/codex"
+for kind in claude codex; do
+  CLAUDE_CONFIG_DIR="$tmp/claude" CODEX_HOME="$tmp/codex" herdr integration install "$kind" >/dev/null
+done
+
+mkdir -p "$HOME/.agent-shared" "$HOME/.codex"
+install -m 755 "$tmp/claude/hooks/herdr-agent-state.sh" "$HOME/.agent-shared/herdr-agent-state.sh"
+install -m 755 "$tmp/codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
+echo "wrote herdr's claude and codex hooks"
+
+herdr integration status | while read -r name state _; do
+  name=${name%:}
+  case "$name" in claude | codex) continue ;; esac
+  if [[ "$state" == outdated ]]; then herdr integration install "$name"; fi
+done
