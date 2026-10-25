@@ -1,1 +1,5 @@
 .agent-shared/skills/resolving-merge-conflicts
+.agent-shared/claude-agents/code-review.md
+.agent-shared/code-review.md
+.agent-shared/code-review-hook.sh
+.config/mise/tasks/code-review
