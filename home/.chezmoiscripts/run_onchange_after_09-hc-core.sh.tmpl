@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ if ne (includeTemplate "profile" .) "mac" -}}
+
+# hc-core.service: {{ include "dot_config/systemd/user/hc-core.service" | sha256sum }}
+
+# Without linger the user manager, and every agent in hc, ends with the last login.
+if [[ $(loginctl show-user "$USER" -p Linger --value) != yes ]]; then
+  loginctl enable-linger "$USER" || echo "hc: run 'loginctl enable-linger' so agents outlive your logins" >&2
+fi
+
+systemctl --user daemon-reload
+systemctl --user enable --now hc-core.service
+
+{{ end -}}

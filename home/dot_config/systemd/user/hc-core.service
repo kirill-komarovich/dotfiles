@@ -1,0 +1,13 @@
+[Unit]
+Description=Start Herdr 2's core (hc)
+ConditionPathExists=%h/.local/bin/hc
+
+[Service]
+Type=oneshot
+# hc starts its core and holder as transient user services of their own, so this unit
+# only asks for one; a terminal.run without a cwd starts in the core's folder.
+WorkingDirectory=%h
+ExecStart=%h/.local/bin/hc server status
+
+[Install]
+WantedBy=default.target
