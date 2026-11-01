@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+# Bumping this changes the script, which is what makes a run_onchange_ script run again.
+version=0.1.16
+bin=$HOME/.local/bin
+
+[[ $("$bin/herdr-core" --version 2>/dev/null) == "hc $version" ]] && exit 0
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+curl -fsSL https://releases.herdr.dev/core/install.sh |
+  HC_VERSION=$version HC_INSTALL_DIR=$tmp sh >/dev/null
+
+mkdir -p "$bin"
+# hc update swaps the binary and restarts the core with its terminals kept, but every hc
+# command starts a core when none runs, with this script's environment instead of the
+# login's, so it only runs against a core that is already up.
+if [[ -x $bin/herdr-core ]] && pgrep -f '(herdr-core|hc) (serve|hold)' >/dev/null; then
+  "$bin/herdr-core" update --from "$tmp/herdr-core"
+else
+  mv -f "$tmp/herdr-core" "$bin/herdr-core"
+fi
+[[ -e $bin/hc ]] || ln -s herdr-core "$bin/hc"
