@@ -1,0 +1,6 @@
+[[keys.command]]
+key = "cmd+shift+s"
+type = "popup"
+command = "herdr-stack"
+width = "90%"
+height = "80%"

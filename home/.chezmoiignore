@@ -4,6 +4,8 @@
 .obsidian/*/.obsidian/workspace*.json
 .obsidian/*/.obsidian/graph.json
 {{ if ne $profile "mac" }}
+.config/corgi
+.config/corgi/**
 .obsidian
 .obsidian/**
 .config/fish/conf.d/brew.fish
