@@ -25,8 +25,16 @@ done
 herdr plugin install "$repo" --ref "v$version" --yes
 
 # The checkout's dir name carries a hash herdr derives from the repo, so it is
-# found rather than spelled. symlink_herdr-stack.tmpl finds it the same way, but
-# only from the next apply, so the first one links it here.
-checkout=$(find "$HOME/.config/herdr/plugins/github" -maxdepth 1 -name 'herdr-stack-*' -print -quit)
+# found rather than spelled: herdr 0.9.5 keeps one per generation under
+# github-installations, marking each in use until it clears them (the newest
+# mark is the current one), older herdr one under github.
+# symlink_herdr-stack.tmpl finds it the same way, but only from the next apply,
+# so the first one links it here.
+in_use=$(find "$HOME/.config/herdr/plugins/github-installations" -mindepth 3 -maxdepth 3 -name .in-use -path '*/herdr-stack-*' -exec ls -t {} + 2>/dev/null | head -n 1 || true)
+if [[ -n $in_use ]]; then
+  checkout=$(dirname "$in_use")/checkout
+else
+  checkout=$(find "$HOME/.config/herdr/plugins/github" -maxdepth 1 -name 'herdr-stack-*' -print -quit)
+fi
 mkdir -p "$HOME/.local/bin"
 ln -sfn "$checkout/target/release/herdr-stack" "$HOME/.local/bin/herdr-stack"

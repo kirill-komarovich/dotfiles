@@ -1,2 +1,10 @@
-{{- $found := glob (joinPath .chezmoi.homeDir ".config/herdr/plugins/github/herdr-stack-*/target/release/herdr-stack") -}}
-{{- if $found }}{{ index $found 0 }}{{ end -}}
+{{- /* herdr 0.9.5 installs a plugin per generation under github-installations and marks each one in use until it clears them, so the newest mark is the current one; older herdr checked it out under github. */ -}}
+{{- $newest := "" -}}
+{{- $at := 0 -}}
+{{- range glob (joinPath .chezmoi.homeDir ".config/herdr/plugins/github-installations/herdr-stack-*/*/.in-use") -}}
+{{-   $t := (stat .).modTime -}}
+{{-   if gt $t $at }}{{ $at = $t }}{{ $newest = . }}{{ end -}}
+{{- end -}}
+{{- $old := glob (joinPath .chezmoi.homeDir ".config/herdr/plugins/github/herdr-stack-*/target/release/herdr-stack") -}}
+{{- if $newest }}{{ joinPath (dir $newest) "checkout/target/release/herdr-stack" }}
+{{- else if $old }}{{ index $old 0 }}{{ end -}}
