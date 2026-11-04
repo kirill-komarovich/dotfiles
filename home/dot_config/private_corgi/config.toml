@@ -1,5 +1,22 @@
+[keys]
+goto = ["cmd+p", "prefix+o"]
+next_agent = ["cmd+j", "prefix+a"]
+previous_agent = ["cmd+shift+j", "prefix+shift+a"]
+focus_pane_left = ["cmd+alt+left", "prefix+h", "prefix+left"]
+focus_pane_down = ["cmd+alt+down", "prefix+j", "prefix+down"]
+focus_pane_up = ["cmd+alt+up", "prefix+k", "prefix+up"]
+focus_pane_right = ["cmd+alt+right", "prefix+l", "prefix+right"]
+split_vertical = ["cmd+d", "prefix+v", "prefix+\\"]
+
 [[keys.command]]
-key = "cmd+shift+s"
+key = "prefix+g"
+type = "popup"
+command = "EDITOR=nvim-open gitui"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+d"
 type = "popup"
 command = "herdr-stack"
 width = "90%"
