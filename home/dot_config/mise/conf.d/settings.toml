@@ -1,0 +1,5 @@
+[settings]
+use_versions_host = false
+
+[settings.github]
+credential_command = "gh auth token"

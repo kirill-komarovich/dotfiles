@@ -31,6 +31,8 @@ codex = { version = "latest", minimum_release_age = "0", auto_update = true }
 "npm:agent-browser" = { version = "latest", auto_update = true }
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0", auto_update = true }
 "npm:chrome-devtools-mcp" = { version = "latest", auto_update = true }
+"github:kirill-komarovich/pile" = { version = "latest", version_prefix = "nightly-", bin_path = "bin", minimum_release_age = "0" }
 
 [tool_alias]
 once = "github:basecamp/once"
+pile = "github:kirill-komarovich/pile"
