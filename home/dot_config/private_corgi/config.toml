@@ -7,6 +7,7 @@ focus_pane_down = ["cmd+alt+down", "prefix+j", "prefix+down"]
 focus_pane_up = ["cmd+alt+up", "prefix+k", "prefix+up"]
 focus_pane_right = ["cmd+alt+right", "prefix+l", "prefix+right"]
 split_vertical = ["cmd+d", "prefix+v", "prefix+\\"]
+split_horizontal = ["ctrl+cmd+d", "prefix+minus"]
 
 [[keys.command]]
 key = "prefix+g"
