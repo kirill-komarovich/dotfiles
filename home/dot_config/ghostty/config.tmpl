@@ -39,4 +39,9 @@ shell-integration = fish
 
 initial-command = /opt/homebrew/bin/fish -l -c "herdr"
 window-decoration = none
+
+{{/* herdr's splits rather than ghostty's, as Corgi binds them: herdr's prefix,
+     ctrl+space, is a NUL on the wire, then its split key. */ -}}
+keybind = cmd+d=text:\x00\\
+keybind = ctrl+cmd+d=text:\x00-
 {{ end -}}
