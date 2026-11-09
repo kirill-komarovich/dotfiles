@@ -15,6 +15,24 @@ IFS=$'\t' read -r cwd session_id model ctx_used ctx_size cost_cents rate_5h rese
   ] | @tsv' <<< "$input"
 )
 
+# Claude Code only learns the account's limits from this session's own responses; the Corgi mod's
+# files hold every session's last reading, so the newest one for this account is fresher.
+usage_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/corgi/usage"
+own="$usage_dir/$session_id.json"
+if [[ -r "$own" ]] && account=$(jq -er '.account // empty' "$own" 2>/dev/null); then
+  IFS=$'\t' read -r n5 nr5 n7 < <(
+    { echo "$own"; ls -t "$usage_dir"/*.json 2>/dev/null | head -50; } | xargs jq -nr --arg account "$account" '
+      [inputs | select(.account == $account and (.rateLimits | length) > 0)] | max_by(.at) // empty
+      | .rateLimits as $r
+      | [
+          ($r[] | select(.kind == "five_hour") | .percentUsed | round) // 0,
+          ($r[] | select(.kind == "five_hour") | .resetsAt // 0 | . / 1000 | floor) // 0,
+          ($r[] | select(.kind == "seven_day") | .percentUsed | round) // 0
+        ] | @tsv' 2>/dev/null
+  )
+  [[ -n "$n5" ]] && rate_5h=$n5 reset_5h=$nr5 rate_7d=$n7
+fi
+
 dim=$'\e[2m' bold=$'\e[1m' reset=$'\e[0m'
 
 level() {
