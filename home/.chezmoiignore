@@ -11,6 +11,8 @@
 .config/fish/conf.d/brew.fish
 {{ end }}
 {{- if eq $profile "omarchy" }}
+.config/ghostty/themes
+.config/ghostty/themes/**
 .bash_aliases
 .bash_env
 .bashrc

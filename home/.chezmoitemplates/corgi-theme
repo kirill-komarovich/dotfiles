@@ -1,0 +1,6 @@
+{{- $c := printf "dot_config/omarchy/themes/%s/colors.toml" . | include | fromToml -}}
+panel_bg = "{{ $c.background }}"
+sidebar_bg = "{{ $c.dark_background }}"
+active_row_bg = "{{ $c.lighter_background }}"
+selection_bg = "{{ $c.selection }}"
+accent = "{{ $c.accent }}"

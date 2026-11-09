@@ -1,0 +1,22 @@
+{{- $c := printf "dot_config/omarchy/themes/%s/colors.toml" . | include | fromToml -}}
+background = {{ $c.background }}
+foreground = {{ $c.foreground }}
+cursor-color = {{ $c.bright_foreground }}
+selection-background = {{ $c.selection }}
+selection-foreground = {{ $c.bright_foreground }}
+palette = 0={{ $c.background }}
+palette = 1={{ $c.red }}
+palette = 2={{ $c.green }}
+palette = 3={{ $c.yellow }}
+palette = 4={{ $c.blue }}
+palette = 5={{ $c.magenta }}
+palette = 6={{ $c.cyan }}
+palette = 7={{ $c.foreground }}
+palette = 8={{ $c.muted }}
+palette = 9={{ $c.bright_red }}
+palette = 10={{ $c.bright_green }}
+palette = 11={{ $c.bright_yellow }}
+palette = 12={{ $c.bright_blue }}
+palette = 13={{ $c.bright_magenta }}
+palette = 14={{ $c.bright_cyan }}
+palette = 15={{ $c.bright_foreground }}

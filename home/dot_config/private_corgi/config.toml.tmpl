@@ -22,3 +22,9 @@ type = "popup"
 command = "herdr-stack"
 width = "90%"
 height = "80%"
+
+[theme.dark]
+{{ includeTemplate "corgi-theme" "local-dark" | trim }}
+
+[theme.light]
+{{ includeTemplate "corgi-theme" "local-light" | trim }}
