@@ -277,6 +277,7 @@ require("lazy").setup({
         "lua_ls",
         "rubocop",
         "ruby_lsp",
+        "rust_analyzer",
         "tailwindcss",
         "taplo",
         "ts_ls",
