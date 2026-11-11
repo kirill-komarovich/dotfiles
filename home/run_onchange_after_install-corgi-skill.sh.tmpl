@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# The skill ships inside the binary, which Corgi updates itself, so regenerate it whenever the binary changes.
+# {{ if lookPath "corgi" }}{{ include (lookPath "corgi") | sha256sum }}{{ else }}corgi not installed{{ end }}
+command -v corgi >/dev/null || exit 0
+skill=$(corgi skill 2>/dev/null) || exit 0
+
+# skills/corgi is the Corgi Claude Code mod, which Corgi installs and owns.
+dir="$HOME/.agent-shared/skills/corgi-cli"
+mkdir -p "$dir"
+printf '%s\n' "$skill" >"$dir/SKILL.md"
+echo "wrote $dir/SKILL.md"
