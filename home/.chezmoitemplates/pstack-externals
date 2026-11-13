@@ -1,0 +1,90 @@
+{{- /* Externals for poteto's pstack from github.com/cursor/plugins, one per
+       skill. Taken from the generated Claude Code tree rather than pstack/,
+       since its skills point at the adapter that maps Cursor names to ours.
+       tdd and teach stay with mattpocock's, which own those names here, and
+       unslop comes from backnotprop/pstack. */ -}}
+{{- $url := "https://github.com/cursor/plugins/archive/refs/heads/main.tar.gz" -}}
+{{- $root := "plugins-main/harness/pstack/claude-code" -}}
+{{- range list
+  "architect"
+  "arena"
+  "automate-me"
+  "benchmark-checklist"
+  "blast-radius"
+  "bro"
+  "correct"
+  "create-formal-verification-skill"
+  "create-verification-skill"
+  "figure-it-out"
+  "how"
+  "in-your-own-words"
+  "interrogate"
+  "ketchup"
+  "ketchup-video"
+  "maintain-formal-verification-skill"
+  "maintain-verification-skill"
+  "make-bot-ui"
+  "no-comments"
+  "poteto-help"
+  "poteto-mode"
+  "principle-attack-the-premise"
+  "principle-boundary-discipline"
+  "principle-build-the-lever"
+  "principle-encode-lessons-in-structure"
+  "principle-exhaust-the-design-space"
+  "principle-experience-first"
+  "principle-explain-the-number"
+  "principle-fix-root-causes"
+  "principle-foundational-thinking"
+  "principle-guard-the-context-window"
+  "principle-laziness-protocol"
+  "principle-make-operations-idempotent"
+  "principle-migrate-callers-then-delete-legacy-apis"
+  "principle-minimize-reader-load"
+  "principle-model-the-domain"
+  "principle-never-block-on-the-human"
+  "principle-outcome-oriented-execution"
+  "principle-prove-it-works"
+  "principle-redesign-from-first-principles"
+  "principle-separate-before-serializing-shared-state"
+  "principle-sequence-verifiable-units"
+  "principle-subtract-before-you-add"
+  "principle-test-behavior-not-implementation"
+  "principle-type-system-discipline"
+  "recall"
+  "reflect"
+  "setup-pstack"
+  "sharpen"
+  "show-me-your-work"
+  "statechart"
+  "swarm"
+  "technical-writing"
+  "typescript-best-practices"
+  "why" }}
+
+[".agent-shared/skills/{{ . }}"]
+    type = "archive"
+    url = {{ $url | quote }}
+    exact = true
+    stripComponents = 6
+    include = ["{{ $root }}/skills/{{ . }}/**"]
+    refreshPeriod = "168h"
+{{- end }}
+{{- range list "poteto-agent" "comment-sicko" }}
+
+[".agent-shared/claude-agents/{{ . }}.md"]
+    type = "archive-file"
+    url = {{ $url | quote }}
+    path = "{{ $root }}/agents/{{ . }}.md"
+    refreshPeriod = "168h"
+{{- end }}
+
+{{- /* Skills reach the adapter at ../../docs, and the agents are installed
+       bare rather than under the plugin's pstack: prefix. */}}
+
+[".agent-shared/docs/harness/claude-code.md"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/cursor/plugins/main/harness/pstack/claude-code/docs/harness/claude-code.md"
+    filter.command = "perl"
+    filter.args = ["-pe", "s/`pstack:(poteto-agent|comment-sicko)`/`$1`/g"]
+    refreshPeriod = "168h"
