@@ -80,11 +80,13 @@
 {{- end }}
 
 {{- /* Skills reach the adapter at ../../docs, and the agents are installed
-       bare rather than under the plugin's pstack: prefix. */}}
+       bare rather than under the plugin's pstack: prefix. Each profile is its
+       own CLAUDE_CONFIG_DIR, which is where Claude Code loads user rules from,
+       so the model rule stays per profile and out of chezmoi. */}}
 
 [".agent-shared/docs/harness/claude-code.md"]
     type = "file"
     url = "https://raw.githubusercontent.com/cursor/plugins/main/harness/pstack/claude-code/docs/harness/claude-code.md"
     filter.command = "perl"
-    filter.args = ["-pe", "s/`pstack:(poteto-agent|comment-sicko)`/`$1`/g"]
+    filter.args = ["-pe", "s/`pstack:(poteto-agent|comment-sicko)`/`$1`/g; s{~/\\.claude/rules/}{\\$CLAUDE_CONFIG_DIR/rules/}g"]
     refreshPeriod = "168h"
