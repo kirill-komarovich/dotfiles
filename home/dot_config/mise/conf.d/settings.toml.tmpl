@@ -3,3 +3,7 @@ use_versions_host = false
 
 [settings.github]
 credential_command = "gh auth token"
+
+[settings.skills]
+dir = "{{ .chezmoi.homeDir }}/.agent-shared/skills"
+auto_sync = true
