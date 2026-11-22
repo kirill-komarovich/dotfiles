@@ -3,3 +3,6 @@
 .agent-shared/code-review.md
 .agent-shared/code-review-hook.sh
 .config/mise/tasks/code-review
+.agent-shared/skills/herdr
+.agent-shared/skills/herdr-dev
+.agent-shared/skills/herdr-dev-manifest
