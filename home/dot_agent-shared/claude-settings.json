@@ -66,10 +66,10 @@
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "feedbackDrafts": "off",
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "medium"
     }
   },
   "askUserQuestionTimeout": "never",
