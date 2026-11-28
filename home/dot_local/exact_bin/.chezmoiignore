@@ -3,7 +3,6 @@
 !git*
 !nvim-*
 !herdr-spawn-pane
-!herdr-stack
 !kbd-backlight-restore
 # Only the dispatcher: the claude-<profile> links are made by a run_onchange
 # script, so exact_ must keep treating them as none of its business.
