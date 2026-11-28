@@ -6,6 +6,7 @@
 .mise*.local.toml
 mise*.local.toml
 .herdr-stack*
+.corgi-stack*
 .claude/settings.local.json
 .scratch
 AGENTS.local.md
