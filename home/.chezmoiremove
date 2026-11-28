@@ -6,3 +6,5 @@
 .agent-shared/skills/herdr
 .agent-shared/skills/herdr-dev
 .agent-shared/skills/herdr-dev-manifest
+.agent-shared/skills/herdr-stack
+.agent-shared/skills/herdr-stack-manifest

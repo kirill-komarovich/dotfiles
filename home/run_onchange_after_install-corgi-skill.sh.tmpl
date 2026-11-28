@@ -7,7 +7,16 @@ command -v corgi >/dev/null || exit 0
 skill=$(corgi skill 2>/dev/null) || exit 0
 
 # skills/corgi is the Corgi Claude Code mod, which Corgi installs and owns.
-dir="$HOME/.agent-shared/skills/corgi-cli"
-mkdir -p "$dir"
-printf '%s\n' "$skill" >"$dir/SKILL.md"
-echo "wrote $dir/SKILL.md"
+write() {
+  local dir="$HOME/.agent-shared/skills/$1"
+  mkdir -p "$dir"
+  printf '%s\n' "$2" >"$dir/SKILL.md"
+  echo "wrote $dir/SKILL.md"
+}
+write corgi-cli "$skill"
+
+# The stack plugin's guides, which an older corgi doesn't have.
+if stack=$(corgi stack skill 2>/dev/null); then
+  write corgi-stack "$stack"
+  write corgi-stack-manifest "$(corgi stack skill manifest)"
+fi

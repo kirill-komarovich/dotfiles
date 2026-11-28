@@ -9,8 +9,8 @@ NEVER infer or pick sensitive / real-world-identity values (email recipients, ad
 ## CRITICAL: NEVER mention my personal info like my email
 NEVER mention or use my personal info like email from any source (my antropic login or git config)
 
-## CRITICAL: Run dev processes through herdr-stack
-Before starting any long-running process (dev server, watch build, Storybook, docker dep), look for the project's `.herdr-stack.toml`. When a unit covers the process, check `herdr-stack status` and use that unit (`herdr-stack start <unit>`), even when a README gives a manual command. Restart a `herdr-stack` unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `herdr-stack`: ask me to restart it.
+## CRITICAL: Run dev processes through corgi stack
+Before starting any long-running process (dev server, watch build, Storybook, docker dep), look for the project's `.corgi-stack.toml`. When a unit covers the process, check `corgi stack status` and use that unit (`corgi stack start <unit>`), even when a README gives a manual command; the `corgi-stack` skill (`corgi stack skill`) is the guide. Restart a unit when you've diagnosed it stale (e.g. config changed since start); tell me which unit and why. Any dev server outside `corgi stack`: ask me to restart it.
 
 ## Root-cause fixes first
 When proposing fixes, lead with the root-cause fix; offer mitigations alongside it, not instead of it.
